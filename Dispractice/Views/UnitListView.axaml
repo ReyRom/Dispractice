@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vmd="using:Dispractice.ViewModels.Design"
+			 xmlns:vm="using:Dispractice.ViewModels"
+			 xmlns:m="using:Dispractice.Models"
+			 xmlns:v="using:Dispractice.Views"
+			 xmlns:e="using:Dispractice.Extensions"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Dispractice.Views.UnitListView"
+			 x:DataType="vm:UnitListViewModel">
+	<UserControl.DataContext>
+		<vmd:UnitListViewModelDesign/>
+	</UserControl.DataContext>
+	
+	<TreeView ItemsSource="{Binding Units}">
+		<TreeView.ItemTemplate>
+			<TreeDataTemplate ItemsSource="{Binding SubUnits}" DataType="m:MilitaryUnit">
+				<Panel>
+					<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
+					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+						<Button Margin="0 5 5 5" Content="Редактировать"/>
+						<Button Margin="0 5 5 5" Content="Сохранить" IsVisible="False"/>
+						<Button Margin="0 5 5 5" Command="{Binding $parent[UserControl].DataContext.RemoveCommand}" CommandParameter="{Binding}" Content="Удалить" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>
+						<Button Margin="0 5 5 5" Command="{Binding $parent[UserControl].DataContext.AddCommand}" CommandParameter="{Binding}" Content="+"/>
+					</StackPanel>
+				</Panel>		
+			</TreeDataTemplate>
+		</TreeView.ItemTemplate>
+	</TreeView>
+</UserControl>

@@ -1,0 +1,68 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+			 xmlns:vmd="using:Dispractice.ViewModels.Design"
+			 xmlns:vm="using:Dispractice.ViewModels"
+			 xmlns:m="using:Dispractice.Models"
+			 xmlns:v="using:Dispractice.Views"
+			 xmlns:e="using:Dispractice.Extensions"
+             x:Class="Dispractice.Views.CommendationView">
+
+	<UserControl.Resources>
+		<e:DateFormatConverter x:Key="DateFormatter"/>
+	</UserControl.Resources>
+	<UserControl.DataContext>
+		<vmd:ConmmendationViewModelDesign/>
+	</UserControl.DataContext>
+
+	<Grid RowDefinitions="Auto, *" Margin="20">
+		<StackPanel Orientation="Vertical" Spacing="10">
+			<TextBlock Text="Поощрение" FontSize="18" FontWeight="Bold"/>
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<TextBlock Text="Военнослужащий:" Width="130" VerticalAlignment="Center"/>
+				<TextBlock Text="{Binding Serviceman}" Width="300"/>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<TextBlock Text="Вид поощрения:" Width="130" VerticalAlignment="Center"/>
+				<TextBox Text="{Binding Commendation.Type, Mode=TwoWay}" Width="300"/>
+			</StackPanel>
+			
+			<StackPanel Orientation="Horizontal" Spacing="10" IsVisible="{Binding IsRemove}">
+				<TextBlock Text="Взыскание:" Width="130" VerticalAlignment="Center"/>
+				<ComboBox ItemsSource="{Binding NotRemovedPenalties}" Width="300">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal" Spacing="3">
+								<TextBlock Text="{Binding Type}"/>
+								<TextBlock Text="{Binding DateApplied, Converter={StaticResource DateFormatter}}"/>
+								<TextBlock Text="{Binding AppliedBy}"/>
+							</StackPanel>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+			</StackPanel>
+			
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<TextBlock Text="За что:" Width="130" VerticalAlignment="Top"/>
+				<TextBox Text="{Binding Commendation.Description, Mode=TwoWay}" Width="300" TextWrapping="Wrap" Height="100"/>
+			</StackPanel>
+			
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<TextBlock Text="Дата поощрения:" Width="130" VerticalAlignment="Center"/>
+				<DatePicker SelectedDate="{Binding Commendation.DateAwarded, Mode=TwoWay}" Width="300"/>
+			</StackPanel>
+
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<TextBlock Text="Кем поощрен:" Width="130" VerticalAlignment="Center"/>
+				<TextBox Text="{Binding Commendation.AwardedBy, Mode=TwoWay}" Width="300"/>
+			</StackPanel>	
+		</StackPanel>
+
+		<StackPanel Orientation="Horizontal" Spacing="10" Grid.Row="1" HorizontalAlignment="Right" Margin="0,20,0,0">
+			<Button Content="Сохранить" Command="{Binding SaveCommand}" Width="100"/>
+			<Button Content="Отмена" Command="{Binding CancelCommand}" Width="100"/>
+		</StackPanel>
+	</Grid>
+</UserControl>
