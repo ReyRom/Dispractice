@@ -13,20 +13,21 @@
 	<UserControl.DataContext>
 		<vmd:UnitListViewModelDesign/>
 	</UserControl.DataContext>
-	
-	<TreeView ItemsSource="{Binding Units}">
-		<TreeView.ItemTemplate>
-			<TreeDataTemplate ItemsSource="{Binding SubUnits}" DataType="m:MilitaryUnit">
-				<Panel>
-					<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
-					<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-						<Button Margin="0 5 5 5" Content="Редактировать"/>
-						<Button Margin="0 5 5 5" Content="Сохранить" IsVisible="False"/>
-						<Button Margin="0 5 5 5" Command="{Binding $parent[UserControl].DataContext.RemoveCommand}" CommandParameter="{Binding}" Content="Удалить" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>
-						<Button Margin="0 5 5 5" Command="{Binding $parent[UserControl].DataContext.AddCommand}" CommandParameter="{Binding}" Content="+"/>
-					</StackPanel>
-				</Panel>		
-			</TreeDataTemplate>
-		</TreeView.ItemTemplate>
-	</TreeView>
+	<ScrollViewer>
+		<TreeView ItemsSource="{Binding Units}">
+			<TreeView.ItemTemplate>
+				<TreeDataTemplate ItemsSource="{Binding SubUnits}" DataType="m:MilitaryUnit">
+					<Panel>
+						<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
+						<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+							<Button Margin="0 5 5 5" Content="Редактировать"/>
+							<Button Margin="0 5 5 5" Content="Сохранить" IsVisible="False"/>
+							<Button Margin="0 5 5 5" Command="{Binding $parent[UserControl].DataContext.RemoveCommand}" CommandParameter="{Binding}" Content="Удалить" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>
+							<Button Margin="0 5 5 5" Command="{Binding $parent[UserControl].DataContext.AddCommand}" CommandParameter="{Binding}" Content="+"/>
+						</StackPanel>
+					</Panel>
+				</TreeDataTemplate>
+			</TreeView.ItemTemplate>
+		</TreeView>
+	</ScrollViewer>
 </UserControl>

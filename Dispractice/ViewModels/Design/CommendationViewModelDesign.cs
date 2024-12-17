@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Dispractice.ViewModels.Design
 {
-    public class ConmmendationViewModelDesign : CommendationViewModel
+    public class CommendationViewModelDesign : CommendationViewModel
     {
-        public ConmmendationViewModelDesign()
+        public CommendationViewModelDesign()
         {
             Serviceman = GenerateTestServiceman();
             Commendation = Serviceman.Commendations.First();

@@ -1,0 +1,75 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+			 xmlns:vmd="using:Dispractice.ViewModels.Design"
+			 xmlns:vm="using:Dispractice.ViewModels"
+			 xmlns:m="using:Dispractice.Models"
+			 xmlns:v="using:Dispractice.Views"
+			 xmlns:e="using:Dispractice.Extensions"
+             x:Class="Dispractice.Views.PenaltyView"
+			 x:DataType="vm:PenaltyViewModel">
+	<UserControl.Styles>
+		<Style Selector="DatePicker">
+			<Setter Property="MinWidth" Value="250"/>
+		</Style>
+	</UserControl.Styles>
+	<UserControl.Resources>
+		<e:DateFormatConverter x:Key="DateFormatter"/>
+		<x:Double x:Key="DatePickerThemeMinWidth">250</x:Double>
+		<x:Double x:Key="DatePickerThemeMaxWidth">456</x:Double>
+	</UserControl.Resources>
+	<UserControl.DataContext>
+		<vmd:PenaltyViewModelDesign/>
+	</UserControl.DataContext>
+
+	<Grid RowDefinitions="Auto, *" Margin="20">
+		<StackPanel Orientation="Vertical" Spacing="10">
+			<TextBlock Text="Взыскание" FontSize="18" FontWeight="Bold"/>
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<TextBlock Text="Военнослужащий:" Width="130" VerticalAlignment="Center"/>
+				<TextBlock Text="{Binding Serviceman}" Width="300"/>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<TextBlock Text="Вид взыскания:" Width="130" VerticalAlignment="Center"/>
+				<TextBox Text="{Binding Penalty.Type, Mode=TwoWay}" Width="300"/>
+			</StackPanel>
+			
+			
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<TextBlock Text="За что:" Width="130" VerticalAlignment="Top"/>
+				<TextBox Text="{Binding Penalty.Description, Mode=TwoWay}" Width="300" TextWrapping="Wrap" Height="100"/>
+			</StackPanel>
+			
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<TextBlock Text="Дата применения:" Width="130" VerticalAlignment="Center"/>
+				<DatePicker SelectedDate="{Binding Penalty.DateApplied, Mode=TwoWay}" Width="300"/>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<TextBlock Text="Когда совершен проступок:" Width="130" TextWrapping="Wrap" VerticalAlignment="Center"/>
+				<DatePicker SelectedDate="{Binding Penalty.OffenseDate, Mode=TwoWay}" Width="300"/>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<TextBlock Text="Когда приведено в исполнение:" Width="130" TextWrapping="Wrap" VerticalAlignment="Center"/>
+				<DatePicker SelectedDate="{Binding Penalty.DateExecuted, Mode=TwoWay}" Width="300"/>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<TextBlock Text="Кем применено:" Width="130" VerticalAlignment="Center"/>
+				<TextBox Text="{Binding Penalty.AppliedBy, Mode=TwoWay}" Width="300"/>
+			</StackPanel>
+			
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<TextBlock Text="Снято:" Width="130" VerticalAlignment="Center"/>
+				<DatePicker SelectedDate="{Binding Penalty.DateRemoved, Mode=TwoWay}" Width="250"/>
+			</StackPanel>
+
+				
+		</StackPanel>
+
+		<StackPanel Orientation="Horizontal" Spacing="10" Grid.Row="1" HorizontalAlignment="Right" Margin="0,20,0,0">
+			<Button Content="Сохранить" Command="{Binding SaveCommand}" Width="100"/>
+			<Button Content="Отмена" Command="{Binding CancelCommand}" Width="100"/>
+		</StackPanel>
+	</Grid>
+</UserControl>

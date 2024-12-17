@@ -14,7 +14,7 @@
 		<e:DateFormatConverter x:Key="DateFormatter"/>
 	</UserControl.Resources>
 	<UserControl.DataContext>
-		<vmd:ConmmendationViewModelDesign/>
+		<vmd:CommendationViewModelDesign/>
 	</UserControl.DataContext>
 
 	<Grid RowDefinitions="Auto, *" Margin="20">
