@@ -1,0 +1,25 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="100"
+			 xmlns:vmd="using:Dispractice.ViewModels.Design"
+			 xmlns:vm="using:Dispractice.ViewModels"
+			 xmlns:m="using:Dispractice.Models"
+			 xmlns:v="using:Dispractice.Views"
+			 xmlns:e="using:Dispractice.Extensions"
+             x:Class="Dispractice.Views.PositionView"
+			 x:DataType="vm:PositionViewModel">
+	<UserControl.DataContext>
+		<vmd:PositionViewModelDesign/>
+	</UserControl.DataContext>
+	<Grid>
+		<StackPanel>
+			<TextBlock Text="{Binding Position.MilitaryUnit.Name}" Margin="10"/>
+			<TextBlock VerticalAlignment="Center" Margin="10" Text="{Binding Position.Name}" HorizontalAlignment="Left" IsVisible="{Binding !IsEditMode}"/>
+			<TextBox VerticalAlignment="Center" Margin="10" Text="{Binding Position.Name}" HorizontalAlignment="Left" IsVisible="{Binding IsEditMode}" />
+		</StackPanel>
+	</Grid>
+	
+	
+</UserControl>

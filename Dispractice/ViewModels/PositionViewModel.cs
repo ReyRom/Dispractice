@@ -8,15 +8,12 @@ using System.Threading.Tasks;
 
 namespace Dispractice.ViewModels
 {
-    public partial class PositionListViewModel:ViewModelBase
+    public partial class PositionViewModel:ViewModelBase
     {
         [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(Positions))]
-        private MilitaryUnit militaryUnit;
+        private MilitaryPosition position;
 
         [ObservableProperty]
         private bool isEditMode;
-
-        public ICollection<MilitaryPosition> Positions => militaryUnit.Positions;
     }
 }

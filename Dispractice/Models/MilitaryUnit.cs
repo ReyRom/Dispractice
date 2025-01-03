@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace Dispractice.Models
 {
@@ -22,9 +23,9 @@ namespace Dispractice.Models
         public virtual MilitaryUnit? ParentUnit { get; set; }
 
         // Список дочерних подразделений
-        public virtual ICollection<MilitaryUnit> SubUnits { get; set; }
+        public virtual ICollection<MilitaryUnit> SubUnits { get; set; }  = new ObservableCollection<MilitaryUnit>();
 
         // Список воинских должностей в этом подразделении
-        public virtual ICollection<MilitaryPosition> Positions { get; set; }
+        public virtual ICollection<MilitaryPosition> Positions { get; set; } = new ObservableCollection<MilitaryPosition>();
     }
 }

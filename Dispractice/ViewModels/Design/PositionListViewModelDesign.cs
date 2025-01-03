@@ -74,6 +74,7 @@ namespace Dispractice.ViewModels.Design
                 SubUnits = new ObservableCollection<MilitaryUnit>()
             };
             MilitaryUnit = u0;
+            IsEditMode = true;
         }
     }
 }

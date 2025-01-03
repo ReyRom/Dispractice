@@ -27,6 +27,7 @@ namespace Dispractice.ViewModels
         {
             var newUnit = new MilitaryUnit();
             newUnit.ParentUnit = unit;
+            newUnit.SubUnits = new ObservableCollection<MilitaryUnit>();
             unit.SubUnits.Add(newUnit);
         }
         public void RemoveUnit(MilitaryUnit? unit)

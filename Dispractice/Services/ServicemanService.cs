@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using Dispractice.Models;
 using System;
-using Dispractice.Models;
+using System.Linq;
 
 namespace Dispractice.Services
 {
@@ -23,7 +23,7 @@ namespace Dispractice.Services
 
         public string GetRankName(Serviceman serviceman)
         {
-            return RankData.Ranks[serviceman.RankIndex].RankName;
+            return (serviceman.IsNaval ? RankData.NavalRanks : RankData.Ranks)[serviceman.RankIndex].RankName;
         }
 
         //public string GetRankType(Serviceman serviceman)

@@ -14,14 +14,15 @@
 		<vmd:PositionListViewModelDesign/>
 	</UserControl.DataContext>
 	<Grid RowDefinitions="Auto, *" Margin="10">
-		<TextBlock Text="{Binding MilitaryUnit.Name}" Margin="10"/>
+		<TextBlock Text="{Binding MilitaryUnit.Name}" Margin="10" IsVisible="{Binding !IsEditMode}"/>
+		<TextBox Text="{Binding MilitaryUnit.Name}" Margin="5" IsVisible="{Binding IsEditMode}"/>
 		<ScrollViewer Grid.Row="1">
 			<ItemsControl ItemsSource="{Binding Positions}" Margin="15 0 15 0">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<Panel>
+						<Panel MinHeight="40">
 							<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" IsVisible="{Binding $parent[UserControl].DataContext.IsEditMode}">
 								<Button Margin="0 5 5 5" Content="Редактировать"/>
 								<Button Margin="0 5 5 5" Content="Сохранить" IsVisible="False"/>
 								<Button Margin="0 5 5 5" Content="Удалить" />
