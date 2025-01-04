@@ -10,9 +10,9 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Dispractice.Views.UnitListView"
 			 x:DataType="vm:UnitListViewModel">
-	<UserControl.DataContext>
+	<Design.DataContext>
 		<vmd:UnitListViewModelDesign/>
-	</UserControl.DataContext>
+	</Design.DataContext>
 	<ScrollViewer>
 		<TreeView ItemsSource="{Binding Units}">
 			<TreeView.ItemTemplate>

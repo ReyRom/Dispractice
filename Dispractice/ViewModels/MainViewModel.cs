@@ -1,6 +1,9 @@
-﻿namespace Dispractice.ViewModels;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace Dispractice.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
-    public string Greeting => "Welcome to Avalonia!";
+    [ObservableProperty]
+    private ViewModelBase content = new PenaltyViewModel();
 }

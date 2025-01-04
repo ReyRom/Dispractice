@@ -27,10 +27,8 @@ public partial class App : Application
         // Register all the services needed for the application to run
         var collection = new ServiceCollection();
         collection.AddCommonServices();
-
         // Creates a ServiceProvider containing services from the provided IServiceCollection
         var services = collection.BuildServiceProvider();
-
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -41,7 +39,7 @@ public partial class App : Application
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
-            singleViewPlatform.MainView = new MainView
+            singleViewPlatform.MainView = new MainWindow
             {
                 DataContext = new MainViewModel()
             };
