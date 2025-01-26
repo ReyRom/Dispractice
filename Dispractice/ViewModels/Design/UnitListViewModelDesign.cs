@@ -28,7 +28,7 @@ namespace Dispractice.ViewModels.Design
                 SubUnits = new ObservableCollection<MilitaryUnit>()
             };
             u0.SubUnits.Add(u1);
-            Units = new ObservableCollection<MilitaryUnit>()
+            Units = new ObservableCollection<IMilitaryTreeNode>()
             {
                 u0
             };

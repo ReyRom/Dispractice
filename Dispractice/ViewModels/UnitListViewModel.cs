@@ -12,7 +12,7 @@ namespace Dispractice.ViewModels
 {
     public partial class UnitListViewModel:ViewModelBase
     {
-        public ObservableCollection<MilitaryUnit> Units { get; set; } = new ObservableCollection<MilitaryUnit>();
+        public ObservableCollection<IMilitaryTreeNode> Units { get; set; } = new ObservableCollection<IMilitaryTreeNode>();
 
         public ICommand AddCommand {  get; set; }
         public ICommand RemoveCommand { get; set; }
@@ -31,6 +31,14 @@ namespace Dispractice.ViewModels
             unit.SubUnits.Add(newUnit);
         }
         public void RemoveUnit(MilitaryUnit? unit)
+        {
+            var parent = unit.ParentUnit;
+            if (parent != null)
+            {
+                parent.SubUnits.Remove(unit);
+            }
+        }
+        public void RemovePosition(MilitaryUnit? unit)
         {
             var parent = unit.ParentUnit;
             if (parent != null)

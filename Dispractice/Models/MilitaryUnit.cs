@@ -3,11 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Dispractice.Models
 {
     // Модель подразделения
-    public class MilitaryUnit 
+    public class MilitaryUnit: IMilitaryTreeNode
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -27,5 +28,10 @@ namespace Dispractice.Models
 
         // Список воинских должностей в этом подразделении
         public virtual ICollection<MilitaryPosition> Positions { get; set; } = new ObservableCollection<MilitaryPosition>();
+
+        [NotMapped]
+        public IMilitaryTreeNode Element => this;
+        [NotMapped]
+        public IEnumerable<IMilitaryTreeNode> SubElements => Positions.Cast<IMilitaryTreeNode>().Union(SubUnits);
     }
 }

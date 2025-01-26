@@ -15,5 +15,10 @@ namespace Dispractice.ViewModels
 
         [ObservableProperty]
         private Serviceman serviceman;
+
+        public PenaltyViewModel()
+        {
+            PageName = "Взыскание";
+        }
     }
 }

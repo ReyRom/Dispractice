@@ -7,9 +7,24 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Dispractice.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Dispractice"
-		Content="{Binding Content}">
+        Title="Dispractice">
 	<Window.DataContext>
 		<vm:MainViewModel/>
 	</Window.DataContext>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition MaxWidth="150"/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+		<ItemsControl ItemsSource="{Binding NavigationList}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Button>
+						<TextBlock Text="{Binding PageName}"/>
+					</Button>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+		<ContentPresenter Grid.Column="1" Content="{Binding Content}"/>
+	</Grid>
 </Window>
