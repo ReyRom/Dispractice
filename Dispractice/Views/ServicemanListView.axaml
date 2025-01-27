@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:vmd="using:Dispractice.ViewModels.Design"
+			 xmlns:vm="using:Dispractice.ViewModels"
+			 xmlns:m="using:Dispractice.Models"
+			 xmlns:v="using:Dispractice.Views"
+			 xmlns:e="using:Dispractice.Extensions"
+             x:Class="Dispractice.Views.ServicemanListView"
+			 x:DataType="vm:ServicemanListViewModel">
+	<Design.DataContext>
+		<vmd:ServicemanListViewModelDesign/>
+	</Design.DataContext>
+	<ScrollViewer>
+		<ItemsControl ItemsSource="{Binding Servicemans}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Panel>
+						<TextBlock VerticalAlignment="Center"  Text="{Binding}" HorizontalAlignment="Left"/>
+					</Panel>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+	</ScrollViewer>
+</UserControl>

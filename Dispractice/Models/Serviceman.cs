@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dispractice.Models
 {
-    public class Serviceman
+    public class Serviceman:IMilitaryTreeNode
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -42,5 +42,10 @@ namespace Dispractice.Models
         {
             return $"{(IsNaval ? RankData.NavalRanks[RankIndex] : RankData.Ranks[RankIndex]).ShortName} {Surname} {Name[0]}.{(!String.IsNullOrWhiteSpace(Patronomic) ? " " + Patronomic[0] + "." : "")}";
         }
+
+        [NotMapped]
+        public IMilitaryTreeNode Element => this;
+        [NotMapped]
+        public IEnumerable<IMilitaryTreeNode> SubElements => null;
     }
 }

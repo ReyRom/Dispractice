@@ -1,10 +1,11 @@
 ﻿using Dispractice.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
 namespace Dispractice.Services
 {
-    public class ServicemanService
+    public class ServicemanService : IServicemanService
     {
         private readonly MilitaryServiceContext _context;
 
@@ -15,11 +16,24 @@ namespace Dispractice.Services
 
         public IQueryable<Serviceman> GetServicemenSortedByRank()
         {
-            return _context.Servicemen
+            return _context.Servicemens
                 .AsEnumerable()
                 .OrderBy(s => RankData.Ranks[s.RankIndex].SeniorityOrder)
                 .AsQueryable();
         }
+
+        //public IMilitaryTreeNode GetMilitaryTree()
+        //{
+        //    MilitaryUnit rootUnit = _context.MilitaryUnits
+        //        .Where(u => u.ParentUnit == null)
+        //        .Include(u => u.SubUnits)
+        //        .ThenInclude(u => u.SubUnits)
+        //        .Include(u => u.Positions)
+        //        .ThenInclude(u => u.)
+
+
+
+        //}
 
         public string GetRankName(Serviceman serviceman)
         {

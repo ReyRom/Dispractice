@@ -15,6 +15,11 @@
 	</Design.DataContext>
 	<ScrollViewer>
 		<TreeView ItemsSource="{Binding Units}">
+			<TreeView.Styles>
+				<Style Selector="TreeViewItem">
+					<Setter Property="IsExpanded" Value="True"/>
+				</Style>
+			</TreeView.Styles>
 			<TreeView.ItemTemplate>
 				<e:TreeItemsTemplateSelector>
 					<TreeDataTemplate x:Key="m:MilitaryUnit" ItemsSource="{Binding SubElements}" DataType="m:MilitaryUnit">

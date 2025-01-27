@@ -24,15 +24,15 @@ namespace Dispractice.Models
         public string Type { get; set; }
 
         [Required]
-        public DateTimeOffset OffenseDate { get; set; } // Когда совершен проступок
+        public DateTime OffenseDate { get; set; } // Когда совершен проступок
 
         [Required]
-        public DateTimeOffset DateApplied { get; set; } // Когда применено
+        public DateTime DateApplied { get; set; } // Когда применено
         
         [Required]
-        public DateTimeOffset DateExecuted { get; set; } // Когда выполнено
+        public DateTime DateExecuted { get; set; } // Когда выполнено
 
-        public DateTimeOffset? DateRemoved { get; set; } // Когда снято (может быть null)
+        public DateTime? DateRemoved { get; set; } // Когда снято (может быть null)
 
         [Required]
         [StringLength(100)]

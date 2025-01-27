@@ -66,6 +66,7 @@ namespace Dispractice.ViewModels.Design
                 Description = "Нарушение дисциплины",
                 OffenseDate = new DateTime(2023, 3, 15),
                 DateApplied = new DateTime(2023, 3, 20),
+                DateExecuted = new DateTime(2023, 3, 20),
                 AppliedBy = "Командир батальона",
                 Type = "Выговор"
             };

@@ -28,7 +28,7 @@ public partial class App : Application
         var collection = new ServiceCollection();
         collection.AddCommonServices();
         collection.AddSingleton<NavigationService>();
-        collection.AddSingleton<ServicemanService>();
+        collection.AddSingleton<IServicemanService,ServicemanService>();
 
         // Creates a ServiceProvider containing services from the provided IServiceCollection
         Services = collection.BuildServiceProvider();

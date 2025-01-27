@@ -44,15 +44,15 @@
 			
 			<StackPanel Orientation="Horizontal" Spacing="10">
 				<TextBlock Text="Дата применения:" Width="130" VerticalAlignment="Center"/>
-				<DatePicker SelectedDate="{Binding Penalty.DateApplied, Mode=TwoWay}" Width="300"/>
+				<CalendarDatePicker SelectedDate="{Binding Penalty.DateApplied, Mode=TwoWay}" Width="150"/>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Spacing="10">
 				<TextBlock Text="Когда совершен проступок:" Width="130" TextWrapping="Wrap" VerticalAlignment="Center"/>
-				<DatePicker SelectedDate="{Binding Penalty.OffenseDate, Mode=TwoWay}" Width="300"/>
+				<CalendarDatePicker SelectedDate="{Binding Penalty.OffenseDate, Mode=TwoWay}" Width="150"/>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Spacing="10">
 				<TextBlock Text="Когда приведено в исполнение:" Width="130" TextWrapping="Wrap" VerticalAlignment="Center"/>
-				<DatePicker SelectedDate="{Binding Penalty.DateExecuted, Mode=TwoWay}" Width="300"/>
+				<CalendarDatePicker SelectedDate="{Binding Penalty.DateExecuted, Mode=TwoWay}" Width="150"/>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Spacing="10">
 				<TextBlock Text="Кем применено:" Width="130" VerticalAlignment="Center"/>
@@ -61,7 +61,7 @@
 			
 			<StackPanel Orientation="Horizontal" Spacing="10">
 				<TextBlock Text="Снято:" Width="130" VerticalAlignment="Center"/>
-				<DatePicker SelectedDate="{Binding Penalty.DateRemoved, Mode=TwoWay}" Width="250"/>
+				<CalendarDatePicker SelectedDate="{Binding Penalty.DateRemoved, Mode=TwoWay}" Width="150"/>
 			</StackPanel>
 
 				
