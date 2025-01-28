@@ -10,16 +10,6 @@
 			 xmlns:e="using:Dispractice.Extensions"
              x:Class="Dispractice.Views.PenaltyView"
 			 x:DataType="vm:PenaltyViewModel">
-	<UserControl.Styles>
-		<Style Selector="DatePicker">
-			<Setter Property="MinWidth" Value="250"/>
-		</Style>
-	</UserControl.Styles>
-	<UserControl.Resources>
-		<e:DateFormatConverter x:Key="DateFormatter"/>
-		<x:Double x:Key="DatePickerThemeMinWidth">250</x:Double>
-		<x:Double x:Key="DatePickerThemeMaxWidth">456</x:Double>
-	</UserControl.Resources>
 	<UserControl.DataContext>
 		<vmd:PenaltyViewModelDesign/>
 	</UserControl.DataContext>

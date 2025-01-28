@@ -29,6 +29,9 @@ namespace Dispractice.Models
         // Список воинских должностей в этом подразделении
         public virtual ICollection<MilitaryPosition> Positions { get; set; } = new ObservableCollection<MilitaryPosition>();
 
+
+
+
         [NotMapped]
         public IMilitaryTreeNode Element => this;
         [NotMapped]

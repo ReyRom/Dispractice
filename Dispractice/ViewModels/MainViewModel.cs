@@ -9,7 +9,7 @@ namespace Dispractice.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private ViewModelBase content = new PenaltyViewModel();
+    private ViewModelBase content = new ServicemanListViewModel();
 
     ICommand NavigateCommand { get; set; }
     

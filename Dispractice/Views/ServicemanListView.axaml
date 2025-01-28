@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="768"
 			 xmlns:vmd="using:Dispractice.ViewModels.Design"
 			 xmlns:vm="using:Dispractice.ViewModels"
 			 xmlns:m="using:Dispractice.Models"
@@ -10,18 +10,34 @@
 			 xmlns:e="using:Dispractice.Extensions"
              x:Class="Dispractice.Views.ServicemanListView"
 			 x:DataType="vm:ServicemanListViewModel">
+	<UserControl.DataContext>
+		<vmd:ServicemanListViewModelDesign/>
+	</UserControl.DataContext>
 	<Design.DataContext>
 		<vmd:ServicemanListViewModelDesign/>
 	</Design.DataContext>
-	<ScrollViewer>
-		<ItemsControl ItemsSource="{Binding Servicemans}">
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<Panel>
-						<TextBlock VerticalAlignment="Center"  Text="{Binding}" HorizontalAlignment="Left"/>
-					</Panel>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-	</ScrollViewer>
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/CardStyles.axaml"/>
+	</UserControl.Styles>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+			<ColumnDefinition Width="250"/>
+		</Grid.ColumnDefinitions>
+		<ScrollViewer>
+			<ItemsControl ItemsSource="{Binding Servicemans}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<ContentControl Classes="Card" Margin="3">
+							<TextBlock VerticalAlignment="Center"  Text="{Binding LongServicemanString}" HorizontalAlignment="Left"/>
+						</ContentControl>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+		<StackPanel Grid.Column="1" Width="250">
+			<TextBox/>
+		</StackPanel>
+	</Grid>
+	
 </UserControl>

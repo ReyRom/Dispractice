@@ -51,7 +51,7 @@
 			
 			<StackPanel Orientation="Horizontal" Spacing="10">
 				<TextBlock Text="Дата поощрения:" Width="130" VerticalAlignment="Center"/>
-				<DatePicker SelectedDate="{Binding Commendation.DateAwarded, Mode=TwoWay}" Width="300"/>
+				<CalendarDatePicker SelectedDate="{Binding Commendation.DateAwarded, Mode=TwoWay}" Width="300"/>
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal" Spacing="10">

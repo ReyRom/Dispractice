@@ -40,8 +40,16 @@ namespace Dispractice.Models
 
         public override string ToString()
         {
-            return $"{(IsNaval ? RankData.NavalRanks[RankIndex] : RankData.Ranks[RankIndex]).ShortName} {Surname} {Name[0]}.{(!String.IsNullOrWhiteSpace(Patronomic) ? " " + Patronomic[0] + "." : "")}";
+            return ShortServicemanString;
         }
+
+
+        [NotMapped]
+        public string ShortServicemanString => $"{(IsNaval ? RankData.NavalRanks[RankIndex] : RankData.Ranks[RankIndex]).ShortName} {Surname} {Name[0]}.{(!String.IsNullOrWhiteSpace(Patronomic) ? " " + Patronomic[0] + "." : "")}";
+        
+        [NotMapped]
+        public string LongServicemanString => $"{(IsNaval ? RankData.NavalRanks[RankIndex] : RankData.Ranks[RankIndex]).RankName} {Surname} {Name} {Patronomic}";
+
 
         [NotMapped]
         public IMilitaryTreeNode Element => this;

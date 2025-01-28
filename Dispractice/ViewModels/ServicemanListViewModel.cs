@@ -11,7 +11,7 @@ namespace Dispractice.ViewModels
 {
     public class ServicemanListViewModel:ViewModelBase
     {
-        IServicemanService _service;
+        //IServicemanService _service;
         public ServicemanListViewModel()
         {
             //_service = service;

@@ -20,7 +20,7 @@ namespace Dispractice.Models
         public string Description { get; set; }
 
         [Required]
-        public DateTimeOffset DateAwarded { get; set; }
+        public DateTime DateAwarded { get; set; }
 
         [Required]
         [StringLength(100)]

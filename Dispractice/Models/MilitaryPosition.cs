@@ -21,8 +21,17 @@ namespace Dispractice.Models
         public int MilitaryUnitId { get; set; }
         public virtual MilitaryUnit MilitaryUnit { get; set; }
 
-        public IMilitaryTreeNode Element => this;
 
+        // Ссылка на военнослужащего, занимающего должность
+        [ForeignKey("Serviceman")]
+        public int? ServicemanId { get; set; }
+        public virtual Serviceman? Serviceman { get; set; }
+
+
+
+        [NotMapped]
+        public IMilitaryTreeNode Element => this;
+        [NotMapped]
         public IEnumerable<IMilitaryTreeNode> SubElements => null;
     }
 }
