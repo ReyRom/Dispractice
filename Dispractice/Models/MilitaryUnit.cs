@@ -36,5 +36,21 @@ namespace Dispractice.Models
         public IMilitaryTreeNode Element => this;
         [NotMapped]
         public IEnumerable<IMilitaryTreeNode> SubElements => Positions.Cast<IMilitaryTreeNode>().Union(SubUnits);
+
+
+
+        public IEnumerable<MilitaryPosition> GetSubPositions(bool recursive = true)
+        {
+            List<MilitaryPosition> positions = new List<MilitaryPosition>(Positions);
+
+            if (recursive)
+            {
+                foreach (MilitaryUnit unit in SubUnits)
+                {
+                    positions.AddRange(unit.GetSubPositions(recursive));
+                }
+            }
+            return positions;
+        }
     }
 }

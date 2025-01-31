@@ -25,18 +25,30 @@
 			<ColumnDefinition Width="250"/>
 		</Grid.ColumnDefinitions>
 		<ScrollViewer>
-			<ItemsControl ItemsSource="{Binding Servicemans}">
+			<ItemsControl ItemsSource="{Binding Filtred}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<ContentControl Classes="Card" Margin="3">
-							<TextBlock VerticalAlignment="Center"  Text="{Binding LongServicemanString}" HorizontalAlignment="Left"/>
-						</ContentControl>
+						<Button Classes="Card" Margin="3" HorizontalAlignment="Stretch">
+
+								<TextBlock VerticalAlignment="Center"  Text="{Binding LongServicemanString}" HorizontalAlignment="Left"/>
+
+						</Button>
+
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
 		</ScrollViewer>
 		<StackPanel Grid.Column="1" Width="250">
-			<TextBox/>
+			<TextBlock Text="Поиск"/>
+			<TextBox Text="{Binding SearchString}" Margin="5"/>
+			<TextBlock Text="Подразделение"/>
+			<ComboBox HorizontalAlignment="Stretch" Margin="5" ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedUnit}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Name}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
 		</StackPanel>
 	</Grid>
 	

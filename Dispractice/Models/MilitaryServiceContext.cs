@@ -4,7 +4,7 @@ namespace Dispractice.Models
 {
     public class MilitaryServiceContext : DbContext
     {
-        public DbSet<Serviceman> Servicemens { get; set; }
+        public DbSet<Serviceman> Servicemans { get; set; }
         public DbSet<MilitaryPosition> MilitaryPositions { get; set; }
 
         public DbSet<MilitaryUnit> MilitaryUnits { get; set; }

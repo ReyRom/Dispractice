@@ -16,7 +16,7 @@ namespace Dispractice.Services
 
         public IQueryable<Serviceman> GetServicemenSortedByRank()
         {
-            return _context.Servicemens
+            return _context.Servicemans
                 .AsEnumerable()
                 .OrderBy(s => RankData.Ranks[s.RankIndex].SeniorityOrder)
                 .AsQueryable();

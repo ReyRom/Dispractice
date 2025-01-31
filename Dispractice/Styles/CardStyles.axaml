@@ -34,4 +34,31 @@
 		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 		<Setter Property="VerticalContentAlignment" Value="Stretch" />
 	</Style>
+	<Style Selector="Button.Card">
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate>
+					<Border
+						Background="{TemplateBinding Background}"
+						BorderBrush="{TemplateBinding BorderBrush}"
+						BorderThickness="{TemplateBinding BorderThickness}"
+						CornerRadius="8"
+						BoxShadow="5 5 10 0 Black"
+							>
+						<ContentPresenter
+							Margin="{TemplateBinding Padding}"
+							Content="{TemplateBinding Content}"
+							HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="BorderBrush" Value="#DADADA" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="Padding" Value="10" />
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+	</Style>
 </Styles>
