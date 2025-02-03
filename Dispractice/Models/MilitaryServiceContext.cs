@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Avalonia;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dispractice.Models
 {
@@ -14,6 +15,13 @@ namespace Dispractice.Models
         public MilitaryServiceContext(DbContextOptions<MilitaryServiceContext> options)
             : base(options)
         {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+
+            optionsBuilder.UseSqlite();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

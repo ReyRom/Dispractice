@@ -6,13 +6,17 @@ using Dispractice.Extensions;
 using Dispractice.Services;
 using Dispractice.ViewModels;
 using Dispractice.Views;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Dispractice;
 
 public partial class App : Application
 {
     public static ServiceProvider Services { get; private set; }
+
+    public static IConfiguration Configuration { get; private set; }
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -29,6 +33,13 @@ public partial class App : Application
         collection.AddCommonServices();
         collection.AddSingleton<NavigationService>();
         collection.AddSingleton<IServicemanService,ServicemanService>();
+
+        IConfigurationBuilder builder = new ConfigurationBuilder();
+
+        
+        builder.AddJsonFile("appsettings.json");
+
+        Configuration = builder.Build();
 
         // Creates a ServiceProvider containing services from the provided IServiceCollection
         Services = collection.BuildServiceProvider();
