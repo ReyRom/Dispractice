@@ -15,7 +15,6 @@ namespace Dispractice;
 public partial class App : Application
 {
     public static ServiceProvider Services { get; private set; }
-
     public static IConfiguration Configuration { get; private set; }
     public override void Initialize()
     {
@@ -32,10 +31,13 @@ public partial class App : Application
         var collection = new ServiceCollection();
         collection.AddCommonServices();
         collection.AddSingleton<NavigationService>();
-        collection.AddSingleton<IServicemanService,ServicemanService>();
+        collection.AddScoped<IServicemanService,ServicemanService>();
+        collection.AddSingleton<MainViewModel>();
+        collection.AddTransient<ServicemanListViewModel>();
+        collection.AddTransient<ServicemanViewModel>();
+
 
         IConfigurationBuilder builder = new ConfigurationBuilder();
-
         
         builder.AddJsonFile("appsettings.json");
 
@@ -44,18 +46,19 @@ public partial class App : Application
         // Creates a ServiceProvider containing services from the provided IServiceCollection
         Services = collection.BuildServiceProvider();
 
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel()
+                DataContext = Services.GetService<MainViewModel>()
             };
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
             singleViewPlatform.MainView = new MainWindow
             {
-                DataContext = new MainViewModel()
+                DataContext = Services.GetService<MainViewModel>()
             };
         }
 

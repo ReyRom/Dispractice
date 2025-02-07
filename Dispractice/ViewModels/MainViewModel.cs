@@ -1,7 +1,11 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Avalonia.Collections;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Dispractice.Models;
+using Dispractice.Services;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 
 namespace Dispractice.ViewModels;
@@ -9,19 +13,28 @@ namespace Dispractice.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private ViewModelBase content = new ServicemanListViewModel();
+    private ViewModelBase content;
 
-    ICommand NavigateCommand { get; set; }
     
-    public MainViewModel()
+    private NavigationService _navigation;
+    public MainViewModel(NavigationService navigation)
     {
+        _navigation = navigation;
         NavigateCommand = new RelayCommand<ViewModelBase>(NavigateTo);
+        NavigationList = new List<ViewModelBase>()
+        {
+            _navigation.CreateNavigatable<ServicemanListViewModel>(),
+            
+        };
+        NavigateTo(NavigationList.First());
     }
 
-    public ICollection<ViewModelBase> NavigationList { get; } = [new PenaltyViewModel()];
-
-    public void NavigateTo(ViewModelBase? page)
+    ICommand NavigateCommand { get; set; }
+    public ICollection<ViewModelBase> NavigationList { get; private set; }
+    public void NavigateTo(ViewModelBase page)
     {
-        Content = page;
+        _navigation.NavigateTo(page);
+        Content = _navigation.Current;
+        OnPropertyChanged(nameof(Content));
     }
 }

@@ -15,14 +15,16 @@ namespace Dispractice.Services
         public ViewModelBase Current => _navigationStack.Peek();
         public int Count => _navigationStack.Count;
 
-        public void NavigateTo<T>(T viewModel) where T : ViewModelBase
+        public void NavigateTo<T>(T viewModel, Action<T>? action = null) where T : ViewModelBase
         {
+            action?.Invoke(viewModel);
             _navigationStack.Push(viewModel);
         }
 
-        public void NavigateTo<T>() where T : ViewModelBase
+        public void NavigateTo<T>(Action<T>? action = null) where T : ViewModelBase
         {
             var viewModel = App.Services.GetRequiredService<T>();
+            action?.Invoke(viewModel);
             _navigationStack.Push(viewModel);
         }
 
@@ -32,6 +34,13 @@ namespace Dispractice.Services
             {
                 _navigationStack.Pop();
             }
+        }
+
+        public ViewModelBase CreateNavigatable<T>(Action<T>? action = null) where T : ViewModelBase
+        {
+            var viewModel = App.Services.GetRequiredService<T>();
+            action?.Invoke(viewModel);
+            return viewModel;
         }
     }
 }

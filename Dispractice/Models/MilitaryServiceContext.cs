@@ -21,7 +21,7 @@ namespace Dispractice.Models
         {
             base.OnConfiguring(optionsBuilder);
 
-            optionsBuilder.UseSqlite();
+            optionsBuilder.UseSqlite(App.Configuration["ConnectionString"]);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

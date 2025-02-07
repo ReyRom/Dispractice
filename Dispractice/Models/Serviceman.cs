@@ -32,8 +32,7 @@ namespace Dispractice.Models
         public int MilitaryPositionId { get; set; }
         public virtual MilitaryPosition MilitaryPosition { get; set; }
 
-        [Required]
-        public int ServiceStartYear { get; set; }
+        public int? ServiceStartYear { get; set; }
 
         public virtual ICollection<Commendation> Commendations { get; set; }
         public virtual ICollection<Penalty> Penalties { get; set; }

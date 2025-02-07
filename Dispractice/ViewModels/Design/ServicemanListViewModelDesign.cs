@@ -11,7 +11,7 @@ namespace Dispractice.ViewModels.Design
 {
     public class ServicemanListViewModelDesign : ServicemanListViewModel
     {
-        public ServicemanListViewModelDesign()
+        public ServicemanListViewModelDesign():base(null)
         {
             Servicemans = new ObservableCollection<Serviceman> 
             { 

@@ -8,9 +8,6 @@
         x:Class="Dispractice.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
         Title="Dispractice">
-	<Window.DataContext>
-		<vm:MainViewModel/>
-	</Window.DataContext>
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition MaxWidth="150"/>

@@ -12,9 +12,14 @@ namespace Dispractice.ViewModels
 {
     public partial class ServicemanListViewModel:ViewModelBase
     {
+
+        NavigationService _navigation;
         //IServicemanService _service;
-        public ServicemanListViewModel()
+        public ServicemanListViewModel(NavigationService navigation)
         {
+            PageName = "Список военнослужащих";
+
+            _navigation = navigation;
             //_service = service;
 
             //Servicemans = new ObservableCollection<Serviceman>(_service.GetServicemenSortedByRank());
@@ -35,7 +40,7 @@ namespace Dispractice.ViewModels
                     filtred = filtred.Where(x => x.MilitaryPosition.MilitaryUnit == SelectedUnit);
                 }
 
-                return filtred.Where(x=>x.LongServicemanString.Contains(SearchString));
+                return filtred.Where(x=>x.LongServicemanString.Contains(SearchString, StringComparison.InvariantCultureIgnoreCase));
             }
         }
 
