@@ -14,25 +14,31 @@
 			<TextBlock Text="Военнослужащий" FontSize="18" FontWeight="Bold"/>
 			<StackPanel Orientation="Horizontal" Spacing="10">
 				<TextBlock Text="Фамилия:" Width="140" VerticalAlignment="Center"/>
-				<TextBox Text="{Binding Serviceman}" Width="300"/>
+				<TextBox Text="{Binding Serviceman.Surname}" Width="300"/>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Spacing="10">
 				<TextBlock Text="Имя:" Width="140" VerticalAlignment="Center"/>
-				<TextBox Text="{Binding Penalty.Type, Mode=TwoWay}" Width="300"/>
+				<TextBox Text="{Binding Serviceman.Name}" Width="300"/>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" Spacing="10">
 				<TextBlock Text="Отчество:" Width="140" VerticalAlignment="Center"/>
-				<TextBox Text="{Binding Penalty.Type, Mode=TwoWay}" Width="300"/>
+				<TextBox Text="{Binding Serviceman.Patronomic}" Width="300"/>
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal" Spacing="10">
 				<TextBlock Text="Воинское звание:" Width="140" VerticalAlignment="Center"/>
-				<ComboBox ItemsSource="{Binding Ranks}" Width="300"/>
+				<ComboBox ItemsSource="{Binding Ranks}" SelectedIndex="{Binding Serviceman.RankIndex}" Width="300">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding RankName}"/>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal" Spacing="10">
 				<TextBlock Text="Год начала службы:" Width="140" VerticalAlignment="Center"/>
-				<TextBox Text="{Binding ServiceStartYear, Mode=TwoWay}" Width="300"/>
+				<TextBox Text="{Binding Serviceman.ServiceStartYear}" Width="300"/>
 			</StackPanel>
 			
 		</StackPanel>

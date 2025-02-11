@@ -28,7 +28,7 @@
 			<ItemsControl ItemsSource="{Binding Filtred}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<Button Classes="Card" Margin="3" HorizontalAlignment="Stretch">
+						<Button Classes="Card" Margin="3" HorizontalAlignment="Stretch" Command="{Binding $parent[UserControl].DataContext.OpenServicemanCommand}" CommandParameter="{Binding}">
 
 								<TextBlock VerticalAlignment="Center"  Text="{Binding LongServicemanString}" HorizontalAlignment="Left"/>
 

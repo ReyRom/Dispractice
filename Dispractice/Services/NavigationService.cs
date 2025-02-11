@@ -1,4 +1,5 @@
-﻿using Dispractice.ViewModels;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Dispractice.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -15,17 +16,19 @@ namespace Dispractice.Services
         public ViewModelBase Current => _navigationStack.Peek();
         public int Count => _navigationStack.Count;
 
+        public event EventHandler Navigated; 
+
         public void NavigateTo<T>(T viewModel, Action<T>? action = null) where T : ViewModelBase
         {
             action?.Invoke(viewModel);
             _navigationStack.Push(viewModel);
+            Navigated?.Invoke(this, EventArgs.Empty);
         }
 
         public void NavigateTo<T>(Action<T>? action = null) where T : ViewModelBase
         {
             var viewModel = App.Services.GetRequiredService<T>();
-            action?.Invoke(viewModel);
-            _navigationStack.Push(viewModel);
+            NavigateTo(viewModel, action);
         }
 
         public void GoBack(int steps = 1)
@@ -34,6 +37,7 @@ namespace Dispractice.Services
             {
                 _navigationStack.Pop();
             }
+            Navigated?.Invoke(this, EventArgs.Empty);
         }
 
         public ViewModelBase CreateNavigatable<T>(Action<T>? action = null) where T : ViewModelBase

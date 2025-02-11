@@ -22,6 +22,6 @@
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
-		<ContentPresenter Grid.Column="1" Content="{Binding Content}"/>
+		<ContentControl Grid.Column="1" Content="{Binding Content}"/>
 	</Grid>
 </Window>

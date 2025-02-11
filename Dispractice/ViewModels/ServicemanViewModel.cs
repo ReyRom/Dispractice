@@ -6,7 +6,7 @@ namespace Dispractice.ViewModels
     public partial class ServicemanViewModel : ViewModelBase
     {
         [ObservableProperty]
-        private Serviceman serviceman;
+        private Serviceman serviceman = new Serviceman();
 
         public bool IsNaval
         {

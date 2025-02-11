@@ -12,21 +12,27 @@ namespace Dispractice.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
-    [ObservableProperty]
-    private ViewModelBase content;
+    public ViewModelBase Content => _navigation.Current;
 
     
     private NavigationService _navigation;
     public MainViewModel(NavigationService navigation)
     {
         _navigation = navigation;
+        _navigation.Navigated += _navigation_Navigated; ;
+
         NavigateCommand = new RelayCommand<ViewModelBase>(NavigateTo);
         NavigationList = new List<ViewModelBase>()
         {
             _navigation.CreateNavigatable<ServicemanListViewModel>(),
-            
+
         };
         NavigateTo(NavigationList.First());
+    }
+
+    private void _navigation_Navigated(object? sender, EventArgs e)
+    {
+        OnPropertyChanged(nameof(Content));
     }
 
     ICommand NavigateCommand { get; set; }
@@ -34,7 +40,5 @@ public partial class MainViewModel : ViewModelBase
     public void NavigateTo(ViewModelBase page)
     {
         _navigation.NavigateTo(page);
-        Content = _navigation.Current;
-        OnPropertyChanged(nameof(Content));
     }
 }
