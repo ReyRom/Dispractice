@@ -1,12 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Dispractice.Models;
+using Dispractice.Services;
 using System.Collections.ObjectModel;
 
 namespace Dispractice.ViewModels.Design
 {
     public class UnitListViewModelDesign : UnitListViewModel
     {
-        public UnitListViewModelDesign() : base()
+        public UnitListViewModelDesign() : base(null)
         {
             AddCommand = new RelayCommand<MilitaryUnit>(AddUnit);
             var u0 = new MilitaryUnit()

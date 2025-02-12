@@ -1,5 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Dispractice.Models;
+using Dispractice.Services;
+using System;
+using System.Windows.Input;
 
 namespace Dispractice.ViewModels
 {
@@ -7,6 +11,15 @@ namespace Dispractice.ViewModels
     {
         [ObservableProperty]
         private Serviceman serviceman = new Serviceman();
+
+        private IServicemanService _service;
+
+        public ServicemanViewModel(IServicemanService service, NavigationService navigation)
+        {
+            _service = service;
+            SaveCommand = new RelayCommand(AddOrUpdateServiceman);
+            CancelCommand = new RelayCommand(() => { navigation.GoBack(); });
+        }
 
         public bool IsNaval
         {
@@ -28,6 +41,14 @@ namespace Dispractice.ViewModels
             {
                 return IsNaval ? RankData.NavalRanks : RankData.Ranks;
             }
+        }
+
+        public ICommand SaveCommand { get; set; }
+        public ICommand CancelCommand { get; set; }
+
+        public void AddOrUpdateServiceman()
+        {
+            throw new NotImplementedException();
         }
     }
 }

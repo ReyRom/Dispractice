@@ -10,5 +10,9 @@ namespace Dispractice.Services
     public interface IServicemanService
     {
         public IQueryable<Serviceman> GetServicemenSortedByRank();
+
+        public void AddOrUpdateServiceman(Serviceman serviceman);
+        public void UpdateServiceman(Serviceman serviceman);
+        IQueryable<MilitaryUnit> GetMilitaryUnits();
     }
 }

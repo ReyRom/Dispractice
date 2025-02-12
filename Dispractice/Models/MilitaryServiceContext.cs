@@ -5,30 +5,33 @@ namespace Dispractice.Models
 {
     public class MilitaryServiceContext : DbContext
     {
-        public DbSet<Serviceman> Servicemans { get; set; }
-        public DbSet<MilitaryPosition> MilitaryPositions { get; set; }
+        public DbSet<Serviceman> Servicemans { get; set; } = null!;
+        public DbSet<MilitaryPosition> MilitaryPositions { get; set; } = null!;
 
-        public DbSet<MilitaryUnit> MilitaryUnits { get; set; }
-        public DbSet<Commendation> Commendations { get; set; }
-        public DbSet<Penalty> Penalties { get; set; }
+        public DbSet<MilitaryUnit> MilitaryUnits { get; set; } = null!;
+        public DbSet<Commendation> Commendations { get; set; } = null!;
+        public DbSet<Penalty> Penalties { get; set; } = null!;
 
         public MilitaryServiceContext(DbContextOptions<MilitaryServiceContext> options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseSqlite(App.Configuration.GetSection("ConnectionStrings")["DefaultConnection"]);
 
-            optionsBuilder.UseSqlite(App.Configuration["ConnectionString"]);
+            base.OnConfiguring(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<MilitaryUnit>().HasData(
+                new MilitaryUnit() { Id = 1, Name = "Воинская часть", ParentUnitId = null }
+            );
 
-            // Дополнительная настройка моделей (если требуется)
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

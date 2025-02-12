@@ -25,7 +25,7 @@ public partial class MainViewModel : ViewModelBase
         NavigationList = new List<ViewModelBase>()
         {
             _navigation.CreateNavigatable<ServicemanListViewModel>(),
-
+            _navigation.CreateNavigatable<UnitListViewModel>(),
         };
         NavigateTo(NavigationList.First());
     }

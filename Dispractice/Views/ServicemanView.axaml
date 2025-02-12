@@ -40,6 +40,7 @@
 				<TextBlock Text="Год начала службы:" Width="140" VerticalAlignment="Center"/>
 				<TextBox Text="{Binding Serviceman.ServiceStartYear}" Width="300"/>
 			</StackPanel>
+
 			
 		</StackPanel>
 

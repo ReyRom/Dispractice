@@ -13,38 +13,49 @@
 	<Design.DataContext>
 		<vmd:UnitListViewModelDesign/>
 	</Design.DataContext>
-	<ScrollViewer>
-		<TreeView ItemsSource="{Binding Units}">
-			<TreeView.Styles>
-				<Style Selector="TreeViewItem">
-					<Setter Property="IsExpanded" Value="True"/>
-				</Style>
-			</TreeView.Styles>
-			<TreeView.ItemTemplate>
-				<e:TreeItemsTemplateSelector>
-					<TreeDataTemplate x:Key="m:MilitaryUnit" ItemsSource="{Binding SubElements}" DataType="m:MilitaryUnit">
-						<Panel>
-							<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-								<Button Margin="0 5 5 5" Content="Редактировать"/>
-								<Button Margin="0 5 5 5" Content="Сохранить" IsVisible="False"/>
-								<Button Margin="0 5 5 5" Command="{Binding $parent[UserControl].DataContext.RemoveCommand}" CommandParameter="{Binding}" Content="Удалить" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>
-								<Button Margin="0 5 5 5" Command="{Binding $parent[UserControl].DataContext.AddCommand}" CommandParameter="{Binding}" Content="+"/>
-							</StackPanel>
-						</Panel>
-					</TreeDataTemplate>
-					<TreeDataTemplate x:Key="m:MilitaryPosition" ItemsSource="{Binding SubElements}" DataType="m:MilitaryPosition">
-						<Panel>
-							<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-								<Button Margin="0 5 5 5" Content="Редактировать"/>
-								<Button Margin="0 5 5 5" Content="Сохранить" IsVisible="False"/>
-								<Button Margin="0 5 5 5" Command="{Binding $parent[UserControl].DataContext.RemoveCommand}" CommandParameter="{Binding}" Content="Удалить" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>
-							</StackPanel>
-						</Panel>
-					</TreeDataTemplate>
-				</e:TreeItemsTemplateSelector>
-			</TreeView.ItemTemplate>
-		</TreeView>
-	</ScrollViewer>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5" IsVisible="{Binding IsChanged}">
+			<TextBlock Text="Структура подразделений содержит несохраненные изменения" VerticalAlignment="Center"/>
+			<Button Content="Сохранить" Command="{Binding SaveCommand}" Margin="10,0,0,0" Width="100"/>
+		</StackPanel>
+		<ScrollViewer Grid.Row="1">
+			<TreeView ItemsSource="{Binding Units}">
+				<TreeView.Styles>
+					<Style Selector="TreeViewItem">
+						<Setter Property="IsExpanded" Value="True"/>
+					</Style>
+				</TreeView.Styles>
+				<TreeView.ItemTemplate>
+					<e:TreeItemsTemplateSelector>
+						<TreeDataTemplate x:Key="m:MilitaryUnit" ItemsSource="{Binding SubElements}" DataType="m:MilitaryUnit">
+							<Panel>
+								<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+									<Button Margin="0 5 5 5" Content="Редактировать"/>
+									<Button Margin="0 5 5 5" Content="Сохранить" IsVisible="False"/>
+									<Button Margin="0 5 5 5" Command="{Binding $parent[UserControl].DataContext.RemoveCommand}" CommandParameter="{Binding}" Content="Удалить" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>
+									<Button Margin="0 5 5 5" Command="{Binding $parent[UserControl].DataContext.AddCommand}" CommandParameter="{Binding}" Content="+"/>
+								</StackPanel>
+							</Panel>
+						</TreeDataTemplate>
+						<TreeDataTemplate x:Key="m:MilitaryPosition" ItemsSource="{Binding SubElements}" DataType="m:MilitaryPosition">
+							<Panel>
+								<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+									<Button Margin="0 5 5 5" Content="Редактировать"/>
+									<Button Margin="0 5 5 5" Content="Сохранить" IsVisible="False"/>
+									<Button Margin="0 5 5 5" Command="{Binding $parent[UserControl].DataContext.RemoveCommand}" CommandParameter="{Binding}" Content="Удалить" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>
+								</StackPanel>
+							</Panel>
+						</TreeDataTemplate>
+					</e:TreeItemsTemplateSelector>
+				</TreeView.ItemTemplate>
+			</TreeView>
+		</ScrollViewer>	
+	</Grid>
+	
 </UserControl>

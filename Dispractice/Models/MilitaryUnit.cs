@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Dispractice.Models
 {
@@ -17,6 +18,8 @@ namespace Dispractice.Models
         [Required]
         [StringLength(100)]
         public string Name { get; set; } // Название подразделения
+        [AllowNull]
+        public string? ShortName { get; set; } // Краткое название подразделения
 
         // Ссылка на родительское подразделение (если есть)
         [ForeignKey("ParentUnit")]

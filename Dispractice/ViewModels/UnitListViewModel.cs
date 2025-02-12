@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Dispractice.Models;
+using Dispractice.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,9 +17,15 @@ namespace Dispractice.ViewModels
 
         public ICommand AddCommand {  get; set; }
         public ICommand RemoveCommand { get; set; }
+        public ICommand SaveCommand { get; set; }
 
-        public UnitListViewModel()
+
+        IServicemanService _service;
+        public UnitListViewModel(IServicemanService service)
         {
+            _service = service;
+            Units = new ObservableCollection<IMilitaryTreeNode>(_service.GetMilitaryUnits());
+            PageName = "Список подразделений";
             AddCommand = new RelayCommand<MilitaryUnit>(AddUnit);
             RemoveCommand = new RelayCommand<MilitaryUnit>(RemoveUnit, u=>u.ParentUnit!=null);
         }

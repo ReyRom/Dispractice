@@ -3,6 +3,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Dispractice.Extensions;
+using Dispractice.Models;
 using Dispractice.Services;
 using Dispractice.ViewModels;
 using Dispractice.Views;
@@ -33,8 +34,14 @@ public partial class App : Application
         collection.AddSingleton<NavigationService>();
         collection.AddScoped<IServicemanService,ServicemanService>();
         collection.AddSingleton<MainViewModel>();
+
         collection.AddTransient<ServicemanListViewModel>();
         collection.AddTransient<ServicemanViewModel>();
+        collection.AddTransient<UnitListViewModel>();
+
+
+
+        collection.AddDbContext<MilitaryServiceContext>();
 
 
         IConfigurationBuilder builder = new ConfigurationBuilder();

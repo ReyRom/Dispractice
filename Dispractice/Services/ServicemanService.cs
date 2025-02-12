@@ -110,5 +110,27 @@ namespace Dispractice.Services
                 _context.SaveChanges();
             }*/
         }
+
+        public void AddOrUpdateServiceman(Serviceman serviceman)
+        {
+            _context.Servicemans.Update(serviceman);
+            _context.SaveChanges();
+        }
+
+
+
+        public void UpdateServiceman(Serviceman serviceman)
+        {
+            
+        }
+
+        public IQueryable<MilitaryUnit> GetMilitaryUnits()
+        {
+            var units = _context.MilitaryUnits
+                .Include(u => u.SubUnits)
+                .ThenInclude(u => u.SubUnits)
+                .AsQueryable();
+            return units;
+        }
     }
 }
