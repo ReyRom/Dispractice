@@ -27,9 +27,16 @@ namespace Dispractice.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<MilitaryUnit>().Property(x => x.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<MilitaryUnit>().HasData(
                 new MilitaryUnit() { Id = 1, Name = "Воинская часть", ParentUnitId = null }
             );
+            modelBuilder.Entity<MilitaryPosition>()
+                .HasOne(e => e.Serviceman)
+                .WithOne(e => e.MilitaryPosition)
+                .HasForeignKey<Serviceman>(e => e.MilitaryPositionId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
 
             base.OnModelCreating(modelBuilder);
         }

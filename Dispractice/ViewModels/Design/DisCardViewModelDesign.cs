@@ -2,6 +2,7 @@
 using Dispractice.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -22,7 +23,7 @@ namespace Dispractice.ViewModels.Design
             var rootUnit = new MilitaryUnit
             {
                 Name = "1-я Бригада",
-                SubUnits = new List<MilitaryUnit>()
+                SubUnits = new ObservableCollection<MilitaryUnit>()
             };
 
             var subUnit = new MilitaryUnit

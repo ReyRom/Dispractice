@@ -17,7 +17,7 @@ namespace Dispractice.Models
 
         [Required]
         [StringLength(100)]
-        public string Name { get; set; } // Название подразделения
+        public string Name { get; set; } = "Подразделение";// Название подразделения
         [AllowNull]
         public string? ShortName { get; set; } // Краткое название подразделения
 

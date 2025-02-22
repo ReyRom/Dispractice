@@ -10,4 +10,7 @@
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
+	<Application.Resources>
+		<FontFamily x:Key="MaterialIcons">avares:\\Dispractice\Assets\MaterialSymbolsOutlined.ttf#MaterialSymbolsOutlined</FontFamily>
+	</Application.Resources>
 </Application>

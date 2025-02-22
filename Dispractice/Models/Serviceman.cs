@@ -29,8 +29,8 @@ namespace Dispractice.Models
         public bool IsNaval { get; set; }
 
         [ForeignKey("MilitaryPosition")]
-        public int MilitaryPositionId { get; set; }
-        public virtual MilitaryPosition MilitaryPosition { get; set; }
+        public int? MilitaryPositionId { get; set; }
+        public virtual MilitaryPosition? MilitaryPosition { get; set; }
 
         public int? ServiceStartYear { get; set; }
 
@@ -53,6 +53,6 @@ namespace Dispractice.Models
         [NotMapped]
         public IMilitaryTreeNode Element => this;
         [NotMapped]
-        public IEnumerable<IMilitaryTreeNode> SubElements => null;
+        public IEnumerable<IMilitaryTreeNode> SubElements => new List<IMilitaryTreeNode>();
     }
 }

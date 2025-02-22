@@ -14,5 +14,9 @@ namespace Dispractice.Services
         public void AddOrUpdateServiceman(Serviceman serviceman);
         public void UpdateServiceman(Serviceman serviceman);
         IQueryable<MilitaryUnit> GetMilitaryUnits();
+        public void UpdateUnitWithoutSaving(MilitaryUnit unit);
+        void RemoveUnitWithoutSaving(MilitaryUnit unit);
+        void Save();
+        void UpdatePositionWithoutSaving(MilitaryPosition position);
     }
 }

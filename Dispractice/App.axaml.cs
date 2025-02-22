@@ -38,6 +38,8 @@ public partial class App : Application
         collection.AddTransient<ServicemanListViewModel>();
         collection.AddTransient<ServicemanViewModel>();
         collection.AddTransient<UnitListViewModel>();
+        collection.AddTransient<UnitViewModel>();
+        collection.AddTransient<StructureViewModel>();
 
 
 

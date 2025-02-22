@@ -14,7 +14,7 @@ namespace Dispractice.Models
 
         [Required]
         [StringLength(100)]
-        public string Name { get; set; } // Название должности
+        public string Name { get; set; } = "Должность"; // Название должности
 
         // Ссылка на подразделение, к которому относится должность
         [ForeignKey("MilitaryUnit")]
@@ -23,8 +23,6 @@ namespace Dispractice.Models
 
 
         // Ссылка на военнослужащего, занимающего должность
-        [ForeignKey("Serviceman")]
-        public int? ServicemanId { get; set; }
         public virtual Serviceman? Serviceman { get; set; }
 
 

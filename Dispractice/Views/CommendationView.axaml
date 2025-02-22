@@ -10,9 +10,6 @@
 			 xmlns:e="using:Dispractice.Extensions"
              x:Class="Dispractice.Views.CommendationView">
 
-	<UserControl.Resources>
-		<e:DateFormatConverter x:Key="DateFormatter"/>
-	</UserControl.Resources>
 	<UserControl.DataContext>
 		<vmd:CommendationViewModelDesign/>
 	</UserControl.DataContext>
@@ -36,7 +33,7 @@
 						<DataTemplate>
 							<StackPanel Orientation="Horizontal" Spacing="3">
 								<TextBlock Text="{Binding Type}"/>
-								<TextBlock Text="{Binding DateApplied, Converter={StaticResource DateFormatter}}"/>
+								<TextBlock Text="{Binding DateApplied}"/>
 								<TextBlock Text="{Binding AppliedBy}"/>
 							</StackPanel>
 						</DataTemplate>

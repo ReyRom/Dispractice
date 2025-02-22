@@ -1,0 +1,86 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             xmlns:vmd="using:Dispractice.ViewModels.Design"
+			 xmlns:vm="using:Dispractice.ViewModels"
+			 xmlns:m="using:Dispractice.Models"
+			 xmlns:v="using:Dispractice.Views"
+			 xmlns:e="using:Dispractice.Extensions"
+			 x:Class="Dispractice.Views.StructureView"
+			 x:DataType="vm:StructureViewModel">
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/ListStyles.axaml"/>
+	</UserControl.Styles>
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+
+
+		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5" IsVisible="{Binding IsChanged}" Grid.ColumnSpan="2">
+			<TextBlock Text="Структура подразделений содержит несохраненные изменения" VerticalAlignment="Center"/>
+			<Button Content="Сохранить" Command="{Binding SaveCommand}" Margin="10,0,0,0" Width="100"/>
+		</StackPanel>
+		
+		<ScrollViewer Grid.Row="1">
+			<TreeView ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedUnit}">
+				<TreeView.Styles>
+					<Style Selector="TreeViewItem">
+						<Setter Property="IsExpanded" Value="True"/>
+					</Style>
+				</TreeView.Styles>
+				<TreeView.ItemTemplate>
+					<TreeDataTemplate ItemsSource="{Binding SubUnits}" DataType="m:MilitaryUnit">
+						<Panel>
+							<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+								<Button Content="" Command="{Binding $parent[UserControl].DataContext.EditCommand}" CommandParameter="{Binding}"/>
+								<Button Command="{Binding $parent[UserControl].DataContext.RemoveUnitCommand}" CommandParameter="{Binding}" Content="Удалить" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>
+								<Button Command="{Binding $parent[UserControl].DataContext.AddUnitCommand}" CommandParameter="{Binding}" Content="+"/>
+							</StackPanel>
+						</Panel>
+					</TreeDataTemplate>
+				</TreeView.ItemTemplate>
+			</TreeView>
+		</ScrollViewer>
+
+		<StackPanel Margin="10" Spacing="5" Grid.Column="1" Grid.Row="1">
+			<StackPanel Orientation="Horizontal" Spacing="10">
+				<TextBlock Text="Наименование:" Width="130" VerticalAlignment="Center" TextWrapping="Wrap"/>
+				<TextBox Text="{Binding SelectedUnit.Name}" Width="300"/>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal" Spacing="10" Grid.Row="1">
+				<TextBlock Text="Короткое наименование:" Width="130" VerticalAlignment="Center" TextWrapping="Wrap"/>
+				<TextBox Text="{Binding SelectedUnit.ShortName}" Width="300"/>
+			</StackPanel>
+
+			<Button Command="{Binding AddPositionCommand}" CommandParameter="{Binding SelectedUnit}">
+				<TextBlock Text="Добавить"/>
+			</Button>
+			
+			<ScrollViewer>
+				<ItemsControl ItemsSource="{Binding SelectedUnit.Positions}" Margin="15 0 15 0">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Panel MinHeight="40">
+								<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+									<Button Content="Редактировать"/>
+									<Button Content="Удалить" />
+								</StackPanel>
+							</Panel>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</ScrollViewer>
+		</StackPanel>
+		
+	</Grid>
+</UserControl>

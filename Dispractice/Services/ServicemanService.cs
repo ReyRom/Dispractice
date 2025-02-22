@@ -127,10 +127,38 @@ namespace Dispractice.Services
         public IQueryable<MilitaryUnit> GetMilitaryUnits()
         {
             var units = _context.MilitaryUnits
+                .Where(u=>u.ParentUnit == null)
                 .Include(u => u.SubUnits)
                 .ThenInclude(u => u.SubUnits)
                 .AsQueryable();
             return units;
+        }
+
+        public void UpdateUnitWithoutSaving(MilitaryUnit unit)
+        {
+            _context.Add(unit);
+        }
+
+        public void RemoveUnitWithoutSaving(MilitaryUnit unit)
+        {
+            if (unit.Id != 0)
+            {
+                _context.Remove(unit);
+            }
+            else
+            {
+                _context.Entry(unit).State = EntityState.Detached;
+            }
+        }
+
+        public void Save()
+        {
+            _context.SaveChanges();
+        }
+
+        public void UpdatePositionWithoutSaving(MilitaryPosition position)
+        {
+            _context.Add(position);
         }
     }
 }
