@@ -9,8 +9,8 @@
 	</Application.DataTemplates>
     <Application.Styles>
         <FluentTheme />
-    </Application.Styles>
+		<StyleInclude Source="/Styles/Icons.axaml"/>
+	</Application.Styles>
 	<Application.Resources>
-		<FontFamily x:Key="MaterialIcons">avares:\\Dispractice\Assets\MaterialSymbolsOutlined.ttf#MaterialSymbolsOutlined</FontFamily>
 	</Application.Resources>
 </Application>

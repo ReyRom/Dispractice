@@ -12,6 +12,7 @@
 			 x:DataType="vm:StructureViewModel">
 	<UserControl.Styles>
 		<StyleInclude Source="/Styles/ListStyles.axaml"/>
+		<StyleInclude Source="/Styles/Icons.axaml"/>
 	</UserControl.Styles>
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -61,10 +62,8 @@
 				<TextBox Text="{Binding SelectedUnit.ShortName}" Width="300"/>
 			</StackPanel>
 
-			<Button Command="{Binding AddPositionCommand}" CommandParameter="{Binding SelectedUnit}">
-				<TextBlock Text="Добавить"/>
-			</Button>
-			
+			<Button Classes="Icon Edit" Command="{Binding AddPositionCommand}" CommandParameter="{Binding SelectedUnit}"/>
+
 			<ScrollViewer>
 				<ItemsControl ItemsSource="{Binding SelectedUnit.Positions}" Margin="15 0 15 0">
 					<ItemsControl.ItemTemplate>
