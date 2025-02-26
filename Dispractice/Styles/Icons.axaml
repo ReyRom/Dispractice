@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <Design.PreviewWith>
     <Border Padding="20">
-		<Button Classes="IconFilled Delete"/>
+		<Button Classes="IconFilled Add"/>
     </Border>
   </Design.PreviewWith>
 	<Styles.Resources>
@@ -13,14 +13,21 @@
 		<Setter Property="FontFamily" Value="{StaticResource MaterialIcons}" />
 		<Setter Property="FontSize" Value="25" />
 		<Setter Property="FontWeight" Value="Regular"/>
+		<Setter Property="Padding" Value="0"/>
+		
+		
 	</Style>
 	
 	<Style Selector="Button.IconFilled">
 		<Setter Property="FontFamily" Value="{StaticResource MaterialIconsFilled}" />
 		<Setter Property="FontSize" Value="25" />
 		<Setter Property="FontWeight" Value="Regular"/>
+		<Setter Property="Padding" Value="0"/>
 	</Style>
 
+	<Style Selector="Button.Add">
+		<Setter Property="Content" Value="add"/>
+	</Style>
 	<Style Selector="Button.Edit">
 		<Setter Property="Content" Value="&#xf88d;"/>
 	</Style>
