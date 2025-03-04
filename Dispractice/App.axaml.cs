@@ -40,6 +40,7 @@ public partial class App : Application
         collection.AddTransient<UnitListViewModel>();
         collection.AddTransient<UnitViewModel>();
         collection.AddTransient<StructureViewModel>();
+        collection.AddTransient<PositionViewModel>();
 
 
 

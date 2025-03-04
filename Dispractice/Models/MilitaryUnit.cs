@@ -9,17 +9,21 @@ using System.Diagnostics.CodeAnalysis;
 namespace Dispractice.Models
 {
     // Модель подразделения
-    public class MilitaryUnit: IMilitaryTreeNode
+    [ObservableObject]
+    public partial class MilitaryUnit: IMilitaryTreeNode
     {
+        private string name = "Подразделение";
+        private string? shortName;
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int Id { get ; set; }
 
         [Required]
         [StringLength(100)]
-        public string Name { get; set; } = "Подразделение";// Название подразделения
+        public string Name { get => name; set => SetProperty(ref name ,value); }
         [AllowNull]
-        public string? ShortName { get; set; } // Краткое название подразделения
+        public string? ShortName { get => shortName; set =>SetProperty(ref shortName,value); } // Краткое название подразделения
 
         // Ссылка на родительское подразделение (если есть)
         [ForeignKey("ParentUnit")]

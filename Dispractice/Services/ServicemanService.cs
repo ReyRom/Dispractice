@@ -130,13 +130,21 @@ namespace Dispractice.Services
                 .Where(u=>u.ParentUnit == null)
                 .Include(u => u.SubUnits)
                 .ThenInclude(u => u.SubUnits)
+                .Include(u => u.Positions)
                 .AsQueryable();
             return units;
         }
 
         public void UpdateUnitWithoutSaving(MilitaryUnit unit)
         {
-            _context.Add(unit);
+            if (unit.Id != 0)
+            {
+                _context.Update(unit);
+            }
+            else
+            {
+                _context.Add(unit);
+            }
         }
 
         public void RemoveUnitWithoutSaving(MilitaryUnit unit)
@@ -158,7 +166,26 @@ namespace Dispractice.Services
 
         public void UpdatePositionWithoutSaving(MilitaryPosition position)
         {
-            _context.Add(position);
+            if (position.Id != 0)
+            {
+                _context.Update(position);
+            }
+            else
+            {
+                _context.Add(position);
+            }
+        }
+
+        public void RemovePositionWithoutSaving(MilitaryPosition position)
+        {
+            if (position.Id != 0)
+            {
+                _context.Remove(position);
+            }
+            else
+            {
+                _context.Entry(position).State = EntityState.Detached;
+            }
         }
     }
 }

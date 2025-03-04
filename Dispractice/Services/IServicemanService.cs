@@ -18,5 +18,6 @@ namespace Dispractice.Services
         void RemoveUnitWithoutSaving(MilitaryUnit unit);
         void Save();
         void UpdatePositionWithoutSaving(MilitaryPosition position);
+        void RemovePositionWithoutSaving(MilitaryPosition position);
     }
 }

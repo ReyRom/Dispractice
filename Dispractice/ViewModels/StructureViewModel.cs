@@ -27,15 +27,47 @@ namespace Dispractice.ViewModels
 
 
         public ICollection<IMilitaryTreeNode> Units { get; set; } = new ObservableCollection<IMilitaryTreeNode>();
+
+
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(SelectedUnitName), nameof(SelectedUnitShortName))]
         private MilitaryUnit selectedUnit;
+
+        public string SelectedUnitName
+        {
+            get => SelectedUnit?.Name ?? "";
+            set
+            {
+                if (SelectedUnit != null)
+                {
+                    SelectedUnit.Name = value;
+                    _service.UpdateUnitWithoutSaving(selectedUnit);
+                    IsChanged = true;
+                }
+            }
+        }
+
+        public string SelectedUnitShortName
+        {
+            get => SelectedUnit?.ShortName ?? "";
+            set
+            {
+                if (SelectedUnit != null)
+                {
+                    SelectedUnit.ShortName = value;
+                    _service.UpdateUnitWithoutSaving(selectedUnit);
+                    IsChanged = true;
+                }
+            }
+        }
 
         #region Commands
         public ICommand AddUnitCommand { get; set; }
         public ICommand AddPositionCommand { get; set; }
         public ICommand RemoveUnitCommand { get; set; }
         public ICommand SaveCommand { get; set; }
-        public ICommand EditCommand { get; set; }
+        public ICommand EditPositionCommand { get; set; }
+        public ICommand DeletePositionCommand { get; set; }
         #endregion
 
 
@@ -51,7 +83,19 @@ namespace Dispractice.ViewModels
             SaveCommand = new RelayCommand(SaveData);
 
             AddPositionCommand = new RelayCommand<MilitaryUnit>(AddPosition, u => u != null);
-            //EditCommand = new RelayCommand<MilitaryUnit>(NavigateToEdit);
+            EditPositionCommand = new RelayCommand<MilitaryPosition>(NavigateToEditPosition);
+            DeletePositionCommand = new RelayCommand<MilitaryPosition>(RemovePosition);
+        }
+
+        private void RemovePosition(MilitaryPosition? position)
+        {
+            var parent = position.MilitaryUnit;
+            if (parent != null)
+            {
+                parent.Positions.Remove(position);
+            }
+            _service.RemovePositionWithoutSaving(position);
+            IsChanged = true;
         }
 
         public void AddUnit(MilitaryUnit? unit)
@@ -92,9 +136,9 @@ namespace Dispractice.ViewModels
             IsChanged = false;
         }
 
-        public void NavigateToEdit(MilitaryUnit? unit)
+        public void NavigateToEditPosition(MilitaryPosition? position)
         {
-            _navigation.NavigateTo<UnitViewModel>(x => x.Unit = unit);
+            _navigation.NavigateTo<PositionViewModel>(x => { x.Position = position; x.IsEditMode = true; });
             IsChanged = true;
         }
     }

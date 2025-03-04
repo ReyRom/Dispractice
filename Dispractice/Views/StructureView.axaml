@@ -66,13 +66,13 @@
 				</Grid.RowDefinitions>
 
 				<TextBlock Text="Наименование:" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Row="0" Grid.Column="0"/>
-				<TextBox Text="{Binding SelectedUnit.Name}" Grid.Row="0" Grid.Column="2"/>
+				<TextBox Text="{Binding SelectedUnitName}" Grid.Row="0" Grid.Column="2"/>
 				
 				<TextBlock Text="Короткое наименование:" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Row="3" Grid.Column="0"/>
-				<TextBox Text="{Binding SelectedUnit.ShortName}" Grid.Row="3" Grid.Column="2"/>
+				<TextBox Text="{Binding SelectedUnitShortName}" Grid.Row="3" Grid.Column="2"/>
 			</Grid>
 
-			<Button Content="Добавить" Command="{Binding AddPositionCommand}" CommandParameter="{Binding SelectedUnit}"/>
+			<Button Content="Добавить штатную единицу" Command="{Binding AddPositionCommand}" CommandParameter="{Binding SelectedUnit}"/>
 
 			<ScrollViewer>
 				<ItemsControl ItemsSource="{Binding SelectedUnit.Positions}" Margin="15 0 15 0">
@@ -81,8 +81,8 @@
 							<Panel MinHeight="40">
 								<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
 								<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-									<Button Content="Редактировать"/>
-									<Button Content="Удалить" />
+									<Button Classes="Icon Edit" Command="{Binding $parent[UserControl].DataContext.EditPositionCommand}" CommandParameter="{Binding}"/>
+									<Button Classes="Icon Delete" Command="{Binding $parent[UserControl].DataContext.DeletePositionCommand}" CommandParameter="{Binding}"/>
 								</StackPanel>
 							</Panel>
 						</DataTemplate>
