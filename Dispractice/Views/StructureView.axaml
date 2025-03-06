@@ -8,6 +8,7 @@
 			 xmlns:m="using:Dispractice.Models"
 			 xmlns:v="using:Dispractice.Views"
 			 xmlns:e="using:Dispractice.Extensions"
+			 xmlns:a="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
 			 x:Class="Dispractice.Views.StructureView"
 			 x:DataType="vm:StructureViewModel">
 	<UserControl.Styles>
@@ -27,7 +28,7 @@
 
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5" IsVisible="{Binding IsChanged}" Grid.ColumnSpan="2">
 			<TextBlock Text="Структура подразделений содержит несохраненные изменения" VerticalAlignment="Center"/>
-			<Button Content="Сохранить" Command="{Binding SaveCommand}" Margin="10,0,0,0" Width="100"/>
+			<Button Content="Сохранить" Command="{Binding SaveCommand}" Margin="10,0,0,0"/>
 		</StackPanel>
 		
 		<ScrollViewer Grid.Row="1">
@@ -52,33 +53,27 @@
 			</TreeView>
 		</ScrollViewer>
 
-		<StackPanel Margin="10" Spacing="5" Grid.Column="1" Grid.Row="1">
-			<Grid>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="130"/>
-					<ColumnDefinition Width="10"/>
-					<ColumnDefinition Width="*"/>
-				</Grid.ColumnDefinitions>
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="3"/>
-					<RowDefinition Height="Auto"/>
-				</Grid.RowDefinitions>
+		<StackPanel Margin="10" Grid.Column="1" Grid.Row="1">
 
-				<TextBlock Text="Наименование:" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Row="0" Grid.Column="0"/>
-				<TextBox Text="{Binding SelectedUnitName}" Grid.Row="0" Grid.Column="2"/>
+			<TextBox Text="{Binding SelectedUnitName}"
+						a:TextFieldAssist.Label="Наименование"
+						UseFloatingWatermark="True"
+						Theme="{StaticResource OutlineTextBox}"
+						Classes="outline densed"/>
 				
-				<TextBlock Text="Короткое наименование:" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Row="3" Grid.Column="0"/>
-				<TextBox Text="{Binding SelectedUnitShortName}" Grid.Row="3" Grid.Column="2"/>
-			</Grid>
+			<TextBox Text="{Binding SelectedUnitShortName}" 
+						a:TextFieldAssist.Label="Короткое наименование"
+						UseFloatingWatermark="True"
+						Theme="{StaticResource OutlineTextBox}"
+						Classes="outline densed"/>
+			
+			<Button Margin="5" Content="Добавить штатную единицу" Command="{Binding AddPositionCommand}" CommandParameter="{Binding SelectedUnit}"/>
 
-			<Button Content="Добавить штатную единицу" Command="{Binding AddPositionCommand}" CommandParameter="{Binding SelectedUnit}"/>
-
-			<ScrollViewer>
-				<ItemsControl ItemsSource="{Binding SelectedUnit.Positions}" Margin="15 0 15 0">
-					<ItemsControl.ItemTemplate>
+			<ScrollViewer Margin="5">
+				<ListBox ItemsSource="{Binding SelectedUnit.Positions}">
+					<ListBox.ItemTemplate>
 						<DataTemplate>
-							<Panel MinHeight="40">
+							<Panel>
 								<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
 								<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 									<Button Classes="Icon Edit" Command="{Binding $parent[UserControl].DataContext.EditPositionCommand}" CommandParameter="{Binding}"/>
@@ -86,8 +81,8 @@
 								</StackPanel>
 							</Panel>
 						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-				</ItemsControl>
+					</ListBox.ItemTemplate>
+				</ListBox>
 			</ScrollViewer>
 		</StackPanel>
 		

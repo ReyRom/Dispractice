@@ -8,45 +8,47 @@
 			 xmlns:m="using:Dispractice.Models"
 			 xmlns:v="using:Dispractice.Views"
 			 xmlns:e="using:Dispractice.Extensions"
+			 xmlns:a="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
 			 x:Class="Dispractice.Views.ServicemanView">
 	<Grid RowDefinitions="*, Auto" Margin="20">
-		<StackPanel Orientation="Vertical" Spacing="10">
+		<StackPanel Orientation="Vertical">
 			<TextBlock Text="Военнослужащий" FontSize="18" FontWeight="Bold"/>
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Фамилия:" Width="140" VerticalAlignment="Center"/>
-				<TextBox Text="{Binding Serviceman.Surname}" Width="300"/>
-			</StackPanel>
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Имя:" Width="140" VerticalAlignment="Center"/>
-				<TextBox Text="{Binding Serviceman.Name}" Width="300"/>
-			</StackPanel>
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Отчество:" Width="140" VerticalAlignment="Center"/>
-				<TextBox Text="{Binding Serviceman.Patronomic}" Width="300"/>
-			</StackPanel>
+			<TextBox a:TextFieldAssist.Label="Фамилия"
+					 UseFloatingWatermark="True"
+					 Theme="{StaticResource OutlineTextBox}"
+					 Classes="outline densed"
+					 Text="{Binding Serviceman.Surname}" />
 
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Воинское звание:" Width="140" VerticalAlignment="Center"/>
-				<ComboBox ItemsSource="{Binding Ranks}" SelectedIndex="{Binding Serviceman.RankIndex}" Width="300">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<TextBlock Text="{Binding RankName}"/>
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-			</StackPanel>
+			<TextBox a:TextFieldAssist.Label="Имя"
+					 UseFloatingWatermark="True"
+					 Theme="{StaticResource OutlineTextBox}"
+					 Classes="outline densed"
+					 Text="{Binding Serviceman.Name}" />
 
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Год начала службы:" Width="140" VerticalAlignment="Center"/>
-				<TextBox Text="{Binding Serviceman.ServiceStartYear}" Width="300"/>
-			</StackPanel>
-
+			<TextBox a:TextFieldAssist.Label="Отчество"
+					 UseFloatingWatermark="True"
+					 Theme="{StaticResource OutlineTextBox}"
+					 Classes="outline densed"
+					 Text="{Binding Serviceman.Patronomic}" />
 			
+			<ComboBox Theme="{StaticResource MaterialOutlineComboBox}" a:ComboBoxAssist.Label="Воинское звание" ItemsSource="{Binding Ranks}" SelectedIndex="{Binding Serviceman.RankIndex}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding RankName}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+
+			<TextBox a:TextFieldAssist.Label="Год начала службы"
+					 UseFloatingWatermark="True"
+					 Theme="{StaticResource OutlineTextBox}"
+					 Classes="outline densed"
+					 Text="{Binding Serviceman.ServiceStartYear}" />
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal" Spacing="10" Grid.Row="1" HorizontalAlignment="Right" Margin="0,20,0,0">
-			<Button Content="Сохранить" Command="{Binding SaveCommand}" Width="100"/>
-			<Button Content="Отмена" Command="{Binding CancelCommand}" Width="100"/>
+			<Button Content="Сохранить" Command="{Binding SaveCommand}"/>
+			<Button Content="Отмена" Command="{Binding CancelCommand}"/>
 		</StackPanel>
 	</Grid>
 </UserControl>

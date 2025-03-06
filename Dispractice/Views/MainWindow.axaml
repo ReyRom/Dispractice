@@ -10,7 +10,7 @@
         Title="Dispractice">
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition MaxWidth="150"/>
+			<ColumnDefinition MaxWidth="300"/>
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
 		<ItemsControl ItemsSource="{Binding NavigationList}">

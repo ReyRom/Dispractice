@@ -138,7 +138,7 @@ namespace Dispractice.ViewModels
 
         public void NavigateToEditPosition(MilitaryPosition? position)
         {
-            _navigation.NavigateTo<PositionViewModel>(x => { x.Position = position; x.IsEditMode = true; });
+            _navigation.NavigateTo<PositionViewModel>(x => { x.Position = position; });
             IsChanged = true;
         }
     }

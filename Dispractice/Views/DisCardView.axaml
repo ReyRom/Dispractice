@@ -5,6 +5,7 @@
 			 xmlns:vmd="using:Dispractice.ViewModels.Design"
 			 xmlns:m="using:Dispractice.Models"
 			 xmlns:v="using:Dispractice.Views"
+			 xmlns:a="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Dispractice.Views.DisCardView">
 	<UserControl.DataContext>
@@ -17,13 +18,29 @@
 	
 	<StackPanel>
 		<WrapPanel Margin="5">
-			<TextBox Margin="0 0 5 5" Width="200" Text="{Binding Serviceman.Surname}" Watermark="Фамилия"/>
-			<TextBox Margin="0 0 5 5" Width="200" Text="{Binding Serviceman.Name}" Watermark="Имя"/>
-			<TextBox Margin="0 0 5 5" Width="200" Text="{Binding Serviceman.Patronomic}" Watermark="Отчество"/>
-			<ComboBox Margin="0 0 5 5" Width="200" ItemsSource="{Binding Ranks}" SelectedItem="{Binding SelectedRank}">
+			<TextBox Margin="0 0 5 5" Width="200" Text="{Binding Serviceman.Surname}" Watermark="Фамилия"
+					 a:TextFieldAssist.Label="Фамилия"
+					 UseFloatingWatermark="True"
+					 Theme="{StaticResource OutlineTextBox}"
+					 Classes="outline densed"/>
+			
+			<TextBox Margin="0 0 5 5" Width="200" Text="{Binding Serviceman.Name}" Watermark="Имя"
+					 a:TextFieldAssist.Label="Имя"
+					 UseFloatingWatermark="True"
+					 Theme="{StaticResource OutlineTextBox}"
+					 Classes="outline densed"/>
+			
+			<TextBox Margin="0 0 5 5" Width="200" Text="{Binding Serviceman.Patronomic}" Watermark="Отчество"
+					 a:TextFieldAssist.Label="Отчество"
+					 UseFloatingWatermark="True"
+					 Theme="{StaticResource OutlineTextBox}"
+					 Classes="outline densed"/>
+			
+			<ComboBox Margin="0 0 5 5" Width="200" ItemsSource="{Binding Ranks}" SelectedItem="{Binding SelectedRank}"
+					  Theme="{StaticResource MaterialOutlineComboBox}" a:ComboBoxAssist.Label="Воинское звание">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding RankName}"/>
+						<TextBlock Text="{Binding RankName}"/> 
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
