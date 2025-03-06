@@ -42,9 +42,9 @@
 						<Panel>
 							<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-								<Button Content="" Command="{Binding $parent[UserControl].DataContext.EditCommand}" CommandParameter="{Binding}"/>
-								<Button Command="{Binding $parent[UserControl].DataContext.RemoveUnitCommand}" CommandParameter="{Binding}" Content="Удалить" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>
-								<Button Command="{Binding $parent[UserControl].DataContext.AddUnitCommand}" CommandParameter="{Binding}" Content="+"/>
+								<Button Classes="Icon Edit" Command="{Binding $parent[UserControl].DataContext.EditCommand}" CommandParameter="{Binding}"/>
+								<Button Classes="Icon Delete" Command="{Binding $parent[UserControl].DataContext.RemoveUnitCommand}" CommandParameter="{Binding}" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>
+								<Button Classes="Icon Add" Command="{Binding $parent[UserControl].DataContext.AddUnitCommand}" CommandParameter="{Binding}"/>
 							</StackPanel>
 						</Panel>
 					</TreeDataTemplate>
@@ -53,16 +53,26 @@
 		</ScrollViewer>
 
 		<StackPanel Margin="10" Spacing="5" Grid.Column="1" Grid.Row="1">
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Наименование:" Width="130" VerticalAlignment="Center" TextWrapping="Wrap"/>
-				<TextBox Text="{Binding SelectedUnit.Name}" Width="300"/>
-			</StackPanel>
-			<StackPanel Orientation="Horizontal" Spacing="10" Grid.Row="1">
-				<TextBlock Text="Короткое наименование:" Width="130" VerticalAlignment="Center" TextWrapping="Wrap"/>
-				<TextBox Text="{Binding SelectedUnit.ShortName}" Width="300"/>
-			</StackPanel>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="130"/>
+					<ColumnDefinition Width="10"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="3"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
 
-			<Button Classes="Icon Edit" Command="{Binding AddPositionCommand}" CommandParameter="{Binding SelectedUnit}"/>
+				<TextBlock Text="Наименование:" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Row="0" Grid.Column="0"/>
+				<TextBox Text="{Binding SelectedUnitName}" Grid.Row="0" Grid.Column="2"/>
+				
+				<TextBlock Text="Короткое наименование:" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Row="3" Grid.Column="0"/>
+				<TextBox Text="{Binding SelectedUnitShortName}" Grid.Row="3" Grid.Column="2"/>
+			</Grid>
+
+			<Button Content="Добавить штатную единицу" Command="{Binding AddPositionCommand}" CommandParameter="{Binding SelectedUnit}"/>
 
 			<ScrollViewer>
 				<ItemsControl ItemsSource="{Binding SelectedUnit.Positions}" Margin="15 0 15 0">
@@ -71,8 +81,8 @@
 							<Panel MinHeight="40">
 								<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
 								<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-									<Button Content="Редактировать"/>
-									<Button Content="Удалить" />
+									<Button Classes="Icon Edit" Command="{Binding $parent[UserControl].DataContext.EditPositionCommand}" CommandParameter="{Binding}"/>
+									<Button Classes="Icon Delete" Command="{Binding $parent[UserControl].DataContext.DeletePositionCommand}" CommandParameter="{Binding}"/>
 								</StackPanel>
 							</Panel>
 						</DataTemplate>
