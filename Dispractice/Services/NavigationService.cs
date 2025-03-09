@@ -16,13 +16,13 @@ namespace Dispractice.Services
         public ViewModelBase Current => _navigationStack.Peek();
         public int Count => _navigationStack.Count;
 
-        public event EventHandler Navigated; 
+        public event EventHandler<NavigationEventArgs> Navigated; 
 
         public void NavigateTo<T>(T viewModel, Action<T>? action = null) where T : ViewModelBase
         {
             action?.Invoke(viewModel);
             _navigationStack.Push(viewModel);
-            Navigated?.Invoke(this, EventArgs.Empty);
+            Navigated?.Invoke(this, new NavigationEventArgs(typeof(T)));
         }
 
         public void NavigateTo<T>(Action<T>? action = null) where T : ViewModelBase
@@ -37,7 +37,7 @@ namespace Dispractice.Services
             {
                 _navigationStack.Pop();
             }
-            Navigated?.Invoke(this, EventArgs.Empty);
+            Navigated?.Invoke(this, new NavigationEventArgs(Current.GetType()));
         }
 
         public ViewModelBase CreateNavigatable<T>(Action<T>? action = null) where T : ViewModelBase
@@ -46,5 +46,15 @@ namespace Dispractice.Services
             action?.Invoke(viewModel);
             return viewModel;
         }
+    }
+
+    public class NavigationEventArgs : EventArgs
+    {
+        public NavigationEventArgs(Type navigatedTo)
+        {
+            NavigatedTo = navigatedTo;
+        }
+
+        public Type NavigatedTo { get; set; }
     }
 }

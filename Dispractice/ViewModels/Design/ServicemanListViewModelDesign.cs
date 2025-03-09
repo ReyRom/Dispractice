@@ -12,7 +12,7 @@ namespace Dispractice.ViewModels.Design
 {
     public class ServicemanListViewModelDesign : ServicemanListViewModel
     {
-        public ServicemanListViewModelDesign():base(App.Services.GetService<NavigationService>())
+        public ServicemanListViewModelDesign():base()
         {
             Servicemans = new ObservableCollection<Serviceman> 
             { 
