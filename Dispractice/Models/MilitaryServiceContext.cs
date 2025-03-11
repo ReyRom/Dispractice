@@ -15,6 +15,7 @@ namespace Dispractice.Models
         public MilitaryServiceContext(DbContextOptions<MilitaryServiceContext> options)
             : base(options)
         {
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 

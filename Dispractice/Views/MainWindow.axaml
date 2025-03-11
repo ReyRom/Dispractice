@@ -17,7 +17,7 @@
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
 					<Button Command="{Binding $parent[Window].DataContext.NavigateCommand}" CommandParameter="{Binding}">
-						<TextBlock Text="{Binding PageName}"/>
+						<TextBlock Text="{Binding PageName}" TextWrapping="Wrap"/>
 					</Button>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>

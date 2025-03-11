@@ -16,6 +16,9 @@ namespace Dispractice.Models
         [StringLength(100)]
         public string Name { get; set; } = "Должность"; // Название должности
 
+        [StringLength(50)]
+        public string ShortName { get; set; } 
+
         // Ссылка на подразделение, к которому относится должность
         [ForeignKey("MilitaryUnit")]
         public int MilitaryUnitId { get; set; }
