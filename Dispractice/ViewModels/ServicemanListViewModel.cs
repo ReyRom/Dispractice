@@ -14,19 +14,31 @@ namespace Dispractice.ViewModels
 {
     public partial class ServicemanListViewModel:ViewModelBase
     {
-
-        NavigationService _navigation;
-        //IServicemanService _service;
-        public ServicemanListViewModel(NavigationService navigation)
+        public ServicemanListViewModel()
         {
             PageName = "Список военнослужащих";
+        }
 
+        NavigationService _navigation;
+        IServicemanService _service;
+        public ServicemanListViewModel(IServicemanService service, NavigationService navigation): this()
+        {
             _navigation = navigation;
 
+            _navigation.Navigated += _navigation_Navigated;
             OpenServicemanCommand = new RelayCommand<Serviceman>(OpenServicemanDetails);
-            //_service = service;
+            AddServicemanCommand = new RelayCommand(OpenAddServiceman);
+            _service = service;
 
-            //Servicemans = new ObservableCollection<Serviceman>(_service.GetServicemenSortedByRank());
+            Servicemans = new ObservableCollection<Serviceman>(_service.GetServicemenSortedByRank());
+        }
+
+        private void _navigation_Navigated(object? sender, NavigationEventArgs e)
+        {
+            if(e.NavigatedTo == this.GetType())
+            {
+                Servicemans = new ObservableCollection<Serviceman>(_service.GetServicemenSortedByRank());
+            }
         }
 
         public ICommand OpenServicemanCommand { get; set; }
@@ -35,10 +47,15 @@ namespace Dispractice.ViewModels
             _navigation.NavigateTo<ServicemanViewModel>(x=>x.Serviceman = serviceman);
         }
 
+        public ICommand AddServicemanCommand { get; set; }
+        public void OpenAddServiceman()
+        {
+            _navigation.NavigateTo<ServicemanViewModel>(x => x.Serviceman = new Serviceman());
+        }
 
-        public ObservableCollection<Serviceman> Servicemans { get; set; } = new ObservableCollection<Serviceman>();
-
-        public List<MilitaryUnit> Units { get; set; } = new List<MilitaryUnit>();
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(Filtred))]
+        private ObservableCollection<Serviceman> servicemans = new ObservableCollection<Serviceman>();
 
         public IEnumerable<Serviceman> Filtred
         {
@@ -62,5 +79,13 @@ namespace Dispractice.ViewModels
         [NotifyPropertyChangedFor(nameof(Filtred))]
         [ObservableProperty]
         private MilitaryUnit selectedUnit;
+
+        public IEnumerable<MilitaryUnit> Units
+        {
+            get
+            {
+                return _service.GetMilitaryUnitsList();
+            }
+        }
     }
 }

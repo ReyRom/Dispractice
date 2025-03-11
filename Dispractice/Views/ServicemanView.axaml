@@ -2,14 +2,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="550"
              xmlns:vmd="using:Dispractice.ViewModels.Design"
 			 xmlns:vm="using:Dispractice.ViewModels"
 			 xmlns:m="using:Dispractice.Models"
 			 xmlns:v="using:Dispractice.Views"
 			 xmlns:e="using:Dispractice.Extensions"
 			 xmlns:a="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
-			 x:Class="Dispractice.Views.ServicemanView">
+			 x:Class="Dispractice.Views.ServicemanView"
+			 x:DataType="vm:ServicemanViewModel">
 	<Grid RowDefinitions="*, Auto" Margin="20">
 		<StackPanel Orientation="Vertical">
 			<TextBlock Text="Военнослужащий" FontSize="18" FontWeight="Bold"/>
@@ -31,7 +32,10 @@
 					 Classes="outline densed"
 					 Text="{Binding Serviceman.Patronomic}" />
 			
-			<ComboBox Theme="{StaticResource MaterialOutlineComboBox}" a:ComboBoxAssist.Label="Воинское звание" ItemsSource="{Binding Ranks}" SelectedIndex="{Binding Serviceman.RankIndex}">
+			<ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+					  a:ComboBoxAssist.Label="Воинское звание" 
+					  ItemsSource="{Binding Ranks}" 
+					  SelectedIndex="{Binding Serviceman.RankIndex}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<TextBlock Text="{Binding RankName}"/>
@@ -44,10 +48,32 @@
 					 Theme="{StaticResource OutlineTextBox}"
 					 Classes="outline densed"
 					 Text="{Binding Serviceman.ServiceStartYear}" />
+
+			<ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+					  a:ComboBoxAssist.Label="Подразделение" 
+					  ItemsSource="{Binding Units}" 
+					  SelectedItem="{Binding SelectedUnit}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Name}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+			<ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
+					  a:ComboBoxAssist.Label="Должность"
+					  ItemsSource="{Binding Positions, Mode=TwoWay}"
+					  SelectedItem="{Binding SelectedPosition}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<TextBlock Text="{Binding Name}"/>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal" Spacing="10" Grid.Row="1" HorizontalAlignment="Right" Margin="0,20,0,0">
 			<Button Content="Сохранить" Command="{Binding SaveCommand}"/>
+			<Button Content="Удалить" Command="{Binding DeleteCommand}"/>
 			<Button Content="Отмена" Command="{Binding CancelCommand}"/>
 		</StackPanel>
 	</Grid>

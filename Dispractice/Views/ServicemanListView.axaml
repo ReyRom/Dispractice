@@ -11,9 +11,6 @@
 			 xmlns:a="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
              x:Class="Dispractice.Views.ServicemanListView"
 			 x:DataType="vm:ServicemanListViewModel">
-	<UserControl.DataContext>
-		<vmd:ServicemanListViewModelDesign/>
-	</UserControl.DataContext>
 	<Design.DataContext>
 		<vmd:ServicemanListViewModelDesign/>
 	</Design.DataContext>
@@ -39,21 +36,32 @@
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
 		</ScrollViewer>
-		<StackPanel Grid.Column="1" Width="250" Margin="5">
-			<TextBox a:TextFieldAssist.Label="Поиск" 
-					 UseFloatingWatermark="True" 
-					 Theme="{StaticResource OutlineTextBox}"
-					 Classes="outline densed" 
-					 Text="{Binding SearchString}" />
-			
-			<ComboBox Theme="{StaticResource MaterialOutlineComboBox}" a:ComboBoxAssist.Label="Подразделение" HorizontalAlignment="Stretch" ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedUnit}">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Name}"/>
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-		</StackPanel>
+		<DockPanel Grid.Column="1" VerticalAlignment="Stretch" LastChildFill="False">
+			<StackPanel DockPanel.Dock="Top" Width="250" Margin="5">
+				<TextBox a:TextFieldAssist.Label="Поиск"
+						 UseFloatingWatermark="True"
+						 Theme="{StaticResource OutlineTextBox}"
+						 Classes="outline densed"
+						 Text="{Binding SearchString}" />
+
+				<ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
+						  a:ComboBoxAssist.Label="Подразделение"
+						  HorizontalAlignment="Stretch"
+						  ItemsSource="{Binding Units}"
+						  SelectedItem="{Binding SelectedUnit}">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}"/>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>
+			</StackPanel>
+			<StackPanel DockPanel.Dock="Bottom" Width="250" Margin="5">
+				<Button Content="Добавить" Command="{Binding AddServicemanCommand}" />
+			</StackPanel>
+		</DockPanel>
+		
+		
 	</Grid>
 	
 </UserControl>

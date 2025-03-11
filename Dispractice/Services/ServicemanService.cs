@@ -18,7 +18,7 @@ namespace Dispractice.Services
         {
             return _context.Servicemans
                 .AsEnumerable()
-                .OrderBy(s => RankData.Ranks[s.RankIndex].SeniorityOrder)
+                .OrderByDescending(s => RankData.Ranks[s.RankIndex].SeniorityOrder)
                 .AsQueryable();
         }
 
@@ -113,7 +113,14 @@ namespace Dispractice.Services
 
         public void AddOrUpdateServiceman(Serviceman serviceman)
         {
-            _context.Servicemans.Update(serviceman);
+            if (serviceman.Id == 0)
+            {
+                _context.Servicemans.Add(serviceman);
+            }
+            else
+            {
+                _context.Servicemans.Update(serviceman);
+            }
             _context.SaveChanges();
         }
 
@@ -131,6 +138,13 @@ namespace Dispractice.Services
                 .Include(u => u.SubUnits)
                 .ThenInclude(u => u.SubUnits)
                 .Include(u => u.Positions)
+                .AsQueryable();
+            return units;
+        }
+
+        public IQueryable<MilitaryUnit> GetMilitaryUnitsList()
+        {
+            var units = _context.MilitaryUnits
                 .AsQueryable();
             return units;
         }
@@ -186,6 +200,19 @@ namespace Dispractice.Services
             {
                 _context.Entry(position).State = EntityState.Detached;
             }
+        }
+
+        public void RemoveServiceman(Serviceman serviceman)
+        {
+            if (serviceman.Id != 0)
+            {
+                _context.Remove(serviceman);
+            }
+            else
+            {
+                _context.Entry(serviceman).State = EntityState.Detached;
+            }
+            _context.SaveChanges();
         }
     }
 }
