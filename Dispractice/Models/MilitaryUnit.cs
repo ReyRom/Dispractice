@@ -22,6 +22,7 @@ namespace Dispractice.Models
         [Required]
         [StringLength(100)]
         public string Name { get => name; set => SetProperty(ref name ,value); }
+
         [AllowNull]
         public string? ShortName { get => shortName; set =>SetProperty(ref shortName,value); } // Краткое название подразделения
 

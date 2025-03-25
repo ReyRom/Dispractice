@@ -45,7 +45,6 @@ namespace Dispractice.ViewModels
             {
                 Serviceman.IsNaval = value;
                 OnPropertyChanged(nameof(IsNaval));
-                OnPropertyChanged(nameof(Ranks));
             }
         }
 
@@ -53,7 +52,7 @@ namespace Dispractice.ViewModels
         {
             get
             {
-                return IsNaval ? RankData.NavalRanks : RankData.Ranks;
+                return RankData.Ranks;
             }
         }
 

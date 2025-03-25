@@ -2,52 +2,85 @@
 {
     public static class RankData
     {
+
+
+
         public static readonly Rank[] Ranks = 
         {
-            new Rank("рядовой", "ряд.", 0),
-            new Rank("ефрейтор", "ефр.", 1),
-            new Rank("младший сержант", "мл. с-т", 2),
-            new Rank("сержант", "с-т", 3),
-            new Rank("старший сержант", "ст. с-т", 4),
-            new Rank("старшина", "с-на", 5),
-            new Rank("прапорщик", "пр-к", 6),
-            new Rank("старший прапорщик", "ст. пр-к", 7),
-            new Rank("младший лейтенант", "мл. л-т", 8),
-            new Rank("лейтенант", "л-т", 9),
-            new Rank("старший лейтенант", "ст. л-т", 10),
-            new Rank("капитан", "к-н", 11),
-            new Rank("майор", "м-р", 12),
-            new Rank("подполковник", "п/п-к", 13),
-            new Rank("полковник", "п-к", 14),
-            new Rank("генерал-майор", "г/м-р", 15),
-            new Rank("генерал-лейтенант", "г/л-т", 16),
-            new Rank("генерал-полковник", "г/п-к", 17),
-            new Rank("генерал армии", "генерал армии", 18)
-        };
-        public static readonly Rank[] NavalRanks =
-        {
-            new Rank("матрос", "м-с", 0),
-            new Rank("старший матрос", "ст. м-с", 1),
-            new Rank("старшина 2 статьи", "с-на 2 ст.", 2),
-            new Rank("старшина 1 статьи", "с-на 1 ст.", 3),
-            new Rank("главный старшина", "гл. с-на", 4),
-            new Rank("главный корабельный старшина", "гл. к. с-на", 5),
-            new Rank("мичман", "м-н", 6),
-            new Rank("старший мичман", "ст. м-н", 7),
-            new Rank("младший лейтенант", "мл. л-т", 8),
-            new Rank("лейтенант", "л-т", 9),
-            new Rank("старший лейтенант", "ст. л-т", 10),
-            new Rank("капитан-лейтенант", "к/л", 11),
-            new Rank("капитан 3 ранга", "кап. 3 р.", 12),
-            new Rank("капитан 2 ранга", "кап. 2 р.", 13),
-            new Rank("капитан 1 ранга", "кап. 1 р.", 14),
-            new Rank("контр-адмирал", "к-адм.", 15),
-            new Rank("вице-адмирал", "в-адм.", 16),
-            new Rank("адмирал", "адм.", 17),
-            new Rank("адмирал флота", "адмирал флота", 18)
-        };
+            new Rank(0, 
+                new RankInfo("рядовой", "ряд."), 
+                new RankInfo("матрос", "м-с")),
+            new Rank(1, 
+                new RankInfo("ефрейтор", "ефр."),
+                new RankInfo("старший матрос", "ст. м-с")),
+            new Rank(2, 
+                new RankInfo("младший сержант", "мл. с-т"), 
+                new RankInfo("старшина 2 статьи", "с-на 2 ст.")),
+            new Rank(3, 
+                new RankInfo("сержант", "с-т"), 
+                new RankInfo("старшина 1 статьи", "с-на 1 ст.")),
+            new Rank(4,
+                new RankInfo("старший сержант", "ст. с-т"),
+                new RankInfo("главный старшина", "гл. с-на")),
+            new Rank(5,
+                new RankInfo("старшина", "с-на"),
+                new RankInfo("главный корабельный старшина", "гл. к. с-на")),
+            new Rank(6,
+                new RankInfo("прапорщик", "пр-к"),
+                new RankInfo("мичман", "м-н")),
+            new Rank(7,
+                new RankInfo("старший прапорщик", "ст. пр-к"),
+                new RankInfo("старший мичман", "ст. м-н")),
+            new Rank(8,
+                new RankInfo("младший лейтенант", "мл. л-т"),
+                new RankInfo("младший лейтенант", "мл. л-т")),
+            new Rank(9,
+                new RankInfo("лейтенант", "л-т"),
+                new RankInfo("лейтенант", "л-т")),
+            new Rank(10,
+                new RankInfo("старший лейтенант", "ст. л-т"),
+                new RankInfo("старший лейтенант", "ст. л-т")),
+            new Rank(11,
+                new RankInfo("капитан", "к-н"),
+                new RankInfo("капитан-лейтенант", "к/л")),
+            new Rank(12,
+                new RankInfo("майор", "м-р"),
+                new RankInfo("капитан 3 ранга", "кап. 3 р.")),
+            new Rank(13,
+                new RankInfo("подполковник", "п/п-к"),
+                new RankInfo("капитан 2 ранга", "кап. 2 р.")),
+            new Rank(14,
+                new RankInfo("полковник", "п-к"),
+                new RankInfo("капитан 1 ранга", "кап. 1 р.")),
+            new Rank(15,
+                new RankInfo("генерал-майор", "г/м-р"),
+                new RankInfo("контр-адмирал", "к-адм.")),
+            new Rank(16,
+                new RankInfo("генерал-лейтенант", "г/л-т"),
+                new RankInfo("вице-адмирал", "в-адм.")),
+            new Rank(17,
+                new RankInfo("генерал-полковник", "г/п-к"),
+                new RankInfo("адмирал", "адм.")),
+            new Rank(18,
+                new RankInfo("генерал армии", "генерал армии"),
+                new RankInfo("адмирал флота", "адмирал флота"))
+                };
     }
-    public record Rank(string RankName, string ShortName, int SeniorityOrder);
+    public class Rank
+    {
+        public Rank(int seniorityOrder, RankInfo armyRank, RankInfo navalRank)
+        {
+            SeniorityOrder = seniorityOrder;
+            ArmyRank = armyRank;
+            NavalRank = navalRank;
+        }
+        public int SeniorityOrder { get; }
+        public RankInfo ArmyRank { get; }
+        public RankInfo NavalRank { get; }
+
+        public RankInfo GetRankInfo(bool isNaval) => isNaval ? NavalRank : ArmyRank;
+    }
+    public record RankInfo(string Name, string ShortName);
 }
 
 

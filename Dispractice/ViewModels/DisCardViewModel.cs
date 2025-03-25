@@ -43,6 +43,6 @@ namespace Dispractice.ViewModels
             set => Serviceman.RankIndex = value.SeniorityOrder;
         }
 
-        public Rank[] Ranks => IsNaval ? RankData.NavalRanks : RankData.Ranks;
+        public Rank[] Ranks => RankData.Ranks;
     }
 }

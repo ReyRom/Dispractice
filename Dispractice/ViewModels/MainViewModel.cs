@@ -36,7 +36,7 @@ public partial class MainViewModel : ViewModelBase
         OnPropertyChanged(nameof(Content));
     }
 
-    ICommand NavigateCommand { get; set; }
+    public ICommand NavigateCommand { get; set; }
     public ICollection<ViewModelBase> NavigationList { get; private set; }
     public void NavigateTo(ViewModelBase page)
     {

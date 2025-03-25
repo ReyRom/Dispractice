@@ -30,14 +30,14 @@ namespace Dispractice.ViewModels
             AddServicemanCommand = new RelayCommand(OpenAddServiceman);
             _service = service;
 
-            Servicemans = new ObservableCollection<Serviceman>(_service.GetServicemenSortedByRank());
+            Servicemans = new ObservableCollection<Serviceman>(_service.GetServicemenSortedByRankAsync().Result);
         }
 
         private void _navigation_Navigated(object? sender, NavigationEventArgs e)
         {
             if(e.NavigatedTo == this.GetType())
             {
-                Servicemans = new ObservableCollection<Serviceman>(_service.GetServicemenSortedByRank());
+                Servicemans = new ObservableCollection<Serviceman>(_service.GetServicemenSortedByRankAsync().Result);
             }
         }
 

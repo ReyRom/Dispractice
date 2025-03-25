@@ -1,11 +1,13 @@
 ﻿using Dispractice.Models;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Dispractice.Services
 {
     public interface IServicemanService
     {
-        IQueryable<Serviceman> GetServicemenSortedByRank();
+        Task<IEnumerable<Serviceman>> GetServicemenSortedByRankAsync();
 
         void AddOrUpdateServiceman(Serviceman serviceman);
         void UpdateServiceman(Serviceman serviceman);

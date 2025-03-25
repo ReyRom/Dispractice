@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Dispractice.Models
 {
@@ -16,8 +17,8 @@ namespace Dispractice.Models
         [StringLength(100)]
         public string Name { get; set; } = "Должность"; // Название должности
 
-        [StringLength(50)]
-        public string ShortName { get; set; } 
+        [AllowNull]
+        public string? ShortName { get; set; } 
 
         // Ссылка на подразделение, к которому относится должность
         [ForeignKey("MilitaryUnit")]

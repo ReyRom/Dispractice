@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Dispractice.Desktop/Dispractice.Desktop.csproj" />
+  <Project Path="Dispractice/Dispractice.csproj" />
+</Solution>

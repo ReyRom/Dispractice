@@ -40,7 +40,10 @@
 					  Theme="{StaticResource MaterialOutlineComboBox}" a:ComboBoxAssist.Label="Воинское звание">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
-						<TextBlock Text="{Binding RankName}"/> 
+						<StackPanel>
+							<TextBlock Text="{Binding ArmyRank.Name}" IsVisible="{Binding !$parent[UserControl].DataContext.IsNaval}"/>
+							<TextBlock Text="{Binding NavalRank.Name}" IsVisible="{Binding $parent[UserControl].DataContext.IsNaval}"/>
+						</StackPanel>
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
 			</ComboBox>
@@ -50,7 +53,7 @@
 		<ItemsControl ItemsSource="{Binding Commendations}">
 			<ItemsControl.ItemTemplate >
 				<DataTemplate>
-					<ContentControl Classes="Card" Margin="5 0 5 5" BorderBrush="Green">
+					<ContentControl Classes="card" Margin="5 0 5 5" BorderBrush="Green">
 						<Grid x:DataType="m:Commendation">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="2*"/>
@@ -67,7 +70,7 @@
 		<ItemsControl ItemsSource="{Binding Penalties}">
 			<ItemsControl.ItemTemplate >
 				<DataTemplate>
-					<ContentControl Classes="Card" Margin="5 0 5 5" BorderBrush="Red">
+					<ContentControl Classes="card" Margin="5 0 5 5" BorderBrush="Red">
 						<Grid x:DataType="m:Commendation">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="2*"/>

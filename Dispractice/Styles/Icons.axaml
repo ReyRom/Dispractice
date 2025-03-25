@@ -2,37 +2,36 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <Design.PreviewWith>
     <Border Padding="20">
-		<Button Classes="Icon Filled Edit"/>
+		<Button Classes="icon filled edit"/>
     </Border>
   </Design.PreviewWith>
 	<Styles.Resources>
 		<FontFamily x:Key="MaterialIcons">avares://Dispractice/Assets#Material Symbols Outlined</FontFamily>
 		<FontFamily x:Key="MaterialIconsFilled">avares://Dispractice/Assets#Material Symbols Outlined Filled</FontFamily>
 	</Styles.Resources>
-	<Style Selector="Button.Icon">
+	<Style Selector="Button.icon">
 		<Setter Property="FontFamily" Value="{StaticResource MaterialIcons}" />
 		<Setter Property="FontSize" Value="25" />
 		<Setter Property="FontWeight" Value="Regular"/>
 		<Setter Property="Padding" Value="2 0 2 0"/>
-		<Styles>
-			<Style Selector="Button.Filled">
-				<Setter Property="FontFamily" Value="{StaticResource MaterialIconsFilled}" />
-			</Style>
-		</Styles>
+		
+		<Style Selector="^.filled">
+			<Setter Property="FontFamily" Value="{StaticResource MaterialIconsFilled}" />
+		</Style>
 	</Style>
 	
 	
 
-	<Style Selector="Button.Add">
+	<Style Selector="Button.add">
 		<Setter Property="Content" Value="add"/>
 	</Style>
-	<Style Selector="Button.Edit">
+	<Style Selector="Button.edit">
 		<Setter Property="Content" Value="&#xf88d;"/>
 	</Style>
-	<Style Selector="Button.Delete">
+	<Style Selector="Button.delete">
 		<Setter Property="Content" Value="delete"/>
 	</Style>
-	<Style Selector="Button.Save">
+	<Style Selector="Button.save">
 		<Setter Property="Content" Value="save"/>
 	</Style>
 </Styles>

@@ -30,6 +30,7 @@ public partial class App : Application
 
         // Register all the services needed for the application to run
         var collection = new ServiceCollection();
+
         collection.AddCommonServices();
         collection.AddSingleton<NavigationService>();
         collection.AddScoped<IServicemanService,ServicemanService>();
@@ -41,8 +42,6 @@ public partial class App : Application
         collection.AddTransient<UnitViewModel>();
         collection.AddTransient<StructureViewModel>();
         collection.AddTransient<PositionViewModel>();
-
-
 
         collection.AddDbContext<MilitaryServiceContext>();
 

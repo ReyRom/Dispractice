@@ -44,10 +44,10 @@ namespace Dispractice.Models
 
 
         [NotMapped]
-        public string ShortServicemanString => $"{(IsNaval ? RankData.NavalRanks[RankIndex] : RankData.Ranks[RankIndex]).ShortName} {Surname} {Name[0]}.{(!String.IsNullOrWhiteSpace(Patronomic) ? " " + Patronomic[0] + "." : "")}";
+        public string ShortServicemanString => $"{(IsNaval ? RankData.Ranks[RankIndex].NavalRank : RankData.Ranks[RankIndex].ArmyRank).ShortName} {Surname} {Name[0]}.{(!String.IsNullOrWhiteSpace(Patronomic) ? " " + Patronomic[0] + "." : "")}";
         
         [NotMapped]
-        public string LongServicemanString => $"{(IsNaval ? RankData.NavalRanks[RankIndex] : RankData.Ranks[RankIndex]).RankName} {Surname} {Name} {Patronomic}";
+        public string LongServicemanString => $"{(IsNaval ? RankData.Ranks[RankIndex].NavalRank : RankData.Ranks[RankIndex].ArmyRank).Name} {Surname} {Name} {Patronomic}";
 
 
         [NotMapped]

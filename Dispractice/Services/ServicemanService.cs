@@ -1,7 +1,9 @@
 ﻿using Dispractice.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Dispractice.Services
 {
@@ -14,13 +16,12 @@ namespace Dispractice.Services
             _context = context;
         }
 
-        public IQueryable<Serviceman> GetServicemenSortedByRank()
+        public async Task<IEnumerable<Serviceman>> GetServicemenSortedByRankAsync()
         {
-            return _context.Servicemans
-                .AsEnumerable()
-                .OrderByDescending(s => RankData.Ranks[s.RankIndex].SeniorityOrder)
-                .AsQueryable();
-        }
+            return (await _context.Servicemans
+                .ToListAsync())
+                .OrderByDescending(s => RankData.Ranks[s.RankIndex].SeniorityOrder);
+        } 
 
         //public IMilitaryTreeNode GetMilitaryTree()
         //{
@@ -37,7 +38,7 @@ namespace Dispractice.Services
 
         public string GetRankName(Serviceman serviceman)
         {
-            return (serviceman.IsNaval ? RankData.NavalRanks : RankData.Ranks)[serviceman.RankIndex].RankName;
+            return (serviceman.IsNaval ? RankData.Ranks[serviceman.RankIndex].NavalRank : RankData.Ranks[serviceman.RankIndex].ArmyRank).Name;
         }
 
         //public string GetRankType(Serviceman serviceman)
