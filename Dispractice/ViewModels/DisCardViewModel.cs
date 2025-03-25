@@ -40,23 +40,13 @@ namespace Dispractice.ViewModels
         public ICollection<Commendation> Commendations => Serviceman.Commendations;
         public ICollection<Penalty> Penalties => Serviceman.Penalties;
 
-        public bool IsNaval
+        public void AddCommendation()
         {
-            get => Serviceman.IsNaval;
-            set
-            {
-                Serviceman.IsNaval = value;
-                OnPropertyChanged(nameof(Ranks));
-                OnPropertyChanged(nameof(SelectedRank));
-            }
+            _navigation.NavigateTo<CommendationViewModel>();
         }
-
-        public Rank SelectedRank
+        public void EditCommendation(Commendation commendation)
         {
-            get => Ranks[Serviceman.RankIndex];
-            set => Serviceman.RankIndex = value.SeniorityOrder;
+            _navigation.NavigateTo<CommendationViewModel>(x=>x.Commendation = commendation);
         }
-
-        public Rank[] Ranks => RankData.Ranks;
     }
 }

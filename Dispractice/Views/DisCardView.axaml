@@ -21,7 +21,11 @@
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<TextBlock Margin="10" FontSize="30" Text="{Binding Serviceman.LongServicemanString}"/>
-			<Button Classes="Icon Edit flat" VerticalAlignment="Center" Command="{Binding EditCommand}" CommandParameter="{Binding Serviceman}"/>
+			<Button Classes="icon edit flat" VerticalAlignment="Center" Command="{Binding EditCommand}" CommandParameter="{Binding Serviceman}"/>
+		</StackPanel>
+		<StackPanel Orientation="Horizontal">
+			<Button Content="Поощрение"/>
+			<Button Content="Взыскание"/>
 		</StackPanel>
 		<ItemsControl ItemsSource="{Binding Commendations}">
 			<ItemsControl.ItemTemplate >
