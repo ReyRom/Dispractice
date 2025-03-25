@@ -5,51 +5,24 @@
 			 xmlns:vmd="using:Dispractice.ViewModels.Design"
 			 xmlns:m="using:Dispractice.Models"
 			 xmlns:v="using:Dispractice.Views"
+			 xmlns:vm="using:Dispractice.ViewModels"
 			 xmlns:a="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Dispractice.Views.DisCardView">
-	<UserControl.DataContext>
+             x:Class="Dispractice.Views.DisCardView"
+			 x:DataType="vm:DisCardViewModel">
+	<Design.DataContext>
 		<vmd:DisCardViewModelDesign/>
-	</UserControl.DataContext>
+	</Design.DataContext>
 	<UserControl.Styles>
 		<StyleInclude Source="/Styles/CardStyles.axaml"/>
 	</UserControl.Styles>
 	
 	
 	<StackPanel>
-		<WrapPanel Margin="5">
-			<TextBox Margin="0 0 5 5" Width="200" Text="{Binding Serviceman.Surname}" Watermark="Фамилия"
-					 a:TextFieldAssist.Label="Фамилия"
-					 UseFloatingWatermark="True"
-					 Theme="{StaticResource OutlineTextBox}"
-					 Classes="outline densed"/>
-			
-			<TextBox Margin="0 0 5 5" Width="200" Text="{Binding Serviceman.Name}" Watermark="Имя"
-					 a:TextFieldAssist.Label="Имя"
-					 UseFloatingWatermark="True"
-					 Theme="{StaticResource OutlineTextBox}"
-					 Classes="outline densed"/>
-			
-			<TextBox Margin="0 0 5 5" Width="200" Text="{Binding Serviceman.Patronomic}" Watermark="Отчество"
-					 a:TextFieldAssist.Label="Отчество"
-					 UseFloatingWatermark="True"
-					 Theme="{StaticResource OutlineTextBox}"
-					 Classes="outline densed"/>
-			
-			<ComboBox Margin="0 0 5 5" Width="200" ItemsSource="{Binding Ranks}" SelectedItem="{Binding SelectedRank}"
-					  Theme="{StaticResource MaterialOutlineComboBox}" a:ComboBoxAssist.Label="Воинское звание">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<StackPanel>
-							<TextBlock Text="{Binding ArmyRank.Name}" IsVisible="{Binding !$parent[UserControl].DataContext.IsNaval}"/>
-							<TextBlock Text="{Binding NavalRank.Name}" IsVisible="{Binding $parent[UserControl].DataContext.IsNaval}"/>
-						</StackPanel>
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-			<CheckBox Margin="0 0 5 5" Content="ВМФ" IsChecked="{Binding IsNaval}"/>
-		</WrapPanel>
-		
+		<StackPanel Orientation="Horizontal">
+			<TextBlock Margin="10" FontSize="30" Text="{Binding Serviceman.LongServicemanString}"/>
+			<Button Classes="Icon Edit flat" VerticalAlignment="Center" Command="{Binding EditCommand}" CommandParameter="{Binding Serviceman}"/>
+		</StackPanel>
 		<ItemsControl ItemsSource="{Binding Commendations}">
 			<ItemsControl.ItemTemplate >
 				<DataTemplate>

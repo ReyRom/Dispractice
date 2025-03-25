@@ -12,7 +12,7 @@ namespace Dispractice.ViewModels.Design
 {
     public class DisCardViewModelDesign : DisCardViewModel
     {
-        public DisCardViewModelDesign() : base(null)
+        public DisCardViewModelDesign() : base()
         {
             Serviceman = GenerateTestServiceman();
         }
