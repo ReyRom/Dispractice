@@ -44,7 +44,7 @@ namespace Dispractice.ViewModels
         public ICommand OpenServicemanCommand { get; set; }
         public void OpenServicemanDetails(Serviceman serviceman)
         {
-            _navigation.NavigateTo<ServicemanViewModel>(x=>x.Serviceman = serviceman);
+            _navigation.NavigateTo<DisCardViewModel>(x=>x.Serviceman = serviceman);
         }
 
         public ICommand AddServicemanCommand { get; set; }
