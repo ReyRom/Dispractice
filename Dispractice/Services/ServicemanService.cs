@@ -16,11 +16,11 @@ namespace Dispractice.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Serviceman>> GetServicemenSortedByRankAsync()
+        public IAsyncEnumerable<Serviceman> GetServicemenSortedByRankAsync()
         {
-            return (await _context.Servicemans
-                .ToListAsync())
-                .OrderByDescending(s => RankData.Ranks[s.RankIndex].SeniorityOrder);
+            return _context.Servicemans
+                .AsAsyncEnumerable()
+                .OrderByDescending(s => RankData.Ranks[s.RankIndex].SeniorityOrder); 
         } 
 
         //public IMilitaryTreeNode GetMilitaryTree()
@@ -46,35 +46,31 @@ namespace Dispractice.Services
         //    return RankData.Ranks[serviceman.RankIndex].RankType;
         //}
 
-        public void AddCommendation(int servicemanId, string description, DateTime dateAwarded, string awardedBy, string type)
+        public async Task AddOrUpdateCommendationAsync(Commendation commendation)
         {
-            var commendation = new Commendation
+            if (commendation.Id == 0)
             {
-                ServicemanId = servicemanId,
-                Description = description,
-                DateAwarded = dateAwarded,
-                AwardedBy = awardedBy,
-                Type = type
-            };
+                await _context.Commendations.AddAsync(commendation);
+            }
+            else
+            {
+                _context.Commendations.Update(commendation);
+            }
 
-            _context.Commendations.Add(commendation);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void AddPenalty(int servicemanId, string basis, DateTime offenseDate, DateTime dateApplied, string appliedBy, DateTime? expirationDate = null)
+        public async Task AddOrUpdatePenaltyAsync(Penalty penalty)
         {
-            var penalty = new Penalty
+            if (penalty.Id == 0)
             {
-                ServicemanId = servicemanId,
-                Description = basis,
-                OffenseDate = offenseDate,
-                DateApplied = dateApplied,
-                AppliedBy = appliedBy,
-                //ExpirationDate = expirationDate
-            };
-
-            _context.Penalties.Add(penalty);
-            _context.SaveChanges();
+                await _context.Penalties.AddAsync(penalty);
+            }
+            else
+            {
+                _context.Penalties.Update(penalty);
+            }
+            await _context.SaveChangesAsync();
         }
 
         public void RemovePenalty(int penaltyId, string removedBy, DateTime dateRemoved)
@@ -112,18 +108,33 @@ namespace Dispractice.Services
             }*/
         }
 
-        public void AddOrUpdateServiceman(Serviceman serviceman)
+        public async Task AddOrUpdateServicemanAsync(Serviceman serviceman)
         {
             if (serviceman.Id == 0)
             {
-                _context.Servicemans.Add(serviceman);
+                await _context.Servicemans.AddAsync(serviceman);
             }
             else
             {
                 _context.Servicemans.Update(serviceman);
             }
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
+
+        public async Task RemoveServicemanAsync(Serviceman serviceman)
+        {
+            if (serviceman.Id != 0)
+            {
+                _context.Remove(serviceman);
+            }
+            else
+            {
+                _context.Entry(serviceman).State = EntityState.Detached;
+            }
+            await _context.SaveChangesAsync();
+        }
+
+
 
 
 
@@ -203,17 +214,6 @@ namespace Dispractice.Services
             }
         }
 
-        public void RemoveServiceman(Serviceman serviceman)
-        {
-            if (serviceman.Id != 0)
-            {
-                _context.Remove(serviceman);
-            }
-            else
-            {
-                _context.Entry(serviceman).State = EntityState.Detached;
-            }
-            _context.SaveChanges();
-        }
+        
     }
 }

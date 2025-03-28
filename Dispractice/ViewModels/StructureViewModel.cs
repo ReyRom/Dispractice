@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Dispractice.Models;
 using Dispractice.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
