@@ -143,21 +143,21 @@ namespace Dispractice.Services
             
         }
 
-        public IQueryable<MilitaryUnit> GetMilitaryUnits()
+        public async Task<IEnumerable<MilitaryUnit>> GetMilitaryUnits()
         {
-            var units = _context.MilitaryUnits
+            var units = await _context.MilitaryUnits
                 .Where(u=>u.ParentUnit == null)
                 .Include(u => u.SubUnits)
                 .ThenInclude(u => u.SubUnits)
                 .Include(u => u.Positions)
-                .AsQueryable();
+                .ToListAsync();
             return units;
         }
 
-        public IQueryable<MilitaryUnit> GetMilitaryUnitsList()
+        public async Task<IEnumerable<MilitaryUnit>> GetMilitaryUnitsList()
         {
-            var units = _context.MilitaryUnits
-                .AsQueryable();
+            var units = await _context.MilitaryUnits
+                .ToListAsync();
             return units;
         }
 

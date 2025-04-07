@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Dispractice.ViewModels
@@ -56,7 +57,7 @@ namespace Dispractice.ViewModels
             }
         }
 
-        public IEnumerable<MilitaryUnit> Units
+        public Task<IEnumerable<MilitaryUnit>> Units
         {
             get
             {
@@ -97,13 +98,13 @@ namespace Dispractice.ViewModels
 
         public void SaveServiceman()
         {
-            _service.AddOrUpdateServiceman(Serviceman);
+            _service.AddOrUpdateServicemanAsync(Serviceman);
             _navigation.GoBack();
         }
 
         public void DeleteServiceman()
         {
-            _service.RemoveServiceman(Serviceman);
+            _service.RemoveServicemanAsync(Serviceman);
             _navigation.GoBack();
         }
     }

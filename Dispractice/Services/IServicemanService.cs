@@ -7,17 +7,18 @@ namespace Dispractice.Services
 {
     public interface IServicemanService
     {
-        Task<IEnumerable<Serviceman>> GetServicemenSortedByRankAsync();
-
-        void AddOrUpdateServiceman(Serviceman serviceman);
+        IAsyncEnumerable<Serviceman> GetServicemenSortedByRankAsync();
         void UpdateServiceman(Serviceman serviceman);
-        IQueryable<MilitaryUnit> GetMilitaryUnits();
-        IQueryable<MilitaryUnit> GetMilitaryUnitsList();
+        Task<IEnumerable<MilitaryUnit>> GetMilitaryUnits();
+        Task<IEnumerable<MilitaryUnit>> GetMilitaryUnitsList();
         void UpdateUnitWithoutSaving(MilitaryUnit unit);
         void RemoveUnitWithoutSaving(MilitaryUnit unit);
         void Save();
         void UpdatePositionWithoutSaving(MilitaryPosition position);
         void RemovePositionWithoutSaving(MilitaryPosition position);
-        void RemoveServiceman(Serviceman serviceman);
+        public Task RemoveServicemanAsync(Serviceman serviceman);
+        public Task AddOrUpdateServicemanAsync(Serviceman serviceman);
+        public Task AddOrUpdateCommendationAsync(Commendation commendation);
+        public Task AddOrUpdatePenaltyAsync(Penalty penalty);
     }
 }

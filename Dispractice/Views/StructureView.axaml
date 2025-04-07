@@ -15,23 +15,13 @@
 		<StyleInclude Source="/Styles/ListStyles.axaml"/>
 		<StyleInclude Source="/Styles/Icons.axaml"/>
 	</UserControl.Styles>
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition/>
-			<ColumnDefinition/>
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition/>
-		</Grid.RowDefinitions>
-
-
+	<Grid ColumnDefinitions="*,*" RowDefinitions="Auto,*">
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5" IsVisible="{Binding IsChanged}" Grid.ColumnSpan="2">
 			<TextBlock Text="Структура подразделений содержит несохраненные изменения" VerticalAlignment="Center"/>
 			<Button Content="Сохранить" Command="{Binding SaveCommand}" Margin="10,0,0,0"/>
 		</StackPanel>
 		
-		<ScrollViewer Grid.Row="1">
+		<ScrollViewer Grid.Row="1" Grid.Column="0">
 			<TreeView ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedUnit}">
 				<TreeView.Styles>
 					<Style Selector="TreeViewItem">
@@ -43,9 +33,9 @@
 						<Panel>
 							<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-								<Button Classes="icon edit" Command="{Binding $parent[UserControl].DataContext.EditCommand}" CommandParameter="{Binding}"/>
-								<Button Classes="icon delete" Command="{Binding $parent[UserControl].DataContext.RemoveUnitCommand}" CommandParameter="{Binding}" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>
-								<Button Classes="icon add" Command="{Binding $parent[UserControl].DataContext.AddUnitCommand}" CommandParameter="{Binding}"/>
+								<Button Classes="icon edit" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).EditCommand}" CommandParameter="{Binding}"/>
+								<Button Classes="icon delete" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).RemoveUnitCommand}" CommandParameter="{Binding}" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>
+								<Button Classes="icon add" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).AddUnitCommand}" CommandParameter="{Binding}"/>
 							</StackPanel>
 						</Panel>
 					</TreeDataTemplate>
@@ -76,8 +66,8 @@
 							<Panel>
 								<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
 								<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-									<Button Classes="icon edit" Command="{Binding $parent[UserControl].DataContext.EditPositionCommand}" CommandParameter="{Binding}"/>
-									<Button Classes="icon delete" Command="{Binding $parent[UserControl].DataContext.DeletePositionCommand}" CommandParameter="{Binding}"/>
+									<Button Classes="icon edit" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).EditPositionCommand}" CommandParameter="{Binding}"/>
+									<Button Classes="icon delete" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).DeletePositionCommand}" CommandParameter="{Binding}"/>
 								</StackPanel>
 							</Panel>
 						</DataTemplate>

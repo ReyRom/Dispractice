@@ -14,7 +14,7 @@ namespace Dispractice.ViewModels.Design
     {
         public ServicemanListViewModelDesign():base()
         {
-            Servicemans = new ObservableCollection<Serviceman> 
+            Servicemans = new ObservableCollection<Serviceman>
             { 
                 new Serviceman() { Name = "Test1", Surname = "qwe", Patronomic="asd", IsNaval = false, RankIndex=0 },
                 new Serviceman() { Name = "Test2", IsNaval = false, RankIndex=0 },

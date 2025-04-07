@@ -19,7 +19,7 @@ namespace Dispractice.ViewModels
             PageName = "Список подразделений";
         }
 
-        public ObservableCollection<IMilitaryTreeNode> Units { get; set; } = new ObservableCollection<IMilitaryTreeNode>();
+        public ObservableCollection<IMilitaryTreeNode> Units { get; set; } = [];
 
         public ICommand AddCommand {  get; set; }
         public ICommand RemoveCommand { get; set; }
@@ -36,7 +36,7 @@ namespace Dispractice.ViewModels
         {
             _service = service;
             _navigation = navigation;
-            Units = new ObservableCollection<IMilitaryTreeNode>(_service.GetMilitaryUnits());
+            //Units = new ObservableCollection<IMilitaryTreeNode>(_service.GetMilitaryUnits());
             AddCommand = new RelayCommand<MilitaryUnit>(AddUnit);
             RemoveCommand = new RelayCommand<MilitaryUnit>(RemoveUnit, u=>u.ParentUnit!=null);
             SaveCommand = new RelayCommand(SaveData);
@@ -54,11 +54,8 @@ namespace Dispractice.ViewModels
         }
         public void RemoveUnit(MilitaryUnit? unit)
         {
-            var parent = unit.ParentUnit;
-            if (parent != null)
-            {
-                parent.SubUnits.Remove(unit);
-            }
+            var parent = unit?.ParentUnit;
+            parent.SubUnits.Remove(unit);
             var subunits = unit.SubUnits.ToList();
             foreach (var u in subunits)
             {

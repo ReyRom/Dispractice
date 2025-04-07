@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Dispractice.ViewModels
 {
@@ -19,5 +20,7 @@ namespace Dispractice.ViewModels
         public IEnumerable<Penalty> NotRemovedPenalties => Serviceman.Penalties.Where(x => x.DateRemoved == null);
 
         public bool IsRemove => false;
+        public ICommand SaveCommand { get; }
+        public ICommand CancelCommand { get; }
     }
 }

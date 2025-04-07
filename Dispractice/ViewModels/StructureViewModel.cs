@@ -42,7 +42,7 @@ namespace Dispractice.ViewModels
                 if (SelectedUnit != null)
                 {
                     SelectedUnit.Name = value;
-                    _service.UpdateUnitWithoutSaving(selectedUnit);
+                    _service.UpdateUnitWithoutSaving(SelectedUnit);
                     IsChanged = true;
                 }
             }
@@ -69,6 +69,8 @@ namespace Dispractice.ViewModels
         public ICommand SaveCommand { get; set; }
         public ICommand EditPositionCommand { get; set; }
         public ICommand DeletePositionCommand { get; set; }
+        public ICommand EditCommand { get; }
+
         #endregion
 
 
@@ -78,7 +80,7 @@ namespace Dispractice.ViewModels
         {
             _service = service;
             _navigation = navigation;
-            Units = new ObservableCollection<IMilitaryTreeNode>(_service.GetMilitaryUnits());
+            
             AddUnitCommand = new RelayCommand<MilitaryUnit>(AddUnit);
             RemoveUnitCommand = new RelayCommand<MilitaryUnit>(RemoveUnit, u => u.ParentUnit != null);
             SaveCommand = new RelayCommand(SaveData);
@@ -86,6 +88,13 @@ namespace Dispractice.ViewModels
             AddPositionCommand = new RelayCommand<MilitaryUnit>(AddPosition, u => u != null);
             EditPositionCommand = new RelayCommand<MilitaryPosition>(NavigateToEditPosition);
             DeletePositionCommand = new RelayCommand<MilitaryPosition>(RemovePosition);
+
+            InitializationTask = LoadUnitsAsync();
+        }
+
+        private async Task LoadUnitsAsync()
+        {
+            Units = [..await _service.GetMilitaryUnits()];
         }
 
         private void RemovePosition(MilitaryPosition? position)

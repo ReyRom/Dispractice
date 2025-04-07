@@ -21,14 +21,13 @@ public partial class MainViewModel : ViewModelBase
         _navigation = navigation;
         _navigation.Navigated += _navigation_Navigated; ;
 
-        NavigateCommand = new RelayCommand<ViewModelBase>(NavigateTo);
-        NavigationList = new List<ViewModelBase>()
+        NavigateCommand = new RelayCommand<string>(NavigateTo);
+        NavigationList = new Dictionary<string,string>()
         {
-            _navigation.CreateNavigatable<ServicemanListViewModel>(),
-            _navigation.CreateNavigatable<UnitListViewModel>(),
-            _navigation.CreateNavigatable<StructureViewModel>(),
+            { "ServicemanListViewModel", "Список военнослужащих"},
+            { "StructureViewModel", "Штат"}
         };
-        NavigateTo(NavigationList.First());
+        NavigateTo(NavigationList.First().Key);
     }
 
     private void _navigation_Navigated(object? sender, EventArgs e)
@@ -37,8 +36,8 @@ public partial class MainViewModel : ViewModelBase
     }
 
     public ICommand NavigateCommand { get; set; }
-    public ICollection<ViewModelBase> NavigationList { get; private set; }
-    public void NavigateTo(ViewModelBase page)
+    public Dictionary<string, string> NavigationList { get; private set; }
+    public void NavigateTo(string page)
     {
         _navigation.NavigateTo(page);
     }

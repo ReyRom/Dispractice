@@ -24,8 +24,12 @@
 			<Button Classes="icon edit flat" VerticalAlignment="Center" Command="{Binding EditCommand}" CommandParameter="{Binding Serviceman}"/>
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Button Content="Ïîîùðåíèå"/>
-			<Button Content="Âçûñêàíèå"/>
+			<Button>
+				<TextBlock Text="ÐŸÐ¾Ð¾Ñ‰Ñ€ÐµÐ½Ð¸Ðµ"/>
+			</Button>
+			<Button>
+				<TextBlock Text="Ð’Ð·Ñ‹ÑÐºÐ°Ð½Ð¸Ðµ"/>
+			</Button>
 		</StackPanel>
 		<ItemsControl ItemsSource="{Binding Commendations}">
 			<ItemsControl.ItemTemplate >

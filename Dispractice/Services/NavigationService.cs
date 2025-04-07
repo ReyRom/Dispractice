@@ -30,6 +30,16 @@ namespace Dispractice.Services
             var viewModel = App.Services.GetRequiredService<T>();
             NavigateTo(viewModel, action);
         }
+        public void NavigateTo(string viewModelName, Action<ViewModelBase>? action = null)
+        {
+            Type? type = Type.GetType($"Dispractice.ViewModels.{viewModelName}");
+            if (type == null)
+            {
+                throw new ArgumentException($"ViewModel {viewModelName} not found");
+            }
+            var viewModel = (ViewModelBase)App.Services.GetRequiredService(type);
+            NavigateTo(viewModel, action);
+        }
 
         public void GoBack(int steps = 1)
         {

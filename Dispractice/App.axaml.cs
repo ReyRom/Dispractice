@@ -33,7 +33,7 @@ public partial class App : Application
 
         collection.AddCommonServices();
         collection.AddSingleton<NavigationService>();
-        collection.AddScoped<IServicemanService,ServicemanService>();
+        collection.AddTransient<IServicemanService,ServicemanService>();
         collection.AddSingleton<MainViewModel>();
 
         collection.AddTransient<ServicemanListViewModel>();
@@ -43,7 +43,7 @@ public partial class App : Application
         collection.AddTransient<StructureViewModel>();
         collection.AddTransient<PositionViewModel>();
 
-        collection.AddDbContext<MilitaryServiceContext>();
+        collection.AddDbContext<MilitaryServiceContext>(ServiceLifetime.Transient);
 
 
         IConfigurationBuilder builder = new ConfigurationBuilder();

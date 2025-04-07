@@ -17,21 +17,14 @@
 	<UserControl.Styles>
 		<StyleInclude Source="/Styles/CardStyles.axaml"/>
 	</UserControl.Styles>
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition/>
-			<ColumnDefinition Width="250"/>
-		</Grid.ColumnDefinitions>
+	<Grid ColumnDefinitions="*,250">
 		<ScrollViewer>
 			<ItemsControl ItemsSource="{Binding Filtred}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<Button Classes="card" Margin="3" HorizontalAlignment="Stretch" Command="{Binding $parent[UserControl].DataContext.OpenServicemanCommand}" CommandParameter="{Binding}">
-
-							<TextBlock VerticalAlignment="Center"  Text="{Binding LongServicemanString}" HorizontalAlignment="Left"/>
-
+						<Button Classes="card" Margin="10, 3" HorizontalAlignment="Stretch" Command="{Binding $parent[UserControl].((vm:ServicemanListViewModel)DataContext).OpenServicemanCommand}" CommandParameter="{Binding}">
+							<TextBlock VerticalAlignment="Center" Text="{Binding LongServicemanString}" HorizontalAlignment="Left"/>
 						</Button>
-
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
@@ -42,12 +35,11 @@
 						 UseFloatingWatermark="True"
 						 Theme="{StaticResource OutlineTextBox}"
 						 Classes="outline densed"
-						 Text="{Binding SearchString}" />
-
+						 Text="{Binding SearchString}" TextInputOptions.ContentType="Password"/>
 				<ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
 						  a:ComboBoxAssist.Label="Подразделение"
 						  HorizontalAlignment="Stretch"
-						  ItemsSource="{Binding Units}"
+						  ItemsSource="{Binding Units^}"
 						  SelectedItem="{Binding SelectedUnit}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>

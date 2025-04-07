@@ -5,17 +5,14 @@
 			 xmlns:themes="clr-namespace:Material.Styles.Themes;assembly=Material.Styles"
              RequestedThemeVariant="Default"
 			 >
-             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 	<Application.DataTemplates>
 		<local:ViewLocator/>
 	</Application.DataTemplates>
     <Application.Styles>
-		<!--
-		<FluentTheme />
-		-->
 		<themes:MaterialTheme BaseTheme="Dark" PrimaryColor="Purple" SecondaryColor="Lime" />
 		<StyleInclude Source="/Styles/Icons.axaml"/>
 	</Application.Styles>
 	<Application.Resources>
+		
 	</Application.Resources>
 </Application>

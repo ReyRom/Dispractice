@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Dispractice.Extensions;
 using Dispractice.Models;
 using Dispractice.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,20 +26,26 @@ namespace Dispractice.ViewModels
         public ServicemanListViewModel(IServicemanService service, NavigationService navigation): this()
         {
             _navigation = navigation;
-
-            _navigation.Navigated += _navigation_Navigated;
-            OpenServicemanCommand = new RelayCommand<Serviceman>(OpenServicemanDetails);
-            AddServicemanCommand = new RelayCommand(OpenAddServiceman);
             _service = service;
 
-            Servicemans = new ObservableCollection<Serviceman>(_service.GetServicemenSortedByRankAsync().Result);
+            _navigation.Navigated += _navigation_Navigated;
+
+            OpenServicemanCommand = new RelayCommand<Serviceman>(OpenServicemanDetails);
+            AddServicemanCommand = new RelayCommand(OpenAddServiceman);
+            
+            InitializationTask = LoadServicemans();
+        }
+
+        public async Task LoadServicemans()
+        {
+            Servicemans = [..await _service.GetServicemenSortedByRankAsync().ToListAsync()];
         }
 
         private void _navigation_Navigated(object? sender, NavigationEventArgs e)
         {
             if(e.NavigatedTo == this.GetType())
             {
-                Servicemans = new ObservableCollection<Serviceman>(_service.GetServicemenSortedByRankAsync().Result);
+                InitializationTask = LoadServicemans();
             }
         }
 
@@ -53,9 +61,11 @@ namespace Dispractice.ViewModels
             _navigation.NavigateTo<ServicemanViewModel>(x => x.Serviceman = new Serviceman());
         }
 
+
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(Filtred))]
         private ObservableCollection<Serviceman> servicemans = new ObservableCollection<Serviceman>();
+
 
         public IEnumerable<Serviceman> Filtred
         {
@@ -65,12 +75,13 @@ namespace Dispractice.ViewModels
 
                 if (SelectedUnit != null)
                 {
-                    filtred = filtred.Where(x => x.MilitaryPosition.MilitaryUnit == SelectedUnit);
+                    filtred = filtred.Where(x => x.MilitaryPosition?.MilitaryUnit == SelectedUnit);
                 }
 
                 return filtred.Where(x=>x.LongServicemanString.Contains(SearchString, StringComparison.InvariantCultureIgnoreCase));
             }
         }
+
 
         [NotifyPropertyChangedFor(nameof(Filtred))]
         [ObservableProperty]
@@ -80,7 +91,8 @@ namespace Dispractice.ViewModels
         [ObservableProperty]
         private MilitaryUnit selectedUnit;
 
-        public IEnumerable<MilitaryUnit> Units
+
+        public Task<IEnumerable<MilitaryUnit>> Units
         {
             get
             {

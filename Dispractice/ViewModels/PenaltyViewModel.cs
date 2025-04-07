@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Dispractice.ViewModels
 {
@@ -20,5 +21,8 @@ namespace Dispractice.ViewModels
         {
             PageName = "Взыскание";
         }
+
+        public ICommand SaveCommand { get; }
+        public ICommand CancelCommand { get; }
     }
 }

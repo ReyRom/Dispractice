@@ -7,7 +7,8 @@
         mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="768"
         x:Class="Dispractice.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Dispractice">
+        Title="Dispractice"
+        x:DataType="vm:MainViewModel">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition MaxWidth="300"/>
@@ -16,8 +17,8 @@
 		<ItemsControl ItemsSource="{Binding NavigationList}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Button Command="{Binding $parent[Window].DataContext.NavigateCommand}" CommandParameter="{Binding}">
-						<TextBlock Text="{Binding PageName}" TextWrapping="Wrap"/>
+					<Button Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateCommand}" CommandParameter="{Binding Key}">
+						<TextBlock Text="{Binding Value}" TextWrapping="Wrap"/>
 					</Button>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>

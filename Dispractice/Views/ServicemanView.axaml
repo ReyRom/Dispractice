@@ -32,21 +32,25 @@
 					 Classes="outline densed"
 					 Text="{Binding Serviceman.Patronomic}" />
 			
-			<ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
-					  a:ComboBoxAssist.Label="Воинское звание" 
-					  ItemsSource="{Binding Ranks}" 
-					  SelectedIndex="{Binding Serviceman.RankIndex}">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<StackPanel>
-							<TextBlock Text="{Binding ArmyRank.Name}" IsVisible="{Binding !$parent[UserControl].DataContext.IsNaval}"/>
-							<TextBlock Text="{Binding NavalRank.Name}" IsVisible="{Binding $parent[UserControl].DataContext.IsNaval}"/>
-						</StackPanel>
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-
-			<CheckBox Content="ВМФ" IsChecked="{Binding IsNaval}"/>
+			<Grid ColumnDefinitions="*,Auto">
+				<ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
+                		  a:ComboBoxAssist.Label="Воинское звание" 
+                		  ItemsSource="{Binding Ranks}" 
+                		  SelectedIndex="{Binding Serviceman.RankIndex}">
+                	<ComboBox.ItemTemplate>
+                		<DataTemplate>
+                			<StackPanel>
+                				<TextBlock Text="{Binding ArmyRank.Name}" IsVisible="{Binding !$parent[UserControl].((vm:ServicemanViewModel)DataContext).IsNaval}"/>
+                				<TextBlock Text="{Binding NavalRank.Name}" IsVisible="{Binding $parent[UserControl].((vm:ServicemanViewModel)DataContext).IsNaval}"/>
+                			</StackPanel>
+                		</DataTemplate>
+                	</ComboBox.ItemTemplate>
+                </ComboBox>
+                <CheckBox
+	                Grid.Column="1" Margin="15" 
+	                Content="ВМФ" IsChecked="{Binding IsNaval}"/>
+			</Grid>
+			
 
 			<TextBox a:TextFieldAssist.Label="Год начала службы"
 					 UseFloatingWatermark="True"
@@ -56,7 +60,7 @@
 
 			<ComboBox Theme="{StaticResource MaterialOutlineComboBox}" 
 					  a:ComboBoxAssist.Label="Подразделение" 
-					  ItemsSource="{Binding Units}" 
+					  ItemsSource="{Binding Units^}" 
 					  SelectedItem="{Binding SelectedUnit}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>

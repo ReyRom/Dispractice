@@ -13,6 +13,7 @@
 	<UserControl.DataContext>
 		<vmd:PositionListViewModelDesign/>
 	</UserControl.DataContext>
+
 	<Grid RowDefinitions="Auto, *" Margin="10">
 		<TextBlock Text="{Binding MilitaryUnit.Name}" Margin="10" IsVisible="{Binding !IsEditMode}"/>
 		<TextBox Text="{Binding MilitaryUnit.Name}" Margin="5" IsVisible="{Binding IsEditMode}"/>
@@ -22,7 +23,7 @@
 					<DataTemplate>
 						<Panel MinHeight="40">
 							<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" IsVisible="{Binding $parent[UserControl].DataContext.IsEditMode}">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right" IsVisible="{Binding $parent[UserControl].((vm:PositionListViewModel)DataContext).IsEditMode}">
 								<Button Margin="0 5 5 5" Content="Редактировать"/>
 								<Button Margin="0 5 5 5" Content="Сохранить" IsVisible="False"/>
 								<Button Margin="0 5 5 5" Content="Удалить" />
