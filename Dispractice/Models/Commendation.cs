@@ -28,8 +28,7 @@ namespace Dispractice.Models
         public string AwardedBy { get; set; }
 
         [Required]
-        [StringLength(50)]
-        public string Type { get; set; }
+        public CommendationType Type { get; set; }
     }
 
     public enum CommendationType

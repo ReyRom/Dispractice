@@ -21,8 +21,7 @@ namespace Dispractice.Models
         public string Description { get; set; } // Основание применения взыскания
 
         [Required]
-        [StringLength(50)]
-        public string Type { get; set; }
+        public PenaltyType Type { get; set; }
 
         [Required]
         public DateTime OffenseDate { get; set; } // Когда совершен проступок
