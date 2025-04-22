@@ -26,7 +26,7 @@
 					</Style>
 				</TreeView.Styles>
 				<TreeView.ItemTemplate>
-					<TreeDataTemplate ItemsSource="{Binding SubUnits}" DataType="m:MilitaryUnit">
+					<TreeDataTemplate ItemsSource="{Binding SubUnits}" DataType="m:Unit">
 						<Panel>
 							<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

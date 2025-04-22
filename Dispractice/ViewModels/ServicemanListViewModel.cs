@@ -75,7 +75,7 @@ namespace Dispractice.ViewModels
 
                 if (SelectedUnit != null)
                 {
-                    filtred = filtred.Where(x => x.MilitaryPosition?.MilitaryUnit == SelectedUnit);
+                    filtred = filtred.Where((Func<Serviceman, bool>)(x => x.Position?.Unit == SelectedUnit));
                 }
 
                 return filtred.Where(x=>x.LongServicemanString.Contains(SearchString, StringComparison.InvariantCultureIgnoreCase));
@@ -89,10 +89,10 @@ namespace Dispractice.ViewModels
 
         [NotifyPropertyChangedFor(nameof(Filtred))]
         [ObservableProperty]
-        private MilitaryUnit selectedUnit;
+        private Unit selectedUnit;
 
 
-        public Task<IEnumerable<MilitaryUnit>> Units
+        public Task<IEnumerable<Unit>> Units
         {
             get
             {

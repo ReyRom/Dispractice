@@ -9,13 +9,13 @@ namespace Dispractice.Services
     {
         IAsyncEnumerable<Serviceman> GetServicemenSortedByRankAsync();
         void UpdateServiceman(Serviceman serviceman);
-        Task<IEnumerable<MilitaryUnit>> GetMilitaryUnits();
-        Task<IEnumerable<MilitaryUnit>> GetMilitaryUnitsList();
-        void UpdateUnitWithoutSaving(MilitaryUnit unit);
-        void RemoveUnitWithoutSaving(MilitaryUnit unit);
+        Task<IEnumerable<Unit>> GetMilitaryUnits();
+        Task<IEnumerable<Unit>> GetMilitaryUnitsList();
+        void UpdateUnitWithoutSaving(Unit unit);
+        void RemoveUnitWithoutSaving(Unit unit);
         void Save();
-        void UpdatePositionWithoutSaving(MilitaryPosition position);
-        void RemovePositionWithoutSaving(MilitaryPosition position);
+        void UpdatePositionWithoutSaving(Position position);
+        void RemovePositionWithoutSaving(Position position);
         public Task RemoveServicemanAsync(Serviceman serviceman);
         public Task AddOrUpdateServicemanAsync(Serviceman serviceman);
         public Task AddOrUpdateCommendationAsync(Commendation commendation);

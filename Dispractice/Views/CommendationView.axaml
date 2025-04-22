@@ -27,12 +27,19 @@
 						 Classes="outline densed"
 						 Text="{Binding Serviceman}" IsEnabled="False"/>
 
-
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Вид поощрения:" Width="130" VerticalAlignment="Center"/>
-				<TextBox Text="{Binding Commendation.Type, Mode=TwoWay}" Width="300"/>
-			</StackPanel>
-			
+			<ComboBox
+				Theme="{StaticResource MaterialOutlineComboBox}"
+				a:ComboBoxAssist.Label="Вид поощрения"
+				ItemsSource="{Binding CommendationTypes}"
+				SelectedItem="{Binding SelectedCommendationType}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal" Spacing="3">
+							<TextBlock Text="{Binding Value}"/>
+						</StackPanel>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
 			
 			<ComboBox 
 				IsVisible="{Binding IsRemove}"
@@ -62,15 +69,17 @@
 				a:TextFieldAssist.Label="Дата поощрения"
 				SelectedDate="{Binding Commendation.DateAwarded, Mode=TwoWay}"/>
 
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Кем поощрен:" Width="130" VerticalAlignment="Center"/>
-				<TextBox Text="{Binding Commendation.AwardedBy, Mode=TwoWay}" Width="300"/>
-			</StackPanel>	
+			<TextBox a:TextFieldAssist.Label="Кем поощрен"
+						 UseFloatingWatermark="True"
+						 Theme="{StaticResource OutlineTextBox}"
+						 Classes="outline densed"
+						 Text="{Binding Commendation.AwardedBy}"/>
+			
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal" Spacing="10" Grid.Row="1" HorizontalAlignment="Right" Margin="0,20,0,0">
-			<Button Content="Сохранить" Command="{Binding SaveCommand}" Width="100"/>
-			<Button Content="Отмена" Command="{Binding CancelCommand}" Width="100"/>
+			<Button Content="Сохранить" Command="{Binding SaveCommand}"/>
+			<Button Content="Отмена" Command="{Binding CancelCommand}"/>
 		</StackPanel>
 	</Grid>
 </UserControl>

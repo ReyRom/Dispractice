@@ -20,7 +20,7 @@
 						 UseFloatingWatermark="True"
 						 Theme="{StaticResource OutlineTextBox}"
 						 Classes="outline densed"
-						 Text="{Binding Position.MilitaryUnit.Name}" IsEnabled="False"/>
+						 Text="{Binding Position.Unit.Name}" IsEnabled="False"/>
 		
 			<TextBox a:TextFieldAssist.Label="Должность"
 						 UseFloatingWatermark="True"

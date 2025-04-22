@@ -29,9 +29,9 @@
 					</Style>
 				</TreeView.Styles>
 				<TreeView.ItemTemplate>
-					<TreeDataTemplate ItemsSource="{Binding SubUnits}" DataType="m:MilitaryUnit">
+					<TreeDataTemplate ItemsSource="{Binding SubUnits}" DataType="m:Unit">
 						<Panel>
-							<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
+							<TextBlock VerticalAlignment="Center" Text="{Binding Name}" HorizontalAlignment="Left"/>
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 								<Button Classes="icon edit" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).EditCommand}" CommandParameter="{Binding}"/>
 								<Button Classes="icon delete" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).RemoveUnitCommand}" CommandParameter="{Binding}" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>

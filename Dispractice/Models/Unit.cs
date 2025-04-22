@@ -5,12 +5,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Diagnostics.CodeAnalysis;
+using Dispractice.Extensions;
 
 namespace Dispractice.Models
 {
     // Модель подразделения
     [ObservableObject]
-    public partial class MilitaryUnit: IMilitaryTreeNode
+    public partial class Unit
     {
         private string name = "Подразделение";
         private string? shortName;
@@ -29,31 +30,23 @@ namespace Dispractice.Models
         // Ссылка на родительское подразделение (если есть)
         [ForeignKey("ParentUnit")]
         public int? ParentUnitId { get; set; }
-        public virtual MilitaryUnit? ParentUnit { get; set; }
+        public virtual Unit? ParentUnit { get; set; }
+
+
 
         // Список дочерних подразделений
-        public virtual ICollection<MilitaryUnit> SubUnits { get; set; }  = new ObservableCollection<MilitaryUnit>();
+        public virtual ICollection<Unit> SubUnits { get; set; }  = new ObservableCollection<Unit>();
 
         // Список воинских должностей в этом подразделении
-        public virtual ICollection<MilitaryPosition> Positions { get; set; } = new ObservableCollection<MilitaryPosition>();
+        public virtual ICollection<Position> Positions { get; set; } = new ObservableCollection<Position>();
 
-
-
-
-        [NotMapped]
-        public IMilitaryTreeNode Element => this;
-        [NotMapped]
-        public IEnumerable<IMilitaryTreeNode> SubElements => Positions.Cast<IMilitaryTreeNode>().Union(SubUnits);
-
-
-
-        public IEnumerable<MilitaryPosition> GetSubPositions(bool recursive = true)
+        public IEnumerable<Position> GetSubPositions(bool recursive = true)
         {
-            List<MilitaryPosition> positions = new List<MilitaryPosition>(Positions);
+            List<Position> positions = new List<Position>(Positions);
 
             if (recursive)
             {
-                foreach (MilitaryUnit unit in SubUnits)
+                foreach (Unit unit in SubUnits)
                 {
                     positions.AddRange(unit.GetSubPositions(recursive));
                 }

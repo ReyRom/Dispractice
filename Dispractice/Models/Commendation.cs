@@ -50,5 +50,10 @@ namespace Dispractice.Models
             { CommendationType.Gift, "Награждение ценным подарком" },
             { CommendationType.Medal, "Награждение медалью" }
         };
+
+        public static string GetDescription(this CommendationType type)
+        {
+            return Info[type];
+        }
     }
 }

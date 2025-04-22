@@ -20,7 +20,7 @@ namespace Dispractice.Services
         {
             return _context.Servicemans
                 .AsAsyncEnumerable()
-                .OrderByDescending(s => RankData.Ranks[s.RankIndex].SeniorityOrder); 
+                .OrderByDescending(s => s.Rank.GetRank().SeniorityOrder); 
         } 
 
         //public IMilitaryTreeNode GetMilitaryTree()
@@ -38,7 +38,7 @@ namespace Dispractice.Services
 
         public string GetRankName(Serviceman serviceman)
         {
-            return (serviceman.IsNaval ? RankData.Ranks[serviceman.RankIndex].NavalRank : RankData.Ranks[serviceman.RankIndex].ArmyRank).Name;
+            return serviceman.Rank.GetRankInfo(serviceman.IsNaval).Name;
         }
 
         //public string GetRankType(Serviceman serviceman)
@@ -84,7 +84,7 @@ namespace Dispractice.Services
                     Description = $"Penalty removed: {penalty.Description}",
                     DateAwarded = dateRemoved,
                     AwardedBy = removedBy,
-                    Type = "Penalty Removal"
+                    //Type = "Penalty Removal"
                 };
 
                 _context.Commendations.Add(commendation);
@@ -143,9 +143,9 @@ namespace Dispractice.Services
             
         }
 
-        public async Task<IEnumerable<MilitaryUnit>> GetMilitaryUnits()
+        public async Task<IEnumerable<Unit>> GetMilitaryUnits()
         {
-            var units = await _context.MilitaryUnits
+            var units = await _context.Units
                 .Where(u=>u.ParentUnit == null)
                 .Include(u => u.SubUnits)
                 .ThenInclude(u => u.SubUnits)
@@ -154,14 +154,14 @@ namespace Dispractice.Services
             return units;
         }
 
-        public async Task<IEnumerable<MilitaryUnit>> GetMilitaryUnitsList()
+        public async Task<IEnumerable<Unit>> GetMilitaryUnitsList()
         {
-            var units = await _context.MilitaryUnits
+            var units = await _context.Units
                 .ToListAsync();
             return units;
         }
 
-        public void UpdateUnitWithoutSaving(MilitaryUnit unit)
+        public void UpdateUnitWithoutSaving(Unit unit)
         {
             if (unit.Id != 0)
             {
@@ -173,7 +173,7 @@ namespace Dispractice.Services
             }
         }
 
-        public void RemoveUnitWithoutSaving(MilitaryUnit unit)
+        public void RemoveUnitWithoutSaving(Unit unit)
         {
             if (unit.Id != 0)
             {
@@ -190,7 +190,7 @@ namespace Dispractice.Services
             _context.SaveChanges();
         }
 
-        public void UpdatePositionWithoutSaving(MilitaryPosition position)
+        public void UpdatePositionWithoutSaving(Position position)
         {
             if (position.Id != 0)
             {
@@ -202,7 +202,7 @@ namespace Dispractice.Services
             }
         }
 
-        public void RemovePositionWithoutSaving(MilitaryPosition position)
+        public void RemovePositionWithoutSaving(Position position)
         {
             if (position.Id != 0)
             {

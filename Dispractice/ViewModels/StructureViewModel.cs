@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Dispractice.Extensions;
 using Dispractice.Models;
 using Dispractice.Services;
 using Microsoft.EntityFrameworkCore;
@@ -27,12 +28,12 @@ namespace Dispractice.ViewModels
         private bool isChanged = false;
 
 
-        public ICollection<IMilitaryTreeNode> Units { get; set; } = new ObservableCollection<IMilitaryTreeNode>();
+        public ICollection<Unit> Units { get; set; } = new ObservableCollection<Unit>();
 
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(SelectedUnitName), nameof(SelectedUnitShortName))]
-        private MilitaryUnit selectedUnit;
+        private Unit selectedUnit;
 
         public string SelectedUnitName
         {
@@ -81,13 +82,13 @@ namespace Dispractice.ViewModels
             _service = service;
             _navigation = navigation;
             
-            AddUnitCommand = new RelayCommand<MilitaryUnit>(AddUnit);
-            RemoveUnitCommand = new RelayCommand<MilitaryUnit>(RemoveUnit, u => u.ParentUnit != null);
+            AddUnitCommand = new RelayCommand<Unit>(AddUnit);
+            RemoveUnitCommand = new RelayCommand<Unit>(RemoveUnit, u => u.ParentUnit != null);
             SaveCommand = new RelayCommand(SaveData);
 
-            AddPositionCommand = new RelayCommand<MilitaryUnit>(AddPosition, u => u != null);
-            EditPositionCommand = new RelayCommand<MilitaryPosition>(NavigateToEditPosition);
-            DeletePositionCommand = new RelayCommand<MilitaryPosition>(RemovePosition);
+            AddPositionCommand = new RelayCommand<Unit>(AddPosition, u => u != null);
+            EditPositionCommand = new RelayCommand<Position>(NavigateToEditPosition);
+            DeletePositionCommand = new RelayCommand<Position>(RemovePosition);
 
             InitializationTask = LoadUnitsAsync();
         }
@@ -97,9 +98,9 @@ namespace Dispractice.ViewModels
             Units = [..await _service.GetMilitaryUnits()];
         }
 
-        private void RemovePosition(MilitaryPosition? position)
+        private void RemovePosition(Position? position)
         {
-            var parent = position.MilitaryUnit;
+            var parent = position.Unit;
             if (parent != null)
             {
                 parent.Positions.Remove(position);
@@ -108,24 +109,24 @@ namespace Dispractice.ViewModels
             IsChanged = true;
         }
 
-        public void AddUnit(MilitaryUnit? unit)
+        public void AddUnit(Unit? unit)
         {
-            var newUnit = new MilitaryUnit();
+            var newUnit = new Unit();
             newUnit.ParentUnit = unit;
             unit.SubUnits.Add(newUnit);
             _service.UpdateUnitWithoutSaving(newUnit);
             IsChanged = true;
         }
 
-        public void AddPosition(MilitaryUnit? unit)
+        public void AddPosition(Unit? unit)
         {
-            var newPosition = new MilitaryPosition();
-            newPosition.MilitaryUnit = unit;
+            var newPosition = new Position();
+            newPosition.Unit = unit;
             unit.Positions.Add(newPosition);
             _service.UpdatePositionWithoutSaving(newPosition);
             IsChanged = true;
         }
-        public void RemoveUnit(MilitaryUnit? unit)
+        public void RemoveUnit(Unit? unit)
         {
             var parent = unit.ParentUnit;
             if (parent != null)
@@ -146,7 +147,7 @@ namespace Dispractice.ViewModels
             IsChanged = false;
         }
 
-        public void NavigateToEditPosition(MilitaryPosition? position)
+        public void NavigateToEditPosition(Position? position)
         {
             _navigation.NavigateTo<PositionViewModel>(x => { x.Position = position; });
             IsChanged = true;

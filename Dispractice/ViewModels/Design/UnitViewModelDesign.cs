@@ -10,7 +10,7 @@ namespace Dispractice.ViewModels.Design
     {
         public UnitViewModelDesign()
         {
-            Unit = new Models.MilitaryUnit() { Name = "Воинская часть", ShortName = "ВЧ" };
+            Unit = new Models.Unit() { Name = "Воинская часть", ShortName = "ВЧ" };
         }
     }
 }

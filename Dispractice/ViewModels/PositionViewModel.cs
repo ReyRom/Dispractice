@@ -15,7 +15,7 @@ namespace Dispractice.ViewModels
     public partial class PositionViewModel:ViewModelBase
     {
         [ObservableProperty]
-        private MilitaryPosition position;
+        private Position position;
 
         public PositionViewModel()
         {

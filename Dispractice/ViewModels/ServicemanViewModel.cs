@@ -13,6 +13,7 @@ namespace Dispractice.ViewModels
 {
     public partial class ServicemanViewModel : ViewModelBase
     {
+        
         private Serviceman serviceman = new Serviceman();
         public Serviceman Serviceman
         {
@@ -20,8 +21,8 @@ namespace Dispractice.ViewModels
             set
             {
                 SetProperty(ref serviceman, value);
-                SelectedUnit = value.MilitaryPosition?.MilitaryUnit;
-                OnPropertyChanged(nameof(Units));
+                SelectedUnit = value.Position?.Unit;
+                OnPropertyChanged(nameof(IsEditMode));
             }
         }
 
@@ -34,6 +35,14 @@ namespace Dispractice.ViewModels
             SaveCommand = new RelayCommand(SaveServiceman);
             CancelCommand = new RelayCommand(() => { _navigation.GoBack(); });
             DeleteCommand = new RelayCommand(DeleteServiceman);
+        }
+
+        public bool IsEditMode
+        {
+            get
+            {
+                return Serviceman.Id != 0;
+            }
         }
 
         public bool IsNaval
@@ -53,11 +62,24 @@ namespace Dispractice.ViewModels
         {
             get
             {
-                return RankData.Ranks;
+                return RankData.GetRanks();
             }
         }
 
-        public Task<IEnumerable<MilitaryUnit>> Units
+        public Rank SelectedRank
+        {
+            get
+            {
+                return Serviceman.Rank.GetRank();
+            }
+            set
+            {
+                Serviceman.Rank = value.GetRank();
+                OnPropertyChanged(nameof(SelectedRank));
+            }
+        }
+
+        public Task<IEnumerable<Unit>> Units
         {
             get
             {
@@ -67,10 +89,10 @@ namespace Dispractice.ViewModels
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(Positions))]
-        private MilitaryUnit? selectedUnit;
+        private Unit? selectedUnit;
 
 
-        public IEnumerable<MilitaryPosition> Positions
+        public IEnumerable<Position> Positions
         {
             get
             {
@@ -78,16 +100,16 @@ namespace Dispractice.ViewModels
             }
         }
 
-        public MilitaryPosition? SelectedPosition
+        public Position? SelectedPosition
         {
             set
             {
-                Serviceman.MilitaryPosition = value;
+                Serviceman.Position = value;
                 OnPropertyChanged(nameof(SelectedPosition));
             }
             get
             {
-                return Serviceman.MilitaryPosition;
+                return Serviceman.Position;
             }
         }
 
@@ -105,7 +127,7 @@ namespace Dispractice.ViewModels
         public void DeleteServiceman()
         {
             _service.RemoveServicemanAsync(Serviceman);
-            _navigation.GoBack();
+            _navigation.GoBack(2);
         }
     }
 }

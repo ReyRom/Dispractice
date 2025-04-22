@@ -12,66 +12,66 @@ namespace Dispractice.ViewModels.Design
     {
         public PositionListViewModelDesign()
         {
-            var u0 = new MilitaryUnit()
+            var u0 = new Unit()
             {
                 Name = "ВЧ",
-                Positions = new ObservableCollection<MilitaryPosition>()
+                Positions = new ObservableCollection<Position>()
                 {
-                    new MilitaryPosition()
+                    new Position()
                     {
                         Name="Командир части"
                     },
-                    new MilitaryPosition()
+                    new Position()
                     {
                         Name="Командир части"
                     },
-                    new MilitaryPosition()
+                    new Position()
                     {
                         Name="Командир части"
                     },
-                    new MilitaryPosition()
+                    new Position()
                     {
                         Name="Командир части"
                     },
-                    new MilitaryPosition()
+                    new Position()
                     {
                         Name="Командир части"
                     },
-                    new MilitaryPosition()
+                    new Position()
                     {
                         Name="Командир части"
                     },
-                    new MilitaryPosition()
+                    new Position()
                     {
                         Name="Командир части"
                     },
-                    new MilitaryPosition()
+                    new Position()
                     {
                         Name="Командир части"
                     },
-                    new MilitaryPosition()
+                    new Position()
                     {
                         Name="Командир части"
                     },
-                    new MilitaryPosition()
+                    new Position()
                     {
                         Name="Командир части"
                     },
-                    new MilitaryPosition()
+                    new Position()
                     {
                         Name="Командир части"
                     },
-                    new MilitaryPosition()
+                    new Position()
                     {
                         Name="Командир части"
                     },
-                    new MilitaryPosition()
+                    new Position()
                     {
                         Name="Командир части"
                     }
 
                 },
-                SubUnits = new ObservableCollection<MilitaryUnit>()
+                SubUnits = new ObservableCollection<Unit>()
             };
             MilitaryUnit = u0;
             IsEditMode = true;

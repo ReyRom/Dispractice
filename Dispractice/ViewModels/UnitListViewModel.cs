@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Dispractice.Extensions;
 using Dispractice.Models;
 using Dispractice.Services;
 using System;
@@ -19,7 +20,7 @@ namespace Dispractice.ViewModels
             PageName = "Список подразделений";
         }
 
-        public ObservableCollection<IMilitaryTreeNode> Units { get; set; } = [];
+        public ObservableCollection<ITreeNode> Units { get; set; } = [];
 
         public ICommand AddCommand {  get; set; }
         public ICommand RemoveCommand { get; set; }
@@ -37,22 +38,22 @@ namespace Dispractice.ViewModels
             _service = service;
             _navigation = navigation;
             //Units = new ObservableCollection<IMilitaryTreeNode>(_service.GetMilitaryUnits());
-            AddCommand = new RelayCommand<MilitaryUnit>(AddUnit);
-            RemoveCommand = new RelayCommand<MilitaryUnit>(RemoveUnit, u=>u.ParentUnit!=null);
+            AddCommand = new RelayCommand<Unit>(AddUnit);
+            RemoveCommand = new RelayCommand<Unit>(RemoveUnit, u=>u.ParentUnit!=null);
             SaveCommand = new RelayCommand(SaveData);
-            EditCommand = new RelayCommand<MilitaryUnit>(NavigateToEdit);
+            EditCommand = new RelayCommand<Unit>(NavigateToEdit);
         }
 
-        public void AddUnit(MilitaryUnit? unit)
+        public void AddUnit(Unit? unit)
         {
-            var newUnit = new MilitaryUnit();
+            var newUnit = new Unit();
             newUnit.ParentUnit = unit;
             unit.SubUnits.Add(newUnit);
             _service.UpdateUnitWithoutSaving(newUnit);
             IsChanged=true;
             OnPropertyChanged(nameof(Units));
         }
-        public void RemoveUnit(MilitaryUnit? unit)
+        public void RemoveUnit(Unit? unit)
         {
             var parent = unit?.ParentUnit;
             parent.SubUnits.Remove(unit);
@@ -71,9 +72,9 @@ namespace Dispractice.ViewModels
             IsChanged=false;
         }
 
-        public void NavigateToEdit(MilitaryUnit? unit)
+        public void NavigateToEdit(Unit? unit)
         {
-            _navigation.NavigateTo<UnitViewModel>(x=>x.Unit = unit);
+            _navigation.NavigateTo<UnitViewModel>((Action<UnitViewModel>?)(x=> x.Unit = unit));
             IsChanged = true;
         }
     }
