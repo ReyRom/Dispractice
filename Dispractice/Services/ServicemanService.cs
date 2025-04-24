@@ -23,6 +23,16 @@ namespace Dispractice.Services
                 .OrderByDescending(s => s.Rank.GetRank().SeniorityOrder); 
         } 
 
+        public async Task<Serviceman?> GetServicemanByIdAsync(int id)
+        {
+            return await _context.Servicemans
+                .Include(s => s.Position)
+                .Include(s => s.Commendations)
+                .Include(s => s.Penalties)
+                .FirstOrDefaultAsync(s => s.Id == id);
+        }
+
+
         //public IMilitaryTreeNode GetMilitaryTree()
         //{
         //    MilitaryUnit rootUnit = _context.MilitaryUnits
@@ -36,15 +46,6 @@ namespace Dispractice.Services
 
         //}
 
-        public string GetRankName(Serviceman serviceman)
-        {
-            return serviceman.Rank.GetRankInfo(serviceman.IsNaval).Name;
-        }
-
-        //public string GetRankType(Serviceman serviceman)
-        //{
-        //    return RankData.Ranks[serviceman.RankIndex].RankType;
-        //}
 
         public async Task AddOrUpdateCommendationAsync(Commendation commendation)
         {
@@ -138,9 +139,10 @@ namespace Dispractice.Services
 
 
 
-        public void UpdateServiceman(Serviceman serviceman)
+        public async Task UpdateServiceman(Serviceman serviceman)
         {
-            
+            _context.Update(serviceman);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Unit>> GetMilitaryUnits()

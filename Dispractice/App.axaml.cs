@@ -7,9 +7,10 @@ using Dispractice.Models;
 using Dispractice.Services;
 using Dispractice.ViewModels;
 using Dispractice.Views;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
+using Microsoft.Extensions.Options;
 
 namespace Dispractice;
 
@@ -28,12 +29,22 @@ public partial class App : Application
         // Without this line you will get duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
 
+        IConfigurationBuilder builder = new ConfigurationBuilder();
+        builder.AddJsonFile("appsettings.json");
+        Configuration = builder.Build();
+
         // Register all the services needed for the application to run
         var collection = new ServiceCollection();
 
+        collection.AddDbContext<MilitaryServiceContext>(options =>
+        {
+            options.UseSqlite(Configuration["ConnectionStrings:DefaultConnection"]);
+        });
+
+
         collection.AddCommonServices();
         collection.AddSingleton<NavigationService>();
-        collection.AddTransient<IServicemanService,ServicemanService>();
+        collection.AddTransient<IServicemanService, ServicemanService>();
         collection.AddSingleton<MainViewModel>();
 
         collection.AddTransient<ServicemanListViewModel>();
@@ -43,29 +54,19 @@ public partial class App : Application
         collection.AddTransient<StructureViewModel>();
         collection.AddTransient<PositionViewModel>();
 
-        collection.AddDbContext<MilitaryServiceContext>(ServiceLifetime.Transient);
+        collection.AddTransient<CommendationViewModel>();
 
-
-        IConfigurationBuilder builder = new ConfigurationBuilder();
-        
-        builder.AddJsonFile("appsettings.json");
-
-        Configuration = builder.Build();
 
         // Creates a ServiceProvider containing services from the provided IServiceCollection
         Services = collection.BuildServiceProvider();
 
+        var db = Services.GetRequiredService<MilitaryServiceContext>();
+
+        db.Database.Migrate();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new MainWindow
-            {
-                DataContext = Services.GetService<MainViewModel>()
-            };
-        }
-        else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
-        {
-            singleViewPlatform.MainView = new MainWindow
             {
                 DataContext = Services.GetService<MainViewModel>()
             };

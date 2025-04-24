@@ -8,7 +8,8 @@ namespace Dispractice.Services
     public interface IServicemanService
     {
         IAsyncEnumerable<Serviceman> GetServicemenSortedByRankAsync();
-        void UpdateServiceman(Serviceman serviceman);
+        Task<Serviceman?> GetServicemanByIdAsync(int id);
+        Task UpdateServiceman(Serviceman serviceman);
         Task<IEnumerable<Unit>> GetMilitaryUnits();
         Task<IEnumerable<Unit>> GetMilitaryUnitsList();
         void UpdateUnitWithoutSaving(Unit unit);

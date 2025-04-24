@@ -24,7 +24,7 @@
 			<Button Classes="icon edit flat" VerticalAlignment="Center" Command="{Binding EditCommand}" CommandParameter="{Binding Serviceman}"/>
 		</StackPanel>
 		<StackPanel Orientation="Horizontal">
-			<Button>
+			<Button Command="{Binding AddCommendationCommand}">
 				<TextBlock Text="Поощрение"/>
 			</Button>
 			<Button>
@@ -39,9 +39,11 @@
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="2*"/>
 								<ColumnDefinition Width="9*"/>
+								<ColumnDefinition Width="2*"/>
 							</Grid.ColumnDefinitions>
 							<TextBlock Text="{Binding Type}" Grid.Column="0"/>
 							<TextBlock Text="{Binding Description}" TextWrapping="Wrap" Grid.Column="1"/>
+							<TextBlock Text="{Binding DateAwarded}" Grid.Column="2"/>
 						</Grid>
 					</ContentControl>
 				</DataTemplate>
@@ -52,7 +54,7 @@
 			<ItemsControl.ItemTemplate >
 				<DataTemplate>
 					<ContentControl Classes="card" Margin="5 0 5 5" BorderBrush="Red">
-						<Grid x:DataType="m:Commendation">
+						<Grid x:DataType="m:Penalty">
 							<Grid.ColumnDefinitions>
 								<ColumnDefinition Width="2*"/>
 								<ColumnDefinition Width="9*"/>

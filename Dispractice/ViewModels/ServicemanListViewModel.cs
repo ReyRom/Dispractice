@@ -52,7 +52,7 @@ namespace Dispractice.ViewModels
         public ICommand OpenServicemanCommand { get; set; }
         public void OpenServicemanDetails(Serviceman serviceman)
         {
-            _navigation.NavigateTo<DisCardViewModel>(x=>x.Serviceman = serviceman);
+            _navigation.NavigateTo<DisCardViewModel>(async x => await x.LoadServicemanData(serviceman));
         }
 
         public ICommand AddServicemanCommand { get; set; }

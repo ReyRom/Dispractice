@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Dispractice.Models;
+using Dispractice.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,8 +13,26 @@ namespace Dispractice.ViewModels
 {
     public partial class CommendationViewModel:ViewModelBase
     {
+        NavigationService _navigation;
+        IServicemanService _service;
+
+        public CommendationViewModel()
+        {
+            PageName = "Поощрение";
+        }
+
+        public CommendationViewModel(NavigationService navigation, IServicemanService service) : this()
+        {
+            _navigation = navigation;
+            _service = service;
+            SaveCommand = new AsyncRelayCommand(Save);
+            CancelCommand = new RelayCommand(()=>_navigation.GoBack());
+        }
+        public ICommand SaveCommand { get; }
+        public ICommand CancelCommand { get; }
+
         [ObservableProperty]
-        private Commendation commendation = new Commendation();
+        private Commendation commendation = new Commendation() { DateAwarded = DateTime.Now, Type = CommendationType.Gratitude };
 
         [ObservableProperty]
         private Serviceman serviceman = new Serviceman();
@@ -34,7 +54,15 @@ namespace Dispractice.ViewModels
         public bool IsRemove => Commendation.Type == CommendationType.Removal;
 
 
-        public ICommand SaveCommand { get; }
-        public ICommand CancelCommand { get; }
+        public async Task Save()
+        {
+            Commendation.Serviceman = Serviceman;
+
+            await _service.AddOrUpdateCommendationAsync(Commendation);
+
+            _navigation.GoBack();
+        }
+
+        
     }
 }

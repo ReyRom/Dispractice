@@ -15,7 +15,6 @@ namespace Dispractice.ViewModels.Design
         {
             Serviceman = GenerateTestServiceman();
             Commendation = Serviceman.Commendations.First();
-
         }
 
 

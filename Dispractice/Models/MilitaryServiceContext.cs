@@ -15,17 +15,8 @@ namespace Dispractice.Models
         public MilitaryServiceContext(DbContextOptions<MilitaryServiceContext> options)
             : base(options)
         {
-            //Database.EnsureDeleted();
-            Database.EnsureCreated();
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlite(App.Configuration.GetSection("ConnectionStrings")["DefaultConnection"]);
-
-            base.OnConfiguring(optionsBuilder);
-        }
-
+         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Unit>().Property(x => x.Id).ValueGeneratedOnAdd();

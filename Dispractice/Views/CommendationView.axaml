@@ -13,9 +13,9 @@
              x:DataType="vm:CommendationViewModel"
 			 Design.Width="500">
 
-	<UserControl.DataContext>
+	<Design.DataContext>
 		<vmd:CommendationViewModelDesign/>
-	</UserControl.DataContext>
+	</Design.DataContext>
 
 	<Grid RowDefinitions="Auto, *" Margin="20">
 		<StackPanel Orientation="Vertical" Spacing="10">
@@ -62,12 +62,12 @@
 				UseFloatingWatermark="True"
 				Theme="{StaticResource OutlineTextBox}"
 				Classes="outline densed"
-				Text="{Binding Commendation.Description, Mode=TwoWay}" 
+				Text="{Binding Commendation.Description}" 
 				TextWrapping="Wrap" Height="100"/>
 			
 			<DatePicker
 				a:TextFieldAssist.Label="Дата поощрения"
-				SelectedDate="{Binding Commendation.DateAwarded, Mode=TwoWay}"/>
+				SelectedDate="{Binding Commendation.DateAwarded}"/>
 
 			<TextBox a:TextFieldAssist.Label="Кем поощрен"
 						 UseFloatingWatermark="True"
