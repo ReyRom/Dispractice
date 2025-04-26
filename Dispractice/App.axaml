@@ -9,7 +9,7 @@
 		<local:ViewLocator/>
 	</Application.DataTemplates>
     <Application.Styles>
-		<themes:MaterialTheme BaseTheme="Dark" PrimaryColor="Purple" SecondaryColor="Lime" />
+		<themes:MaterialTheme BaseTheme="Dark" PrimaryColor="Indigo" SecondaryColor="Lime"/>
 		<StyleInclude Source="/Styles/Icons.axaml"/>
 	</Application.Styles>
 	<Application.Resources>

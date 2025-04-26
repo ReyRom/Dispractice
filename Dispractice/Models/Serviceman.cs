@@ -47,7 +47,7 @@ namespace Dispractice.Models
 
 
         [NotMapped]
-        public string ShortServicemanString => $"{Rank.GetRankInfo(IsNaval).ShortName} {Surname} {Name[0]}.{(!String.IsNullOrWhiteSpace(Patronomic) ? " " + Patronomic[0] + "." : "")}";
+        public string ShortServicemanString => $"{Rank.GetRankInfo(IsNaval).ShortName} {Surname} {Name?[0]}.{(!String.IsNullOrWhiteSpace(Patronomic) ? " " + Patronomic[0] + "." : "")}";
         
         [NotMapped]
         public string LongServicemanString => $"{Rank.GetRankInfo(IsNaval).Name} {Surname} {Name} {Patronomic}";

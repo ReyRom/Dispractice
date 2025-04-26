@@ -49,5 +49,8 @@
     <None Update="dispractice.db">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
+    <None Update="logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

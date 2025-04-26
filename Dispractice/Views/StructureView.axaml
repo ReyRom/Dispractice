@@ -16,65 +16,69 @@
 		<StyleInclude Source="/Styles/Icons.axaml"/>
 	</UserControl.Styles>
 	<Grid ColumnDefinitions="*,*" RowDefinitions="Auto,*">
-		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5" IsVisible="{Binding IsChanged}" Grid.ColumnSpan="2">
-			<TextBlock Text="Структура подразделений содержит несохраненные изменения" VerticalAlignment="Center"/>
-			<Button Content="Сохранить" Command="{Binding SaveCommand}" Margin="10,0,0,0"/>
-		</StackPanel>
-		
-		<ScrollViewer Grid.Row="1" Grid.Column="0">
-			<TreeView ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedUnit}">
-				<TreeView.Styles>
-					<Style Selector="TreeViewItem">
-						<Setter Property="IsExpanded" Value="True"/>
-					</Style>
-				</TreeView.Styles>
-				<TreeView.ItemTemplate>
-					<TreeDataTemplate ItemsSource="{Binding SubUnits}" DataType="m:Unit">
-						<Panel>
-							<TextBlock VerticalAlignment="Center" Text="{Binding Name}" HorizontalAlignment="Left"/>
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-								<Button Classes="icon edit" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).EditCommand}" CommandParameter="{Binding}"/>
-								<Button Classes="icon delete" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).RemoveUnitCommand}" CommandParameter="{Binding}" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>
-								<Button Classes="icon add" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).AddUnitCommand}" CommandParameter="{Binding}"/>
-							</StackPanel>
-						</Panel>
-					</TreeDataTemplate>
-				</TreeView.ItemTemplate>
-			</TreeView>
-		</ScrollViewer>
-
-		<StackPanel Margin="10" Grid.Column="1" Grid.Row="1">
-
-			<TextBox Text="{Binding SelectedUnitName}"
-						a:TextFieldAssist.Label="Наименование"
-						UseFloatingWatermark="True"
-						Theme="{StaticResource OutlineTextBox}"
-						Classes="outline densed"/>
-				
-			<TextBox Text="{Binding SelectedUnitShortName}" 
-						a:TextFieldAssist.Label="Короткое наименование"
-						UseFloatingWatermark="True"
-						Theme="{StaticResource OutlineTextBox}"
-						Classes="outline densed"/>
-			
-			<Button Margin="5" Content="Добавить штатную единицу" Command="{Binding AddPositionCommand}" CommandParameter="{Binding SelectedUnit}"/>
-
-			<ScrollViewer Margin="5">
-				<ListBox ItemsSource="{Binding SelectedUnit.Positions}">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
+		<Border BorderThickness="3" BorderBrush="{DynamicResource MaterialPrimaryDarkBrush}" Grid.ColumnSpan="2" IsVisible="{Binding IsChanged}">
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5"  Grid.ColumnSpan="2">
+				<TextBlock Text="Структура подразделений содержит несохраненные изменения" VerticalAlignment="Center"/>
+				<Button Content="Сохранить" Command="{Binding SaveCommand}" Margin="10,0,0,0"/>
+			</StackPanel>
+		</Border>
+		<Border BorderThickness="3" BorderBrush="{DynamicResource MaterialPrimaryDarkBrush}" Grid.Row="1" Grid.Column="0">
+			<ScrollViewer>
+				<TreeView ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedUnit}">
+					<TreeView.Styles>
+						<Style Selector="TreeViewItem">
+							<Setter Property="IsExpanded" Value="True"/>
+						</Style>
+					</TreeView.Styles>
+					<TreeView.ItemTemplate>
+						<TreeDataTemplate ItemsSource="{Binding SubUnits}" DataType="m:Unit">
 							<Panel>
-								<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
+								<TextBlock VerticalAlignment="Center" Text="{Binding Name}" HorizontalAlignment="Left"/>
 								<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-									<Button Classes="icon edit" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).EditPositionCommand}" CommandParameter="{Binding}"/>
-									<Button Classes="icon delete" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).DeletePositionCommand}" CommandParameter="{Binding}"/>
+									<Button Classes="icon edit" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).EditCommand}" CommandParameter="{Binding}"/>
+									<Button Classes="icon delete" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).RemoveUnitCommand}" CommandParameter="{Binding}" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>
+									<Button Classes="icon add" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).AddUnitCommand}" CommandParameter="{Binding}"/>
 								</StackPanel>
 							</Panel>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
-			</ScrollViewer>
-		</StackPanel>
-		
+						</TreeDataTemplate>
+					</TreeView.ItemTemplate>
+				</TreeView>
+		</ScrollViewer>
+		</Border>
+
+		<Border BorderThickness="3" BorderBrush="{DynamicResource MaterialPrimaryDarkBrush}" Grid.Column="1" Grid.Row="1" Padding="10">
+			<StackPanel>
+
+				<TextBox Text="{Binding SelectedUnitName}"
+							a:TextFieldAssist.Label="Наименование"
+							UseFloatingWatermark="True"
+							Theme="{StaticResource OutlineTextBox}"
+							Classes="outline densed"/>
+				
+				<TextBox Text="{Binding SelectedUnitShortName}" 
+							a:TextFieldAssist.Label="Короткое наименование"
+							UseFloatingWatermark="True"
+							Theme="{StaticResource OutlineTextBox}"
+							Classes="outline densed"/>
+			
+				<Button Margin="5" Content="Добавить штатную единицу" Command="{Binding AddPositionCommand}" CommandParameter="{Binding SelectedUnit}"/>
+
+				<ScrollViewer Margin="5">
+					<ListBox ItemsSource="{Binding SelectedUnit.Positions}">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<Panel>
+									<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
+									<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+										<Button Classes="icon edit" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).EditPositionCommand}" CommandParameter="{Binding}"/>
+										<Button Classes="icon delete" Command="{Binding $parent[UserControl].((vm:StructureViewModel)DataContext).DeletePositionCommand}" CommandParameter="{Binding}"/>
+									</StackPanel>
+								</Panel>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+				</ScrollViewer>
+			</StackPanel>
+		</Border>
 	</Grid>
 </UserControl>

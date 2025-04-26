@@ -32,11 +32,13 @@ namespace Dispractice.ViewModels
         public ICommand CancelCommand { get; }
 
         [ObservableProperty]
-        private Commendation commendation = new Commendation() { DateAwarded = DateTime.Now, Type = CommendationType.Gratitude };
+        [NotifyPropertyChangedFor(nameof(SelectedCommendationType))]
+        private Commendation commendation = new Commendation() { DateAwarded = DateTime.Today, Type = CommendationType.Gratitude };
 
         [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(NotRemovedPenalties))]
         private Serviceman serviceman = new Serviceman();
-       
+
         public IEnumerable<Penalty> NotRemovedPenalties => Serviceman.Penalties.Where(x => x.DateRemoved == null);
 
         public Dictionary<CommendationType, string> CommendationTypes => CommendationRegistry.Info;
@@ -52,6 +54,7 @@ namespace Dispractice.ViewModels
         }
 
         public bool IsRemove => Commendation.Type == CommendationType.Removal;
+
 
 
         public async Task Save()

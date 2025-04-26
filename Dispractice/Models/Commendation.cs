@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Dispractice.Models
 {
-    public class Commendation
+    public partial class Commendation
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

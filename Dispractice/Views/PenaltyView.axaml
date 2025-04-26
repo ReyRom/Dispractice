@@ -8,58 +8,76 @@
 			 xmlns:m="using:Dispractice.Models"
 			 xmlns:v="using:Dispractice.Views"
 			 xmlns:e="using:Dispractice.Extensions"
+			 xmlns:a="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
              x:Class="Dispractice.Views.PenaltyView"
-			 x:DataType="vm:PenaltyViewModel">
-	<UserControl.DataContext>
+			 x:DataType="vm:PenaltyViewModel"
+			 Design.Width="500">
+	<Design.DataContext>
 		<vmd:PenaltyViewModelDesign/>
-	</UserControl.DataContext>
-
-	<Grid RowDefinitions="Auto, *" Margin="20">
+	</Design.DataContext>
+	
+	<UserControl.Resources>
+		<e:DateFormatConverter x:Key="DateFormatConverter"/>
+	</UserControl.Resources>
+	
+	<Grid RowDefinitions="*, Auto" Margin="20">
 		<StackPanel Orientation="Vertical" Spacing="10">
 			<TextBlock Text="Взыскание" FontSize="18" FontWeight="Bold"/>
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Военнослужащий:" Width="130" VerticalAlignment="Center"/>
-				<TextBlock Text="{Binding Serviceman}" Width="300"/>
-			</StackPanel>
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Вид взыскания:" Width="130" VerticalAlignment="Center"/>
-				<TextBox Text="{Binding Penalty.Type, Mode=TwoWay}" Width="300"/>
-			</StackPanel>
 			
+			<TextBox a:TextFieldAssist.Label="Военнослужащий"
+						 UseFloatingWatermark="True"
+						 Theme="{StaticResource OutlineTextBox}"
+						 Classes="outline densed"
+						 Text="{Binding Serviceman}" IsEnabled="False"/>
 			
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="За что:" Width="130" VerticalAlignment="Top"/>
-				<TextBox Text="{Binding Penalty.Description, Mode=TwoWay}" Width="300" TextWrapping="Wrap" Height="100"/>
-			</StackPanel>
+			<ComboBox
+				Theme="{StaticResource MaterialOutlineComboBox}"
+				a:ComboBoxAssist.Label="Вид взыскания"
+				ItemsSource="{Binding PenaltyTypes}"
+				SelectedItem="{Binding SelectedPenaltyType}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal" Spacing="3">
+							<TextBlock Text="{Binding Value}"/>
+						</StackPanel>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
 			
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Дата применения:" Width="130" VerticalAlignment="Center"/>
-				<CalendarDatePicker SelectedDate="{Binding Penalty.DateApplied, Mode=TwoWay}" Width="150"/>
-			</StackPanel>
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Когда совершен проступок:" Width="130" TextWrapping="Wrap" VerticalAlignment="Center"/>
-				<CalendarDatePicker SelectedDate="{Binding Penalty.OffenseDate, Mode=TwoWay}" Width="150"/>
-			</StackPanel>
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Когда приведено в исполнение:" Width="130" TextWrapping="Wrap" VerticalAlignment="Center"/>
-				<CalendarDatePicker SelectedDate="{Binding Penalty.DateExecuted, Mode=TwoWay}" Width="150"/>
-			</StackPanel>
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Кем применено:" Width="130" VerticalAlignment="Center"/>
-				<TextBox Text="{Binding Penalty.AppliedBy, Mode=TwoWay}" Width="300"/>
-			</StackPanel>
-			
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Снято:" Width="130" VerticalAlignment="Center"/>
-				<CalendarDatePicker SelectedDate="{Binding Penalty.DateRemoved, Mode=TwoWay}" Width="150"/>
-			</StackPanel>
+			<TextBox
+				a:TextFieldAssist.Label="За что"
+				UseFloatingWatermark="True"
+				Theme="{StaticResource OutlineTextBox}"
+				Classes="outline densed"
+				Text="{Binding Penalty.Description}"
+				TextWrapping="Wrap"/>
+			<DatePicker
+				a:TextFieldAssist.Label="Дата применения"
+				SelectedDate="{Binding Penalty.DateApplied, Mode=TwoWay, Converter={StaticResource DateFormatConverter}}"/>
 
+			<DatePicker
+				a:TextFieldAssist.Label="Когда совершен проступок"
+				SelectedDate="{Binding Penalty.OffenseDate, Mode=TwoWay, Converter={StaticResource DateFormatConverter}}"/>
+
+			<DatePicker
+				a:TextFieldAssist.Label="Когда приведено в исполнение"
+				SelectedDate="{Binding Penalty.DateExecuted, Mode=TwoWay, Converter={StaticResource DateFormatConverter}}"/>
+
+			<TextBox a:TextFieldAssist.Label="Кем применено"
+						 UseFloatingWatermark="True"
+						 Theme="{StaticResource OutlineTextBox}"
+						 Classes="outline densed"
+						 Text="{Binding Penalty.AppliedBy}"/>
+			
+			<DatePicker
+				a:TextFieldAssist.Label="Снято"
+				SelectedDate="{Binding Penalty.DateRemoved, Mode=TwoWay, Converter={StaticResource DateFormatConverter}}"/>
 				
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal" Spacing="10" Grid.Row="1" HorizontalAlignment="Right" Margin="0,20,0,0">
-			<Button Content="Сохранить" Command="{Binding SaveCommand}" Width="100"/>
-			<Button Content="Отмена" Command="{Binding CancelCommand}" Width="100"/>
+			<Button Content="Сохранить" Command="{Binding SaveCommand}"/>
+			<Button Content="Отмена" Command="{Binding CancelCommand}"/>
 		</StackPanel>
 	</Grid>
 </UserControl>

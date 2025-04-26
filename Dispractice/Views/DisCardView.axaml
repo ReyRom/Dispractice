@@ -27,7 +27,7 @@
 			<Button Command="{Binding AddCommendationCommand}">
 				<TextBlock Text="Поощрение"/>
 			</Button>
-			<Button>
+			<Button Command="{Binding AddPenaltyCommand}">
 				<TextBlock Text="Взыскание"/>
 			</Button>
 		</StackPanel>
@@ -35,15 +35,11 @@
 			<ItemsControl.ItemTemplate >
 				<DataTemplate>
 					<ContentControl Classes="card" Margin="5 0 5 5" BorderBrush="Green">
-						<Grid x:DataType="m:Commendation">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="2*"/>
-								<ColumnDefinition Width="9*"/>
-								<ColumnDefinition Width="2*"/>
-							</Grid.ColumnDefinitions>
+						<Grid x:DataType="m:Commendation" ColumnDefinitions="2*,9*,2*,Auto">
 							<TextBlock Text="{Binding Type}" Grid.Column="0"/>
 							<TextBlock Text="{Binding Description}" TextWrapping="Wrap" Grid.Column="1"/>
-							<TextBlock Text="{Binding DateAwarded}" Grid.Column="2"/>
+							<TextBlock Text="{Binding DateAwarded, StringFormat=d MMMM yyyy}" Grid.Column="2" VerticalAlignment="Center"/>
+							<Button Grid.Column="3" Classes="icon edit flat" Command="{Binding $parent[UserControl].((vm:DisCardViewModel)DataContext).EditCommendationCommand}" CommandParameter="{Binding}"/>
 						</Grid>
 					</ContentControl>
 				</DataTemplate>
@@ -54,13 +50,11 @@
 			<ItemsControl.ItemTemplate >
 				<DataTemplate>
 					<ContentControl Classes="card" Margin="5 0 5 5" BorderBrush="Red">
-						<Grid x:DataType="m:Penalty">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="2*"/>
-								<ColumnDefinition Width="9*"/>
-							</Grid.ColumnDefinitions>
+						<Grid x:DataType="m:Penalty" ColumnDefinitions="2*,9*,2*,Auto">
 							<TextBlock Text="{Binding Type}" Grid.Column="0"/>
 							<TextBlock Text="{Binding Description}" TextWrapping="Wrap" Grid.Column="1"/>
+							<TextBlock Text="{Binding DateApplied, StringFormat=d MMMM yyyy}" Grid.Column="2" VerticalAlignment="Center"/>
+							<Button Grid.Column="3" Classes="icon edit flat" Command="{Binding $parent[UserControl].((vm:DisCardViewModel)DataContext).EditPenaltyCommand}" CommandParameter="{Binding}"/>
 						</Grid>
 					</ContentControl>
 				</DataTemplate>

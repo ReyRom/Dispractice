@@ -46,6 +46,7 @@ public partial class App : Application
         collection.AddSingleton<NavigationService>();
         collection.AddTransient<IServicemanService, ServicemanService>();
         collection.AddSingleton<MainViewModel>();
+        collection.AddSingleton<HomeViewModel>();
 
         collection.AddTransient<ServicemanListViewModel>();
         collection.AddTransient<ServicemanViewModel>();
@@ -55,14 +56,14 @@ public partial class App : Application
         collection.AddTransient<PositionViewModel>();
 
         collection.AddTransient<CommendationViewModel>();
-
+        collection.AddTransient<PenaltyViewModel>();
 
         // Creates a ServiceProvider containing services from the provided IServiceCollection
         Services = collection.BuildServiceProvider();
 
         var db = Services.GetRequiredService<MilitaryServiceContext>();
 
-        db.Database.Migrate();
+        //db.Database.Migrate();
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

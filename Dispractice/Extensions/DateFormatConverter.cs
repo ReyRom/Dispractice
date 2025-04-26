@@ -15,13 +15,18 @@ namespace Dispractice.Extensions
             if (value == null)
                 return null;
 
-            DateTimeOffset dt = (DateTimeOffset)value;
-            return dt.Date.ToShortDateString();
+            if (value is DateTime dt)
+                return new DateTimeOffset(dt);
+
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotSupportedException();
+            if (value is DateTimeOffset dt)
+                return dt.LocalDateTime;
+
+            return value;
         }
     }
 }

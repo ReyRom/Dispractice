@@ -10,22 +10,18 @@ using Dispractice.Extensions;
 namespace Dispractice.Models
 {
     // Модель подразделения
-    [ObservableObject]
     public partial class Unit
     {
-        private string name = "Подразделение";
-        private string? shortName;
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get ; set; }
 
         [Required]
         [StringLength(100)]
-        public string Name { get => name; set => SetProperty(ref name ,value); }
+        public string Name { get; set; } = "Подразделение";
 
         [AllowNull]
-        public string? ShortName { get => shortName; set =>SetProperty(ref shortName,value); } // Краткое название подразделения
+        public string? ShortName { get; set; } // Краткое название подразделения
 
         // Ссылка на родительское подразделение (если есть)
         [ForeignKey("ParentUnit")]

@@ -18,7 +18,6 @@ namespace Dispractice.ViewModels
         readonly NavigationService _navigation;
 
         public ICommand EditCommand { get; set; }
-        public ICommand AddCommendationCommand { get; set; }
 
         public DisCardViewModel(IServicemanService service, NavigationService navigation)
         {
@@ -26,7 +25,6 @@ namespace Dispractice.ViewModels
             _navigation = navigation;
 
             EditCommand = new RelayCommand<Serviceman>(s => _navigation.NavigateTo<ServicemanViewModel>(p => p.Serviceman = s));
-            AddCommendationCommand = new RelayCommand(AddCommendation);
         }
 
         public async Task LoadServicemanData(Serviceman serviceman)
@@ -54,13 +52,35 @@ namespace Dispractice.ViewModels
         public ICollection<Commendation> Commendations => Serviceman.Commendations;
         public ICollection<Penalty> Penalties => Serviceman.Penalties;
 
+        [RelayCommand]
         public void AddCommendation()
         {
             _navigation.NavigateTo<CommendationViewModel>(x => x.Serviceman = Serviceman);
         }
+
+        [RelayCommand]
         public void EditCommendation(Commendation commendation)
         {
-            _navigation.NavigateTo<CommendationViewModel>(x=>x.Commendation = commendation);
+            _navigation.NavigateTo<CommendationViewModel>(x => {
+                x.Commendation = commendation;
+                x.Serviceman = Serviceman;
+            });
+        }
+
+        [RelayCommand]
+        public void AddPenalty()
+        {
+            _navigation.NavigateTo<PenaltyViewModel>(x => x.Serviceman = Serviceman);
+        }
+
+        [RelayCommand]
+        public void EditPenalty(Penalty penalty)
+        {
+            _navigation.NavigateTo<PenaltyViewModel>(x =>
+            {
+                x.Penalty = penalty;
+                x.Serviceman = Serviceman;
+            });
         }
     }
 }

@@ -24,13 +24,13 @@ namespace Dispractice.Models
         public PenaltyType Type { get; set; }
 
         [Required]
-        public DateTime OffenseDate { get; set; } // Когда совершен проступок
+        public DateTime? OffenseDate { get; set; } // Когда совершен проступок
 
         [Required]
         public DateTime DateApplied { get; set; } // Когда применено
         
         [Required]
-        public DateTime DateExecuted { get; set; } // Когда выполнено
+        public DateTime? DateExecuted { get; set; } // Когда выполнено
 
         public DateTime? DateRemoved { get; set; } // Когда снято (может быть null)
 
@@ -62,5 +62,10 @@ namespace Dispractice.Models
             { PenaltyType.Demotion, "Понижение в должности" },
             { PenaltyType.RankDeprivation, "Понижение в звании" }
         };
+
+        public static string GetDescription(this PenaltyType type)
+        {
+            return Info[type];
+        }
     }
 }
