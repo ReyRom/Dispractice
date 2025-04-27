@@ -28,6 +28,12 @@ public partial class MainViewModel : ViewModelBase
         _navigation.Navigated += _navigation_Navigated; ;
 
         NavigateCommand = new RelayCommand<string>(NavigateTo);
+
+        GoBackCommand = new RelayCommand(() =>
+        {
+             _navigation.GoBack();
+        }, () => _navigation.Count > 1);
+
         NavigationList = new Dictionary<string,string>()
         {
             { nameof(ServicemanListViewModel), "Список военнослужащих"},
@@ -40,9 +46,12 @@ public partial class MainViewModel : ViewModelBase
     {
         OnPropertyChanged(nameof(Content));
         OnPropertyChanged(nameof(IsNavBarVisible));
+        GoBackCommand.NotifyCanExecuteChanged();
     }
 
     public ICommand NavigateCommand { get; set; }
+    public RelayCommand GoBackCommand { get; set; }
+
     public Dictionary<string, string> NavigationList { get; private set; }
     public void NavigateTo(string page)
     {

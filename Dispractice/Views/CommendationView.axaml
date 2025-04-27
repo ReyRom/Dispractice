@@ -19,6 +19,8 @@
 
 	<UserControl.Resources>
 		<e:DateFormatConverter x:Key="DateFormatConverter"/>
+		<e:CommendationTypeConverter x:Key="CommendationTypeConverter"/>
+		<e:PenaltyTypeConverter x:Key="PenaltyTypeConverter"/>
 	</UserControl.Resources>
 	
 	<Grid RowDefinitions="*, Auto" Margin="20">
@@ -39,7 +41,7 @@
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal" Spacing="3">
-							<TextBlock Text="{Binding Value}"/>
+							<TextBlock Text="{Binding Converter={StaticResource CommendationTypeConverter}}"/>
 						</StackPanel>
 					</DataTemplate>
 				</ComboBox.ItemTemplate>
@@ -49,11 +51,12 @@
 				IsVisible="{Binding IsRemove}"
 				Theme="{StaticResource MaterialOutlineComboBox}"
 				a:ComboBoxAssist.Label="Взыскание"
-				ItemsSource="{Binding NotRemovedPenalties}">
+				ItemsSource="{Binding NotRemovedPenalties}"
+				SelectedItem="{Binding PenaltyToRemove}">
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal" Spacing="3">
-							<TextBlock Text="{Binding Type}"/>
+							<TextBlock Text="{Binding Type,Converter={StaticResource PenaltyTypeConverter}}"/>
 							<TextBlock Text="{Binding DateApplied}"/>
 							<TextBlock Text="{Binding AppliedBy}"/>
 						</StackPanel>

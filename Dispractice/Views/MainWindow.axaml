@@ -9,8 +9,8 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="Dispractice"
         x:DataType="vm:MainViewModel">
-	<Grid ColumnDefinitions="Auto, *">
-		<Border BorderBrush="{DynamicResource MaterialPrimaryDarkBrush}" BorderThickness="3" IsVisible="{Binding IsNavBarVisible}" MaxWidth="300" >
+	<Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto,*">
+		<Border BorderBrush="{DynamicResource MaterialPrimaryDarkBrush}" BorderThickness="3" IsVisible="{Binding IsNavBarVisible}" MaxWidth="300" Grid.RowSpan="2">
 			<StackPanel Margin="10">
 				<Image Source="{Binding Home.Image}" Height="100"/>
 				<TextBlock Text="{Binding Home.Title}" FontSize="20" HorizontalAlignment="Center"/>
@@ -26,6 +26,13 @@
 				</ItemsControl>
 			</StackPanel>
 		</Border>
-		<ContentControl Grid.Column="1" Content="{Binding Content}"/>
+		<Border BorderBrush="{DynamicResource MaterialPrimaryDarkBrush}" BorderThickness="3" IsVisible="{Binding IsNavBarVisible}" Grid.Column="1">
+			<StackPanel Orientation="Horizontal">
+				<Button Classes="icon flat undo" Margin="3" Command="{Binding GoBackCommand}"/>
+				<TextBlock Text="{Binding Content.PageName}" FontSize="30" Margin="5" VerticalAlignment="Center"/>
+			</StackPanel>
+			
+		</Border>
+		<ContentControl Grid.Column="1" Grid.Row="1" Content="{Binding Content}"/>
 	</Grid>
 </Window>

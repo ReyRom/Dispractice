@@ -47,14 +47,14 @@ namespace Dispractice.ViewModels
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
 
-        public Dictionary<PenaltyType, string> PenaltyTypes => PenaltyRegistry.Info;
+        public IEnumerable<PenaltyType> PenaltyTypes => PenaltyRegistry.Info.Select(x => x.Key);
 
-        public KeyValuePair<PenaltyType, string> SelectedPenaltyType
+        public PenaltyType SelectedPenaltyType
         {
-            get => new KeyValuePair<PenaltyType, string>(Penalty.Type, Penalty.Type.GetDescription());
+            get => Penalty.Type;
             set
             {
-                Penalty.Type = value.Key;
+                Penalty.Type = value;
                 OnPropertyChanged(nameof(SelectedPenaltyType));
             }
         }

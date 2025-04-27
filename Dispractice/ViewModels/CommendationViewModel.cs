@@ -35,20 +35,31 @@ namespace Dispractice.ViewModels
         [NotifyPropertyChangedFor(nameof(SelectedCommendationType))]
         private Commendation commendation = new Commendation() { DateAwarded = DateTime.Today, Type = CommendationType.Gratitude };
 
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(NotRemovedPenalties))]
         private Serviceman serviceman = new Serviceman();
+        public Serviceman Serviceman
+        {
+            get => serviceman;
+            set
+            {
+                SetProperty(ref serviceman, value);
+                OnPropertyChanged(nameof(NotRemovedPenalties));
+                PenaltyToRemove = NotRemovedPenalties.OrderBy(x => x.DateApplied)?.First();
+            }
+        }
 
         public IEnumerable<Penalty> NotRemovedPenalties => Serviceman.Penalties.Where(x => x.DateRemoved == null);
 
-        public Dictionary<CommendationType, string> CommendationTypes => CommendationRegistry.Info;
+        [ObservableProperty]
+        private Penalty? penaltyToRemove = null;
 
-        public KeyValuePair<CommendationType, string> SelectedCommendationType
+        public IEnumerable<CommendationType> CommendationTypes => CommendationRegistry.Info.Select(x=>x.Key);
+
+        public CommendationType SelectedCommendationType
         {
-            get => new KeyValuePair<CommendationType, string>(Commendation.Type, Commendation.Type.GetDescription());
+            get => Commendation.Type;
             set
             {
-                Commendation.Type = value.Key;
+                Commendation.Type = value;
                 OnPropertyChanged(nameof(IsRemove));
             }
         }
@@ -56,12 +67,16 @@ namespace Dispractice.ViewModels
         public bool IsRemove => Commendation.Type == CommendationType.Removal;
 
 
-
         public async Task Save()
         {
             Commendation.Serviceman = Serviceman;
 
             await _service.AddOrUpdateCommendationAsync(Commendation);
+
+            if (IsRemove)
+            {
+
+            }
 
             _navigation.GoBack();
         }

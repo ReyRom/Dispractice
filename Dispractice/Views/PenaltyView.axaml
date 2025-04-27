@@ -18,6 +18,7 @@
 	
 	<UserControl.Resources>
 		<e:DateFormatConverter x:Key="DateFormatConverter"/>
+		<e:PenaltyTypeConverter x:Key="PenaltyTypeConverter"/>
 	</UserControl.Resources>
 	
 	<Grid RowDefinitions="*, Auto" Margin="20">
@@ -38,7 +39,7 @@
 				<ComboBox.ItemTemplate>
 					<DataTemplate>
 						<StackPanel Orientation="Horizontal" Spacing="3">
-							<TextBlock Text="{Binding Value}"/>
+							<TextBlock Text="{Binding Converter={StaticResource PenaltyTypeConverter}}"/>
 						</StackPanel>
 					</DataTemplate>
 				</ComboBox.ItemTemplate>

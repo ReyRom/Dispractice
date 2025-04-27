@@ -2,9 +2,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <Design.PreviewWith>
     <Border Padding="20">
-		<Button Classes="icon filled edit"/>
+		<Button Classes="icon filled undo"/>
     </Border>
   </Design.PreviewWith>
+	
 	<Styles.Resources>
 		<FontFamily x:Key="MaterialIcons">avares://Dispractice/Assets#Material Symbols Outlined</FontFamily>
 		<FontFamily x:Key="MaterialIconsFilled">avares://Dispractice/Assets#Material Symbols Outlined Filled</FontFamily>
@@ -33,5 +34,8 @@
 	</Style>
 	<Style Selector="Button.save">
 		<Setter Property="Content" Value="save"/>
+	</Style>
+	<Style Selector="Button.undo">
+		<Setter Property="Content" Value="undo"/>
 	</Style>
 </Styles>
