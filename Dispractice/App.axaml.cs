@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
@@ -10,7 +11,6 @@ using Dispractice.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace Dispractice;
 
@@ -61,9 +61,13 @@ public partial class App : Application
         // Creates a ServiceProvider containing services from the provided IServiceCollection
         Services = collection.BuildServiceProvider();
 
-        var db = Services.GetRequiredService<MilitaryServiceContext>();
+        
 
-        //db.Database.Migrate();
+        if (!Design.IsDesignMode)
+        {
+            var db = Services.GetRequiredService<MilitaryServiceContext>();
+            db.Database.Migrate();
+        }
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Dispractice.Models
 {
@@ -24,14 +25,15 @@ namespace Dispractice.Models
         public PenaltyType Type { get; set; }
 
         [Required]
-        public DateTime? OffenseDate { get; set; } // Когда совершен проступок
+        public DateTime OffenseDate { get; set; } // Когда совершен проступок
 
         [Required]
         public DateTime DateApplied { get; set; } // Когда применено
         
         [Required]
-        public DateTime? DateExecuted { get; set; } // Когда выполнено
+        public DateTime DateExecuted { get; set; } // Когда выполнено
 
+        [AllowNull]
         public DateTime? DateRemoved { get; set; } // Когда снято (может быть null)
 
         [Required]

@@ -43,7 +43,7 @@ namespace Dispractice.ViewModels
             {
                 SetProperty(ref serviceman, value);
                 OnPropertyChanged(nameof(NotRemovedPenalties));
-                PenaltyToRemove = NotRemovedPenalties.OrderBy(x => x.DateApplied)?.First();
+                PenaltyToRemove = NotRemovedPenalties.OrderBy(x => x.DateApplied).FirstOrDefault();
             }
         }
 

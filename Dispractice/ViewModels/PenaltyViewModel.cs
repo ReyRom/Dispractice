@@ -5,16 +5,15 @@ using Dispractice.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Dispractice.ViewModels
 {
-    public partial class PenaltyViewModel:ViewModelBase
+    public partial class PenaltyViewModel : ViewModelBase
     {
         [ObservableProperty]
-        private Penalty penalty = new Penalty() { DateApplied = DateTime.Today, Type = PenaltyType.Reprimand };
+        private Penalty penalty = new Penalty() { DateApplied = DateTime.Today, DateExecuted = DateTime.Today, OffenseDate = DateTime.Today, Type = PenaltyType.Reprimand };
 
         [ObservableProperty]
         private Serviceman serviceman;
