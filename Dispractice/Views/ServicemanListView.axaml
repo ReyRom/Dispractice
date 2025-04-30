@@ -14,9 +14,6 @@
 	<Design.DataContext>
 		<vmd:ServicemanListViewModelDesign/>
 	</Design.DataContext>
-	<UserControl.Styles>
-		<StyleInclude Source="/Styles/CardStyles.axaml"/>
-	</UserControl.Styles>
 	<Grid ColumnDefinitions="*,Auto">
 		<Border BorderThickness="3" BorderBrush="{DynamicResource MaterialPrimaryDarkBrush}">
 			<ScrollViewer>

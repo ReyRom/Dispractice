@@ -16,11 +16,23 @@ namespace Dispractice.ViewModels
 {
     public partial class StructureViewModel: ViewModelBase
     {
+
+        readonly IServicemanService _service = null!;
+        readonly NavigationService _navigation = null!;
+
         protected StructureViewModel()
         {
             PageName = "Список подразделений";
         }
-        
+
+        public StructureViewModel(IServicemanService service, NavigationService navigation) : this()
+        {
+            _service = service;
+            _navigation = navigation;
+
+            InitializationTask = LoadUnitsAsync();
+        }
+
 
         [ObservableProperty]
         private bool isEditMode;
@@ -63,42 +75,35 @@ namespace Dispractice.ViewModels
             }
         }
 
-        #region Commands
-        public ICommand AddUnitCommand { get; set; }
-        public ICommand AddPositionCommand { get; set; }
-        public ICommand RemoveUnitCommand { get; set; }
-        public ICommand SaveCommand { get; set; }
-        public ICommand EditPositionCommand { get; set; }
-        public ICommand DeletePositionCommand { get; set; }
-        public ICommand EditCommand { get; }
 
-        #endregion
-
-
-        IServicemanService _service;
-        NavigationService _navigation;
-        public StructureViewModel(IServicemanService service, NavigationService navigation) : this()
-        {
-            _service = service;
-            _navigation = navigation;
-            
-            AddUnitCommand = new RelayCommand<Unit>(AddUnit);
-            RemoveUnitCommand = new RelayCommand<Unit>(RemoveUnit, u => u.ParentUnit != null);
-            SaveCommand = new RelayCommand(SaveData);
-
-            AddPositionCommand = new RelayCommand<Unit>(AddPosition, u => u != null);
-            EditPositionCommand = new RelayCommand<Position>(NavigateToEditPosition);
-            DeletePositionCommand = new RelayCommand<Position>(RemovePosition);
-
-            InitializationTask = LoadUnitsAsync();
-        }
+        
 
         private async Task LoadUnitsAsync()
         {
             Units = [..await _service.GetMilitaryUnits()];
         }
 
-        private void RemovePosition(Position? position)
+        [RelayCommand(CanExecute =nameof(CanExecuteAddPosition))]
+        public void AddPosition(Unit? unit)
+        {
+            var newPosition = new Position();
+            newPosition.Unit = unit;
+            unit.Positions.Add(newPosition);
+            _service.UpdatePositionWithoutSaving(newPosition);
+            IsChanged = true;
+        }
+        private bool CanExecuteAddPosition(Unit unit) => unit != null;
+
+        [RelayCommand]
+        public void EditPosition(Position? position)
+        {
+            _navigation.NavigateTo<PositionViewModel>(x => { x.Position = position; });
+            IsChanged = true;
+        }
+
+
+        [RelayCommand]
+        private void DeletePosition(Position? position)
         {
             var parent = position.Unit;
             if (parent != null)
@@ -109,6 +114,7 @@ namespace Dispractice.ViewModels
             IsChanged = true;
         }
 
+        [RelayCommand]
         public void AddUnit(Unit? unit)
         {
             var newUnit = new Unit();
@@ -118,14 +124,8 @@ namespace Dispractice.ViewModels
             IsChanged = true;
         }
 
-        public void AddPosition(Unit? unit)
-        {
-            var newPosition = new Position();
-            newPosition.Unit = unit;
-            unit.Positions.Add(newPosition);
-            _service.UpdatePositionWithoutSaving(newPosition);
-            IsChanged = true;
-        }
+
+        [RelayCommand]
         public void RemoveUnit(Unit? unit)
         {
             var parent = unit.ParentUnit;
@@ -141,16 +141,14 @@ namespace Dispractice.ViewModels
             _service.RemoveUnitWithoutSaving(unit);
             IsChanged = true;
         }
-        public void SaveData()
+
+        [RelayCommand]
+        public void Save()
         {
             _service.Save();
             IsChanged = false;
         }
 
-        public void NavigateToEditPosition(Position? position)
-        {
-            _navigation.NavigateTo<PositionViewModel>(x => { x.Position = position; });
-            IsChanged = true;
-        }
+        
     }
 }

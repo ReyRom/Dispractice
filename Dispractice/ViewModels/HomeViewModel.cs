@@ -12,10 +12,8 @@ namespace Dispractice.ViewModels
 {
     public partial class HomeViewModel : ViewModelBase
     {
-        private NavigationService _navigation;
+        private NavigationService _navigation = null!;
 
-        public string Title { get; set; }
-        public Bitmap? Image { get; set; }
         public HomeViewModel()
         {
             Title = "Дисциплинарная практика";
@@ -34,6 +32,11 @@ namespace Dispractice.ViewModels
         {
             _navigation = navigation;
         }
+
+
+        public string Title { get; set; }
+        public Bitmap? Image { get; set; }
+
 
         [RelayCommand]
         public void OpenServicemanList()

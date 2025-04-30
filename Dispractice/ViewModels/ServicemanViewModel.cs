@@ -13,7 +13,16 @@ namespace Dispractice.ViewModels
 {
     public partial class ServicemanViewModel : ViewModelBase
     {
-        
+        readonly IServicemanService _service = null!;
+        readonly NavigationService _navigation = null!;
+
+        public ServicemanViewModel(IServicemanService service, NavigationService navigation)
+        {
+            _service = service;
+            _navigation = navigation;
+        }
+
+
         private Serviceman serviceman = new Serviceman();
         public Serviceman Serviceman
         {
@@ -26,31 +35,11 @@ namespace Dispractice.ViewModels
             }
         }
 
-        private IServicemanService _service;
-        private NavigationService _navigation;
-        public ServicemanViewModel(IServicemanService service, NavigationService navigation)
-        {
-            _service = service;
-            _navigation = navigation;
-            SaveCommand = new RelayCommand(SaveServiceman);
-            CancelCommand = new RelayCommand(() => { _navigation.GoBack(); });
-            DeleteCommand = new RelayCommand(DeleteServiceman);
-        }
-
-        public bool IsEditMode
-        {
-            get
-            {
-                return Serviceman.Id != 0;
-            }
-        }
+        public bool IsEditMode => Serviceman.Id != 0;
 
         public bool IsNaval
         {
-            get
-            {
-                return Serviceman.IsNaval;
-            }
+            get => Serviceman.IsNaval;
             set
             {
                 Serviceman.IsNaval = value;
@@ -58,20 +47,11 @@ namespace Dispractice.ViewModels
             }
         }
 
-        public IEnumerable<Rank> Ranks
-        {
-            get
-            {
-                return RankData.GetRanks();
-            }
-        }
+        public IEnumerable<Rank> Ranks => RankData.GetRanks();
 
         public Rank SelectedRank
         {
-            get
-            {
-                return Serviceman.Rank.GetRank();
-            }
+            get => Serviceman.Rank.GetRank();
             set
             {
                 Serviceman.Rank = value.GetRank();
@@ -79,55 +59,45 @@ namespace Dispractice.ViewModels
             }
         }
 
-        public Task<IEnumerable<Unit>> Units
-        {
-            get
-            {
-                return _service.GetMilitaryUnitsList();
-            }
-        }
+        public Task<IEnumerable<Unit>> Units => _service.GetMilitaryUnitsList();
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(Positions))]
         private Unit? selectedUnit;
 
 
-        public IEnumerable<Position> Positions
-        {
-            get
-            {
-                return SelectedUnit?.GetSubPositions() ?? [];
-            }
-        }
+        public IEnumerable<Position> Positions => SelectedUnit?.GetSubPositions() ?? [];
 
         public Position? SelectedPosition
         {
+            get => Serviceman.Position;
             set
             {
                 Serviceman.Position = value;
                 OnPropertyChanged(nameof(SelectedPosition));
             }
-            get
-            {
-                return Serviceman.Position;
-            }
         }
 
-        public ICommand SaveCommand { get; set; }
-        public ICommand DeleteCommand { get; set; }
-        public ICommand CancelCommand { get; set; }
-        
 
-        public void SaveServiceman()
+
+        [RelayCommand]
+        public async Task Save()
         {
-            _service.AddOrUpdateServicemanAsync(Serviceman);
+            await _service.AddOrUpdateServicemanAsync(Serviceman);
             _navigation.GoBack();
         }
 
-        public void DeleteServiceman()
+        [RelayCommand]
+        public void Delete()
         {
             _service.RemoveServicemanAsync(Serviceman);
             _navigation.GoBack(2);
+        }
+
+        [RelayCommand]
+        public void Cancel()
+        {
+            _navigation.GoBack();
         }
     }
 }

@@ -11,10 +11,6 @@
 			 xmlns:a="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
 			 x:Class="Dispractice.Views.StructureView"
 			 x:DataType="vm:StructureViewModel">
-	<UserControl.Styles>
-		<StyleInclude Source="/Styles/ListStyles.axaml"/>
-		<StyleInclude Source="/Styles/Icons.axaml"/>
-	</UserControl.Styles>
 	<Grid ColumnDefinitions="*,*" RowDefinitions="Auto,*">
 		<Border BorderThickness="3" BorderBrush="{DynamicResource MaterialPrimaryDarkBrush}" Grid.ColumnSpan="2" IsVisible="{Binding IsChanged}">
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5"  Grid.ColumnSpan="2">

@@ -43,6 +43,10 @@ namespace Dispractice.Models
         [ForeignKey("Commendation")]
         public int? CommendationId { get; set; } // Ссылка на поощрение-снятие (если есть)
         public virtual Commendation Commendation { get; set; }
+
+
+        [NotMapped]
+        public bool IsRemoved => DateRemoved != null;
     }
 
     public enum PenaltyType

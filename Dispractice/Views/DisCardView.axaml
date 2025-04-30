@@ -15,7 +15,7 @@
 		<vmd:DisCardViewModelDesign/>
 	</Design.DataContext>
 	<UserControl.Styles>
-		<StyleInclude Source="/Styles/CardStyles.axaml"/>
+		
 	</UserControl.Styles>
 
 	<UserControl.Resources>
@@ -32,7 +32,7 @@
 			</TextBlock>
 			<StackPanel Orientation="Horizontal">
 				<TextBlock Margin="10" FontSize="30" Text="{Binding Serviceman.LongServicemanString}"/>
-				<Button Classes="icon edit flat" VerticalAlignment="Center" Command="{Binding EditCommand}" CommandParameter="{Binding Serviceman}"/>
+				<Button Classes="icon edit flat" VerticalAlignment="Center" Command="{Binding EditServicemanCommand}" CommandParameter="{Binding Serviceman}"/>
 				<Button Command="{Binding AddCommendationCommand}" VerticalAlignment="Center" Margin="10">
 					<TextBlock Text="Поощрение"/>
 				</Button>
@@ -48,8 +48,8 @@
 					<DataTemplate>
 						<ContentControl Classes="card" Margin="5 0 5 5" BorderBrush="Green">
 							<Grid x:DataType="m:Commendation" ColumnDefinitions="2*,9*,2*,Auto">
-								<TextBlock Text="{Binding Type, Converter={StaticResource CommendationTypeConverter}}" Grid.Column="0" TextWrapping="Wrap"/>
-								<TextBlock Text="{Binding Description}" TextWrapping="Wrap" Grid.Column="1"/>
+								<TextBlock Text="{Binding Type, Converter={StaticResource CommendationTypeConverter}}" VerticalAlignment="Center" Grid.Column="0" TextWrapping="Wrap"/>
+								<TextBlock Text="{Binding Description}" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Column="1"/>
 								<TextBlock Text="{Binding DateAwarded, StringFormat=d MMMM yyyy}" Grid.Column="2" VerticalAlignment="Center"/>
 								<Button Grid.Column="3" Classes="icon edit flat" Command="{Binding $parent[UserControl].((vm:DisCardViewModel)DataContext).EditCommendationCommand}" CommandParameter="{Binding}"/>
 							</Grid>
@@ -63,8 +63,8 @@
 					<DataTemplate>
 						<ContentControl Classes="card" Margin="5 0 5 5" BorderBrush="Red">
 							<Grid x:DataType="m:Penalty" ColumnDefinitions="2*,9*,2*,Auto">
-								<TextBlock Text="{Binding Type, Converter={StaticResource PenaltyTypeConverter}}" Grid.Column="0" TextWrapping="Wrap"/>
-								<TextBlock Text="{Binding Description}" TextWrapping="Wrap" Grid.Column="1"/>
+								<TextBlock Text="{Binding Type, Converter={StaticResource PenaltyTypeConverter}}" VerticalAlignment="Center"  Grid.Column="0" TextWrapping="Wrap"/>
+								<TextBlock Text="{Binding Description}" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Column="1"/>
 								<TextBlock Text="{Binding DateApplied, StringFormat=d MMMM yyyy}" Grid.Column="2" VerticalAlignment="Center"/>
 								<Button Grid.Column="3" Classes="icon edit flat" Command="{Binding $parent[UserControl].((vm:DisCardViewModel)DataContext).EditPenaltyCommand}" CommandParameter="{Binding}"/>
 							</Grid>

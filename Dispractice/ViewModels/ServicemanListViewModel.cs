@@ -16,22 +16,20 @@ namespace Dispractice.ViewModels
 {
     public partial class ServicemanListViewModel:ViewModelBase
     {
+        readonly NavigationService _navigation = null!;
+        readonly IServicemanService _service = null!;
+
         public ServicemanListViewModel()
         {
             PageName = "Список военнослужащих";
         }
 
-        NavigationService _navigation;
-        IServicemanService _service;
         public ServicemanListViewModel(IServicemanService service, NavigationService navigation): this()
         {
             _navigation = navigation;
             _service = service;
 
             _navigation.Navigated += _navigation_Navigated;
-
-            OpenServicemanCommand = new RelayCommand<Serviceman>(OpenServicemanDetails);
-            AddServicemanCommand = new RelayCommand(OpenAddServiceman);
             
             InitializationTask = LoadServicemans();
         }
@@ -49,39 +47,11 @@ namespace Dispractice.ViewModels
             }
         }
 
-        public ICommand OpenServicemanCommand { get; set; }
-        public void OpenServicemanDetails(Serviceman serviceman)
-        {
-            _navigation.NavigateTo<DisCardViewModel>(async x => await x.LoadServicemanData(serviceman));
-        }
-
-        public ICommand AddServicemanCommand { get; set; }
-        public void OpenAddServiceman()
-        {
-            _navigation.NavigateTo<ServicemanViewModel>(x => x.Serviceman = new Serviceman());
-        }
 
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(Filtred))]
         private ObservableCollection<Serviceman> servicemans = new ObservableCollection<Serviceman>();
-
-
-        public IEnumerable<Serviceman> Filtred
-        {
-            get
-            {
-                IEnumerable<Serviceman> filtred = Servicemans;
-
-                if (SelectedUnit != null)
-                {
-                    filtred = filtred.Where((Func<Serviceman, bool>)(x => x.Position?.Unit == SelectedUnit));
-                }
-
-                return filtred.Where(x=>x.LongServicemanString.Contains(SearchString, StringComparison.InvariantCultureIgnoreCase));
-            }
-        }
-
 
         [NotifyPropertyChangedFor(nameof(Filtred))]
         [ObservableProperty]
@@ -91,13 +61,42 @@ namespace Dispractice.ViewModels
         [ObservableProperty]
         private Unit selectedUnit;
 
-
         public Task<IEnumerable<Unit>> Units
         {
             get
             {
                 return _service.GetMilitaryUnitsList();
             }
+        }
+
+        public IEnumerable<Serviceman> Filtred
+        {
+            get
+            {
+                IEnumerable<Serviceman> filtred = Servicemans;
+
+                if (SelectedUnit != null)
+                {
+                    filtred = filtred.Where(x => x.Position?.Unit == SelectedUnit);
+                }
+
+                return filtred.Where(x=>x.LongServicemanString.Contains(SearchString, StringComparison.InvariantCultureIgnoreCase));
+            }
+        }
+
+
+        
+
+        [RelayCommand]
+        public void OpenServiceman(Serviceman serviceman)
+        {
+            _navigation.NavigateTo<DisCardViewModel>(async x => await x.LoadServicemanData(serviceman));
+        }
+
+        [RelayCommand]
+        public void AddServiceman()
+        {
+            _navigation.NavigateTo<ServicemanViewModel>(x => x.Serviceman = new Serviceman());
         }
     }
 }

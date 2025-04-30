@@ -12,39 +12,26 @@ namespace Dispractice.ViewModels
 {
     public partial class PenaltyViewModel : ViewModelBase
     {
-        [ObservableProperty]
-        private Penalty penalty = new Penalty() { DateApplied = DateTime.Today, DateExecuted = DateTime.Today, OffenseDate = DateTime.Today, Type = PenaltyType.Reprimand };
-
-        [ObservableProperty]
-        private Serviceman serviceman;
+        readonly NavigationService _navigation = null!;
+        readonly IServicemanService _service = null!;
 
         public PenaltyViewModel()
         {
             PageName = "Взыскание";
         }
-
-        NavigationService _navigation;
-        IServicemanService _service;
-
         public PenaltyViewModel(NavigationService navigation, IServicemanService service) : this()
         {
             _navigation = navigation;
             _service = service;
-            SaveCommand = new AsyncRelayCommand(Save);
-            CancelCommand = new RelayCommand(() => _navigation.GoBack());
         }
 
-        private async Task Save()
-        {
-            Penalty.Serviceman = Serviceman;
 
-            await _service.AddOrUpdatePenaltyAsync(Penalty);
 
-            _navigation.GoBack();
-        }
+        [ObservableProperty]
+        private Penalty penalty = new Penalty() { DateApplied = DateTime.Today, DateExecuted = DateTime.Today, OffenseDate = DateTime.Today, Type = PenaltyType.Reprimand };
 
-        public ICommand SaveCommand { get; }
-        public ICommand CancelCommand { get; }
+        [ObservableProperty]
+        private Serviceman serviceman;
 
         public IEnumerable<PenaltyType> PenaltyTypes => PenaltyRegistry.Info.Select(x => x.Key);
 
@@ -56,6 +43,24 @@ namespace Dispractice.ViewModels
                 Penalty.Type = value;
                 OnPropertyChanged(nameof(SelectedPenaltyType));
             }
+        }
+
+
+
+        [RelayCommand]
+        public async Task Save()
+        {
+            Penalty.Serviceman = Serviceman;
+
+            await _service.AddOrUpdatePenaltyAsync(Penalty);
+
+            _navigation.GoBack();
+        }
+
+        [RelayCommand]
+        public void Cancel()
+        {
+            _navigation.GoBack();
         }
     }
 }

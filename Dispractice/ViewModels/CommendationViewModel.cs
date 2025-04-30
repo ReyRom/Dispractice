@@ -4,6 +4,7 @@ using Dispractice.Models;
 using Dispractice.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,8 +14,9 @@ namespace Dispractice.ViewModels
 {
     public partial class CommendationViewModel:ViewModelBase
     {
-        NavigationService _navigation;
-        IServicemanService _service;
+        NavigationService _navigation = null!;
+        IServicemanService _service = null!;
+
 
         public CommendationViewModel()
         {
@@ -25,15 +27,10 @@ namespace Dispractice.ViewModels
         {
             _navigation = navigation;
             _service = service;
-            SaveCommand = new AsyncRelayCommand(Save);
-            CancelCommand = new RelayCommand(()=>_navigation.GoBack());
         }
-        public ICommand SaveCommand { get; }
-        public ICommand CancelCommand { get; }
 
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(SelectedCommendationType))]
-        private Commendation commendation = new Commendation() { DateAwarded = DateTime.Today, Type = CommendationType.Gratitude };
+
+
 
         private Serviceman serviceman = new Serviceman();
         public Serviceman Serviceman
@@ -47,12 +44,12 @@ namespace Dispractice.ViewModels
             }
         }
 
-        public IEnumerable<Penalty> NotRemovedPenalties => Serviceman.Penalties.Where(x => x.DateRemoved == null);
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(SelectedCommendationType))]
+        private Commendation commendation = new Commendation() { DateAwarded = DateTime.Today, Type = CommendationType.Gratitude };
 
         [ObservableProperty]
         private Penalty? penaltyToRemove = null;
-
-        public IEnumerable<CommendationType> CommendationTypes => CommendationRegistry.Info.Select(x=>x.Key);
 
         public CommendationType SelectedCommendationType
         {
@@ -61,12 +58,18 @@ namespace Dispractice.ViewModels
             {
                 Commendation.Type = value;
                 OnPropertyChanged(nameof(IsRemove));
+                OnPropertyChanged(nameof(SelectedCommendationType));
             }
         }
-
         public bool IsRemove => Commendation.Type == CommendationType.Removal;
 
+        public IEnumerable<Penalty> NotRemovedPenalties => Serviceman.Penalties.Where(x => x.DateRemoved == null);
+        public IEnumerable<CommendationType> CommendationTypes => CommendationRegistry.Info.Select(x=>x.Key);
+        
 
+
+
+        [RelayCommand]
         public async Task Save()
         {
             Commendation.Serviceman = Serviceman;
@@ -75,12 +78,19 @@ namespace Dispractice.ViewModels
 
             if (IsRemove)
             {
+                PenaltyToRemove.Commendation = Commendation;
+                PenaltyToRemove.DateRemoved = Commendation.DateAwarded;
 
+                await _service.AddOrUpdatePenaltyAsync(PenaltyToRemove);
             }
 
             _navigation.GoBack();
         }
 
-        
+        [RelayCommand]
+        public void Cancel()
+        {
+            _navigation.GoBack();
+        }
     }
 }
