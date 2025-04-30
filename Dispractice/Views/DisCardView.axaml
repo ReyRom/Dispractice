@@ -5,64 +5,74 @@
 			 xmlns:vmd="using:Dispractice.ViewModels.Design"
 			 xmlns:m="using:Dispractice.Models"
 			 xmlns:v="using:Dispractice.Views"
+			 xmlns:vm="using:Dispractice.ViewModels"
+			 xmlns:e="using:Dispractice.Extensions"
+			 xmlns:a="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Dispractice.Views.DisCardView">
-	<UserControl.DataContext>
+             x:Class="Dispractice.Views.DisCardView"
+			 x:DataType="vm:DisCardViewModel">
+	<Design.DataContext>
 		<vmd:DisCardViewModelDesign/>
-	</UserControl.DataContext>
+	</Design.DataContext>
 	<UserControl.Styles>
-		<StyleInclude Source="/Styles/CardStyles.axaml"/>
+		
 	</UserControl.Styles>
-	
-	
-	<StackPanel>
-		<WrapPanel Margin="5">
-			<TextBox Margin="0 0 5 5" Width="200" Text="{Binding Serviceman.Surname}" Watermark="Фамилия"/>
-			<TextBox Margin="0 0 5 5" Width="200" Text="{Binding Serviceman.Name}" Watermark="Имя"/>
-			<TextBox Margin="0 0 5 5" Width="200" Text="{Binding Serviceman.Patronomic}" Watermark="Отчество"/>
-			<ComboBox Margin="0 0 5 5" Width="200" ItemsSource="{Binding Ranks}" SelectedItem="{Binding SelectedRank}">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding RankName}"/>
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-			<CheckBox Margin="0 0 5 5" Content="ВМФ" IsChecked="{Binding IsNaval}"/>
-		</WrapPanel>
-		
-		<ItemsControl ItemsSource="{Binding Commendations}">
-			<ItemsControl.ItemTemplate >
-				<DataTemplate>
-					<ContentControl Classes="Card" Margin="5 0 5 5" BorderBrush="Green">
-						<Grid x:DataType="m:Commendation">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="2*"/>
-								<ColumnDefinition Width="9*"/>
-							</Grid.ColumnDefinitions>
-							<TextBlock Text="{Binding Type}" Grid.Column="0"/>
-							<TextBlock Text="{Binding Description}" TextWrapping="Wrap" Grid.Column="1"/>
-						</Grid>
-					</ContentControl>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-		
-		<ItemsControl ItemsSource="{Binding Penalties}">
-			<ItemsControl.ItemTemplate >
-				<DataTemplate>
-					<ContentControl Classes="Card" Margin="5 0 5 5" BorderBrush="Red">
-						<Grid x:DataType="m:Commendation">
-							<Grid.ColumnDefinitions>
-								<ColumnDefinition Width="2*"/>
-								<ColumnDefinition Width="9*"/>
-							</Grid.ColumnDefinitions>
-							<TextBlock Text="{Binding Type}" Grid.Column="0"/>
-							<TextBlock Text="{Binding Description}" TextWrapping="Wrap" Grid.Column="1"/>
-						</Grid>
-					</ContentControl>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-	</StackPanel>
 
+	<UserControl.Resources>
+		<e:CommendationTypeConverter x:Key="CommendationTypeConverter"/>
+		<e:PenaltyTypeConverter x:Key="PenaltyTypeConverter"/>
+	</UserControl.Resources>
+	
+	<Border BorderBrush="{DynamicResource MaterialPrimaryDarkBrush}" BorderThickness="3">
+		<StackPanel>
+			<TextBlock Margin="10 10 10 0" FontSize="20">
+				<Run Text="{Binding Serviceman.Position.Unit.Name}"/>
+				<Run Text="-"/>
+				<Run Text="{Binding Serviceman.Position.Name}"/>
+			</TextBlock>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Margin="10" FontSize="30" Text="{Binding Serviceman.LongServicemanString}"/>
+				<Button Classes="icon edit flat" VerticalAlignment="Center" Command="{Binding EditServicemanCommand}" CommandParameter="{Binding Serviceman}"/>
+				<Button Command="{Binding AddCommendationCommand}" VerticalAlignment="Center" Margin="10">
+					<TextBlock Text="Поощрение"/>
+				</Button>
+				<Button Command="{Binding AddPenaltyCommand}" VerticalAlignment="Center" Margin="10">
+					<TextBlock Text="Взыскание"/>
+				</Button>
+			</StackPanel>
+
+			
+
+			<ItemsControl ItemsSource="{Binding Commendations}">
+				<ItemsControl.ItemTemplate >
+					<DataTemplate>
+						<ContentControl Classes="card" Margin="5 0 5 5" BorderBrush="Green">
+							<Grid x:DataType="m:Commendation" ColumnDefinitions="2*,9*,2*,Auto">
+								<TextBlock Text="{Binding Type, Converter={StaticResource CommendationTypeConverter}}" VerticalAlignment="Center" Grid.Column="0" TextWrapping="Wrap"/>
+								<TextBlock Text="{Binding Description}" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Column="1"/>
+								<TextBlock Text="{Binding DateAwarded, StringFormat=d MMMM yyyy}" Grid.Column="2" VerticalAlignment="Center"/>
+								<Button Grid.Column="3" Classes="icon edit flat" Command="{Binding $parent[UserControl].((vm:DisCardViewModel)DataContext).EditCommendationCommand}" CommandParameter="{Binding}"/>
+							</Grid>
+						</ContentControl>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+
+			<ItemsControl ItemsSource="{Binding Penalties}">
+				<ItemsControl.ItemTemplate >
+					<DataTemplate>
+						<ContentControl Classes="card" Margin="5 0 5 5" BorderBrush="Red">
+							<Grid x:DataType="m:Penalty" ColumnDefinitions="2*,9*,2*,Auto">
+								<TextBlock Text="{Binding Type, Converter={StaticResource PenaltyTypeConverter}}" VerticalAlignment="Center"  Grid.Column="0" TextWrapping="Wrap"/>
+								<TextBlock Text="{Binding Description}" VerticalAlignment="Center" TextWrapping="Wrap" Grid.Column="1"/>
+								<TextBlock Text="{Binding DateApplied, StringFormat=d MMMM yyyy}" Grid.Column="2" VerticalAlignment="Center"/>
+								<Button Grid.Column="3" Classes="icon edit flat" Command="{Binding $parent[UserControl].((vm:DisCardViewModel)DataContext).EditPenaltyCommand}" CommandParameter="{Binding}"/>
+							</Grid>
+						</ContentControl>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</StackPanel>
+	</Border>
+	
 </UserControl>

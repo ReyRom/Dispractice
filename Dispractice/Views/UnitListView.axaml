@@ -13,11 +13,7 @@
 	<Design.DataContext>
 		<vmd:UnitListViewModelDesign/>
 	</Design.DataContext>
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition/>
-		</Grid.RowDefinitions>
+	<Grid RowDefinitions="Auto,*">
 		<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5" IsVisible="{Binding IsChanged}">
 			<TextBlock Text="Структура подразделений содержит несохраненные изменения" VerticalAlignment="Center"/>
 			<Button Content="Сохранить" Command="{Binding SaveCommand}" Margin="10,0,0,0" Width="100"/>
@@ -30,14 +26,14 @@
 					</Style>
 				</TreeView.Styles>
 				<TreeView.ItemTemplate>
-					<TreeDataTemplate ItemsSource="{Binding SubUnits}" DataType="m:MilitaryUnit">
+					<TreeDataTemplate ItemsSource="{Binding SubUnits}" DataType="m:Unit">
 						<Panel>
 							<TextBlock VerticalAlignment="Center"  Text="{Binding Name}" HorizontalAlignment="Left"/>
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-								<Button Margin="0 5 5 5" Content="Редактировать" Command="{Binding $parent[UserControl].DataContext.EditCommand}" CommandParameter="{Binding}"/>
+								<Button Margin="0 5 5 5" Content="Редактировать" Command="{Binding $parent[UserControl].((vm:UnitListViewModel)DataContext).EditCommand}" CommandParameter="{Binding}"/>
 								<Button Margin="0 5 5 5" Content="Сохранить" IsVisible="False"/>
-								<Button Margin="0 5 5 5" Command="{Binding $parent[UserControl].DataContext.RemoveCommand}" CommandParameter="{Binding}" Content="Удалить" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>
-								<Button Margin="0 5 5 5" Command="{Binding $parent[UserControl].DataContext.AddCommand}" CommandParameter="{Binding}" Content="+"/>
+								<Button Margin="0 5 5 5" Command="{Binding $parent[UserControl].((vm:UnitListViewModel)DataContext).RemoveCommand}" CommandParameter="{Binding}" Content="Удалить" IsVisible="{Binding $self.IsEffectivelyEnabled}"/>
+								<Button Margin="0 5 5 5" Command="{Binding $parent[UserControl].((vm:UnitListViewModel)DataContext).AddCommand}" CommandParameter="{Binding}" Content="+"/>
 							</StackPanel>
 						</Panel>
 					</TreeDataTemplate>

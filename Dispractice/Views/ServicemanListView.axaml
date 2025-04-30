@@ -8,48 +8,52 @@
 			 xmlns:m="using:Dispractice.Models"
 			 xmlns:v="using:Dispractice.Views"
 			 xmlns:e="using:Dispractice.Extensions"
+			 xmlns:a="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
              x:Class="Dispractice.Views.ServicemanListView"
 			 x:DataType="vm:ServicemanListViewModel">
-	<UserControl.DataContext>
-		<vmd:ServicemanListViewModelDesign/>
-	</UserControl.DataContext>
 	<Design.DataContext>
 		<vmd:ServicemanListViewModelDesign/>
 	</Design.DataContext>
-	<UserControl.Styles>
-		<StyleInclude Source="/Styles/CardStyles.axaml"/>
-	</UserControl.Styles>
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition/>
-			<ColumnDefinition Width="250"/>
-		</Grid.ColumnDefinitions>
-		<ScrollViewer>
-			<ItemsControl ItemsSource="{Binding Filtred}">
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<Button Classes="Card" Margin="3" HorizontalAlignment="Stretch" Command="{Binding $parent[UserControl].DataContext.OpenServicemanCommand}" CommandParameter="{Binding}">
-
-								<TextBlock VerticalAlignment="Center"  Text="{Binding LongServicemanString}" HorizontalAlignment="Left"/>
-
-						</Button>
-
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-		</ScrollViewer>
-		<StackPanel Grid.Column="1" Width="250">
-			<TextBlock Text="Поиск"/>
-			<TextBox Text="{Binding SearchString}" Margin="5"/>
-			<TextBlock Text="Подразделение"/>
-			<ComboBox HorizontalAlignment="Stretch" Margin="5" ItemsSource="{Binding Units}" SelectedItem="{Binding SelectedUnit}">
-				<ComboBox.ItemTemplate>
-					<DataTemplate>
-						<TextBlock Text="{Binding Name}"/>
-					</DataTemplate>
-				</ComboBox.ItemTemplate>
-			</ComboBox>
-		</StackPanel>
+	<Grid ColumnDefinitions="*,Auto">
+		<Border BorderThickness="3" BorderBrush="{DynamicResource MaterialPrimaryDarkBrush}">
+			<ScrollViewer>
+				<ItemsControl ItemsSource="{Binding Filtred}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Button Classes="card" Margin="5, 3" HorizontalAlignment="Stretch" Command="{Binding $parent[UserControl].((vm:ServicemanListViewModel)DataContext).OpenServicemanCommand}" CommandParameter="{Binding}">
+								<TextBlock VerticalAlignment="Center" Text="{Binding LongServicemanString}" HorizontalAlignment="Left"/>
+							</Button>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</ScrollViewer>
+		</Border>
+		<Border BorderThickness="3" BorderBrush="{DynamicResource MaterialPrimaryDarkBrush}" Grid.Column="1" Padding="10">
+			<DockPanel Width="250" VerticalAlignment="Stretch" LastChildFill="False">
+				<StackPanel DockPanel.Dock="Top" >
+					<TextBox a:TextFieldAssist.Label="Поиск"
+							 UseFloatingWatermark="True"
+							 Theme="{StaticResource OutlineTextBox}"
+							 Classes="outline densed"
+							 Text="{Binding SearchString}" TextInputOptions.ContentType="Password"/>
+					<ComboBox Theme="{StaticResource MaterialOutlineComboBox}"
+							  a:ComboBoxAssist.Label="Подразделение"
+							  HorizontalAlignment="Stretch"
+							  ItemsSource="{Binding Units^}"
+							  SelectedItem="{Binding SelectedUnit}">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Name}"/>
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+				</StackPanel>
+				<StackPanel DockPanel.Dock="Bottom" >
+					<Button Content="Добавить военнослужащего" Command="{Binding AddServicemanCommand}" />
+				</StackPanel>
+			</DockPanel>
+		</Border>
+		
 	</Grid>
 	
 </UserControl>

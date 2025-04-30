@@ -1,11 +1,13 @@
-﻿using System;
+﻿using Dispractice.Extensions;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dispractice.Models
 {
-    public class Serviceman:IMilitaryTreeNode
+    public class Serviceman
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -23,19 +25,19 @@ namespace Dispractice.Models
         public string? Patronomic { get; set; }
 
         [Required]
-        public int RankIndex { get; set; }
+        public MilitaryRank Rank { get; set; }
 
         [Required]
         public bool IsNaval { get; set; }
 
         [ForeignKey("MilitaryPosition")]
-        public int? MilitaryPositionId { get; set; }
-        public virtual MilitaryPosition? MilitaryPosition { get; set; }
+        public int? PositionId { get; set; }
+        public virtual Position? Position { get; set; }
 
         public int? ServiceStartYear { get; set; }
 
-        public virtual ICollection<Commendation> Commendations { get; set; }
-        public virtual ICollection<Penalty> Penalties { get; set; }
+        public virtual ICollection<Commendation> Commendations { get; set; } = new ObservableCollection<Commendation>();
+        public virtual ICollection<Penalty> Penalties { get; set; } = new ObservableCollection<Penalty>();
 
         public override string ToString()
         {
@@ -43,16 +45,11 @@ namespace Dispractice.Models
         }
 
 
+
         [NotMapped]
-        public string ShortServicemanString => $"{(IsNaval ? RankData.NavalRanks[RankIndex] : RankData.Ranks[RankIndex]).ShortName} {Surname} {Name[0]}.{(!String.IsNullOrWhiteSpace(Patronomic) ? " " + Patronomic[0] + "." : "")}";
+        public string ShortServicemanString => $"{Rank.GetRankInfo(IsNaval).ShortName} {Surname} {Name?[0]}.{(!String.IsNullOrWhiteSpace(Patronomic) ? " " + Patronomic[0] + "." : "")}";
         
         [NotMapped]
-        public string LongServicemanString => $"{(IsNaval ? RankData.NavalRanks[RankIndex] : RankData.Ranks[RankIndex]).RankName} {Surname} {Name} {Patronomic}";
-
-
-        [NotMapped]
-        public IMilitaryTreeNode Element => this;
-        [NotMapped]
-        public IEnumerable<IMilitaryTreeNode> SubElements => new List<IMilitaryTreeNode>();
+        public string LongServicemanString => $"{Rank.GetRankInfo(IsNaval).Name} {Surname} {Name} {Patronomic}";
     }
 }

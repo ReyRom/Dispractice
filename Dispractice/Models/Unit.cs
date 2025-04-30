@@ -1,0 +1,53 @@
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Diagnostics.CodeAnalysis;
+using Dispractice.Extensions;
+
+namespace Dispractice.Models
+{
+    // Модель подразделения
+    public partial class Unit
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get ; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string Name { get; set; } = "Подразделение";
+
+        [AllowNull]
+        public string? ShortName { get; set; } // Краткое название подразделения
+
+        // Ссылка на родительское подразделение (если есть)
+        [ForeignKey("ParentUnit")]
+        public int? ParentUnitId { get; set; }
+        public virtual Unit? ParentUnit { get; set; }
+
+
+
+        // Список дочерних подразделений
+        public virtual ICollection<Unit> SubUnits { get; set; }  = new ObservableCollection<Unit>();
+
+        // Список воинских должностей в этом подразделении
+        public virtual ICollection<Position> Positions { get; set; } = new ObservableCollection<Position>();
+
+        public IEnumerable<Position> GetSubPositions(bool recursive = true)
+        {
+            List<Position> positions = new List<Position>(Positions);
+
+            if (recursive)
+            {
+                foreach (Unit unit in SubUnits)
+                {
+                    positions.AddRange(unit.GetSubPositions(recursive));
+                }
+            }
+            return positions;
+        }
+    }
+}

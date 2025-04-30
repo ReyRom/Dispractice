@@ -7,7 +7,7 @@
   </Design.PreviewWith>
 
   <!-- Add Styles Here -->
-	<Style Selector="ContentControl.Card">
+	<Style Selector="ContentControl.card">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate>
@@ -16,7 +16,8 @@
 						BorderBrush="{TemplateBinding BorderBrush}"
 						BorderThickness="{TemplateBinding BorderThickness}"
 						CornerRadius="8"
-						BoxShadow="5 5 10 0 Black"
+						BoxShadow="5 5 5 0 Black"
+						Margin="{TemplateBinding Margin}"
 							>
 						<ContentPresenter
 							Margin="{TemplateBinding Padding}"
@@ -34,7 +35,7 @@
 		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 		<Setter Property="VerticalContentAlignment" Value="Stretch" />
 	</Style>
-	<Style Selector="Button.Card">
+	<Style Selector="Button.card">
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate>
@@ -43,7 +44,8 @@
 						BorderBrush="{TemplateBinding BorderBrush}"
 						BorderThickness="{TemplateBinding BorderThickness}"
 						CornerRadius="8"
-						BoxShadow="5 5 10 0 Black"
+						BoxShadow="5 5 5 0 Black"
+						Margin="{TemplateBinding Margin}"
 							>
 						<ContentPresenter
 							Margin="{TemplateBinding Padding}"
@@ -60,5 +62,9 @@
 		<Setter Property="Padding" Value="10" />
 		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
 		<Setter Property="VerticalContentAlignment" Value="Stretch" />
+	</Style>
+
+	<Style Selector="TreeView Button, ItemsControl Button, ListBox Button">
+		<Setter Property="Margin" Value="0,5,5,5"/>
 	</Style>
 </Styles>

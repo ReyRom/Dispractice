@@ -8,19 +8,19 @@ namespace Dispractice.ViewModels.Design
     {
         public PositionViewModelDesign()
         {
-            var u1 = new MilitaryPosition()
+            var u1 = new Position()
             {
                 Name = "Командир части"
             };
-            var u0 = new MilitaryUnit()
+            var u0 = new Unit()
             {
                 Name = "ВЧ",
-                Positions = new ObservableCollection<MilitaryPosition>()
+                Positions = new ObservableCollection<Position>()
                 {
                     u1
                 }
             };
-            u1.MilitaryUnit = u0;
+            u1.Unit = u0;
             Position = u1;
         }
     }

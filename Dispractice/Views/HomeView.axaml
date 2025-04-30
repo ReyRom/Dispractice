@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 xmlns:vmd="using:Dispractice.ViewModels.Design"
+			 xmlns:vm="using:Dispractice.ViewModels"
+			 xmlns:m="using:Dispractice.Models"
+			 xmlns:v="using:Dispractice.Views"
+			 xmlns:e="using:Dispractice.Extensions"
+			 xmlns:a="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+             x:Class="Dispractice.Views.HomeView"
+			 x:DataType="vm:HomeViewModel">
+
+	<Design.DataContext>
+		<vm:HomeViewModel/>
+	</Design.DataContext>
+	
+	<StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+		<Image Source="{Binding Image}" Width="300"/>
+		<TextBlock Text="{Binding Title}" HorizontalAlignment="Center" FontSize="36"/>
+
+		<Button Command="{Binding OpenServicemanListCommand}" Margin="20" HorizontalAlignment="Center">
+			<TextBlock Text="К списку военнослужащих"/>
+		</Button>
+	</StackPanel>
+</UserControl>

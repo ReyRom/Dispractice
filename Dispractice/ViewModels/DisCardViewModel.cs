@@ -1,48 +1,95 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Dispractice.Models;
 using Dispractice.Services;
+using Microsoft.EntityFrameworkCore.Update;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace Dispractice.ViewModels
 {
     public partial class DisCardViewModel : ViewModelBase
     {
-        readonly ServicemanService _servicemanService;
+        readonly IServicemanService _service = null!;
+        readonly NavigationService _navigation = null!;
 
-        public DisCardViewModel(ServicemanService servicemanService)
+        public DisCardViewModel()
         {
-            this._servicemanService = servicemanService;
+            PageName = "Служебная карточка";
         }
 
-        [ObservableProperty]
-        [NotifyPropertyChangedFor(nameof(Commendations))]
-        [NotifyPropertyChangedFor(nameof(Penalties))]
-        private Serviceman serviceman;
-
-        public ICollection<Commendation> Commendations => Serviceman.Commendations;
-        public ICollection<Penalty> Penalties => Serviceman.Penalties;
-
-        public bool IsNaval
+        public DisCardViewModel(IServicemanService service, NavigationService navigation)
         {
-            get => Serviceman.IsNaval;
-            set
+            _service = service;
+            _navigation = navigation;
+        }
+
+        public async Task LoadServicemanData(Serviceman serviceman)
+        {
+            Serviceman = await _service.GetServicemanByIdAsync(serviceman.Id) ?? new Serviceman();
+        }
+
+
+
+        private Serviceman serviceman = new Serviceman();
+        public Serviceman Serviceman
+        {
+            get => serviceman;
+            protected set
             {
-                Serviceman.IsNaval = value;
-                OnPropertyChanged(nameof(Ranks));
-                OnPropertyChanged(nameof(SelectedRank));
+                SetProperty(ref serviceman, value);
+                OnPropertyChanged(nameof(Commendations));
+                OnPropertyChanged(nameof(Penalties));
             }
         }
 
-        public Rank SelectedRank
+
+        public IEnumerable<Commendation> Commendations => Serviceman.Commendations;
+        public IEnumerable<Penalty> Penalties => Serviceman.Penalties;
+
+
+
+        [RelayCommand]
+        public void EditServiceman(Serviceman s)
         {
-            get => Ranks[Serviceman.RankIndex];
-            set => Serviceman.RankIndex = value.SeniorityOrder;
+            _navigation.NavigateTo<ServicemanViewModel>(p => p.Serviceman = s);
         }
 
-        public Rank[] Ranks => IsNaval ? RankData.NavalRanks : RankData.Ranks;
+
+        [RelayCommand]
+        public void AddCommendation()
+        {
+            _navigation.NavigateTo<CommendationViewModel>(x => x.Serviceman = Serviceman);
+        }
+
+        [RelayCommand]
+        public void EditCommendation(Commendation commendation)
+        {
+            _navigation.NavigateTo<CommendationViewModel>(x => {
+                x.Commendation = commendation;
+                x.Serviceman = Serviceman;
+            });
+        }
+
+
+        [RelayCommand]
+        public void AddPenalty()
+        {
+            _navigation.NavigateTo<PenaltyViewModel>(x => x.Serviceman = Serviceman);
+        }
+
+        [RelayCommand]
+        public void EditPenalty(Penalty penalty)
+        {
+            _navigation.NavigateTo<PenaltyViewModel>(x =>
+            {
+                x.Penalty = penalty;
+                x.Serviceman = Serviceman;
+            });
+        }
     }
 }

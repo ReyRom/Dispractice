@@ -2,11 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using Dispractice.Extensions;
 
 namespace Dispractice.Models
 {
     // Модель воинской должности
-    public class MilitaryPosition: IMilitaryTreeNode
+    public class Position
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -16,20 +18,16 @@ namespace Dispractice.Models
         [StringLength(100)]
         public string Name { get; set; } = "Должность"; // Название должности
 
+        [AllowNull]
+        public string? ShortName { get; set; } 
+
         // Ссылка на подразделение, к которому относится должность
         [ForeignKey("MilitaryUnit")]
-        public int MilitaryUnitId { get; set; }
-        public virtual MilitaryUnit MilitaryUnit { get; set; }
+        public int UnitId { get; set; }
+        public virtual Unit Unit { get; set; }
 
 
         // Ссылка на военнослужащего, занимающего должность
         public virtual Serviceman? Serviceman { get; set; }
-
-
-
-        [NotMapped]
-        public IMilitaryTreeNode Element => this;
-        [NotMapped]
-        public IEnumerable<IMilitaryTreeNode> SubElements => null;
     }
 }

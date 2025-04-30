@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Dispractice.Extensions;
 using Dispractice.Models;
 using Dispractice.Services;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,31 +16,58 @@ namespace Dispractice.ViewModels
 {
     public partial class ServicemanListViewModel:ViewModelBase
     {
+        readonly NavigationService _navigation = null!;
+        readonly IServicemanService _service = null!;
 
-        NavigationService _navigation;
-        //IServicemanService _service;
-        public ServicemanListViewModel(NavigationService navigation)
+        public ServicemanListViewModel()
         {
             PageName = "Список военнослужащих";
-
-            _navigation = navigation;
-
-            OpenServicemanCommand = new RelayCommand<Serviceman>(OpenServicemanDetails);
-            //_service = service;
-
-            //Servicemans = new ObservableCollection<Serviceman>(_service.GetServicemenSortedByRank());
         }
 
-        public ICommand OpenServicemanCommand { get; set; }
-        public void OpenServicemanDetails(Serviceman serviceman)
+        public ServicemanListViewModel(IServicemanService service, NavigationService navigation): this()
         {
-            _navigation.NavigateTo<ServicemanViewModel>(x=>x.Serviceman = serviceman);
+            _navigation = navigation;
+            _service = service;
+
+            _navigation.Navigated += _navigation_Navigated;
+            
+            InitializationTask = LoadServicemans();
+        }
+
+        public async Task LoadServicemans()
+        {
+            Servicemans = [..await _service.GetServicemenSortedByRankAsync().ToListAsync()];
+        }
+
+        private void _navigation_Navigated(object? sender, NavigationEventArgs e)
+        {
+            if(e.NavigatedTo == this.GetType())
+            {
+                InitializationTask = LoadServicemans();
+            }
         }
 
 
-        public ObservableCollection<Serviceman> Servicemans { get; set; } = new ObservableCollection<Serviceman>();
 
-        public List<MilitaryUnit> Units { get; set; } = new List<MilitaryUnit>();
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(Filtred))]
+        private ObservableCollection<Serviceman> servicemans = new ObservableCollection<Serviceman>();
+
+        [NotifyPropertyChangedFor(nameof(Filtred))]
+        [ObservableProperty]
+        private string searchString = String.Empty;
+
+        [NotifyPropertyChangedFor(nameof(Filtred))]
+        [ObservableProperty]
+        private Unit selectedUnit;
+
+        public Task<IEnumerable<Unit>> Units
+        {
+            get
+            {
+                return _service.GetMilitaryUnitsList();
+            }
+        }
 
         public IEnumerable<Serviceman> Filtred
         {
@@ -48,19 +77,26 @@ namespace Dispractice.ViewModels
 
                 if (SelectedUnit != null)
                 {
-                    filtred = filtred.Where(x => x.MilitaryPosition.MilitaryUnit == SelectedUnit);
+                    filtred = filtred.Where(x => x.Position?.Unit == SelectedUnit);
                 }
 
                 return filtred.Where(x=>x.LongServicemanString.Contains(SearchString, StringComparison.InvariantCultureIgnoreCase));
             }
         }
 
-        [NotifyPropertyChangedFor(nameof(Filtred))]
-        [ObservableProperty]
-        private string searchString = String.Empty;
 
-        [NotifyPropertyChangedFor(nameof(Filtred))]
-        [ObservableProperty]
-        private MilitaryUnit selectedUnit;
+        
+
+        [RelayCommand]
+        public void OpenServiceman(Serviceman serviceman)
+        {
+            _navigation.NavigateTo<DisCardViewModel>(async x => await x.LoadServicemanData(serviceman));
+        }
+
+        [RelayCommand]
+        public void AddServiceman()
+        {
+            _navigation.NavigateTo<ServicemanViewModel>(x => x.Serviceman = new Serviceman());
+        }
     }
 }

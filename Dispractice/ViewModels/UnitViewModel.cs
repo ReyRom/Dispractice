@@ -22,7 +22,7 @@ namespace Dispractice.ViewModels
 
 
         [ObservableProperty]
-        private MilitaryUnit unit;
+        private Unit unit;
 
         private IServicemanService _service;
         private NavigationService _navigation;

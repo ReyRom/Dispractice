@@ -1,7 +1,9 @@
 ﻿using Dispractice.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Dispractice.Services
 {
@@ -14,13 +16,22 @@ namespace Dispractice.Services
             _context = context;
         }
 
-        public IQueryable<Serviceman> GetServicemenSortedByRank()
+        public IAsyncEnumerable<Serviceman> GetServicemenSortedByRankAsync()
         {
             return _context.Servicemans
-                .AsEnumerable()
-                .OrderBy(s => RankData.Ranks[s.RankIndex].SeniorityOrder)
-                .AsQueryable();
+                .AsAsyncEnumerable()
+                .OrderByDescending(s => s.Rank.GetRank().SeniorityOrder); 
+        } 
+
+        public async Task<Serviceman?> GetServicemanByIdAsync(int id)
+        {
+            return await _context.Servicemans
+                .Include(s => s.Position)
+                .Include(s => s.Commendations)
+                .Include(s => s.Penalties)
+                .FirstOrDefaultAsync(s => s.Id == id);
         }
+
 
         //public IMilitaryTreeNode GetMilitaryTree()
         //{
@@ -35,45 +46,32 @@ namespace Dispractice.Services
 
         //}
 
-        public string GetRankName(Serviceman serviceman)
+
+        public async Task AddOrUpdateCommendationAsync(Commendation commendation)
         {
-            return (serviceman.IsNaval ? RankData.NavalRanks : RankData.Ranks)[serviceman.RankIndex].RankName;
+            if (commendation.Id == 0)
+            {
+                await _context.Commendations.AddAsync(commendation);
+            }
+            else
+            {
+                _context.Commendations.Update(commendation);
+            }
+
+            await _context.SaveChangesAsync();
         }
 
-        //public string GetRankType(Serviceman serviceman)
-        //{
-        //    return RankData.Ranks[serviceman.RankIndex].RankType;
-        //}
-
-        public void AddCommendation(int servicemanId, string description, DateTime dateAwarded, string awardedBy, string type)
+        public async Task AddOrUpdatePenaltyAsync(Penalty penalty)
         {
-            var commendation = new Commendation
+            if (penalty.Id == 0)
             {
-                ServicemanId = servicemanId,
-                Description = description,
-                DateAwarded = dateAwarded,
-                AwardedBy = awardedBy,
-                Type = type
-            };
-
-            _context.Commendations.Add(commendation);
-            _context.SaveChanges();
-        }
-
-        public void AddPenalty(int servicemanId, string basis, DateTime offenseDate, DateTime dateApplied, string appliedBy, DateTime? expirationDate = null)
-        {
-            var penalty = new Penalty
+                await _context.Penalties.AddAsync(penalty);
+            }
+            else
             {
-                ServicemanId = servicemanId,
-                Description = basis,
-                OffenseDate = offenseDate,
-                DateApplied = dateApplied,
-                AppliedBy = appliedBy,
-                //ExpirationDate = expirationDate
-            };
-
-            _context.Penalties.Add(penalty);
-            _context.SaveChanges();
+                _context.Penalties.Update(penalty);
+            }
+            await _context.SaveChangesAsync();
         }
 
         public void RemovePenalty(int penaltyId, string removedBy, DateTime dateRemoved)
@@ -87,7 +85,7 @@ namespace Dispractice.Services
                     Description = $"Penalty removed: {penalty.Description}",
                     DateAwarded = dateRemoved,
                     AwardedBy = removedBy,
-                    Type = "Penalty Removal"
+                    //Type = "Penalty Removal"
                 };
 
                 _context.Commendations.Add(commendation);
@@ -111,31 +109,61 @@ namespace Dispractice.Services
             }*/
         }
 
-        public void AddOrUpdateServiceman(Serviceman serviceman)
+        public async Task AddOrUpdateServicemanAsync(Serviceman serviceman)
         {
-            _context.Servicemans.Update(serviceman);
-            _context.SaveChanges();
+            if (serviceman.Id == 0)
+            {
+                await _context.Servicemans.AddAsync(serviceman);
+            }
+            else
+            {
+                _context.Servicemans.Update(serviceman);
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveServicemanAsync(Serviceman serviceman)
+        {
+            if (serviceman.Id != 0)
+            {
+                _context.Remove(serviceman);
+            }
+            else
+            {
+                _context.Entry(serviceman).State = EntityState.Detached;
+            }
+            await _context.SaveChangesAsync();
         }
 
 
 
-        public void UpdateServiceman(Serviceman serviceman)
+
+
+        public async Task UpdateServiceman(Serviceman serviceman)
         {
-            
+            _context.Update(serviceman);
+            await _context.SaveChangesAsync();
         }
 
-        public IQueryable<MilitaryUnit> GetMilitaryUnits()
+        public async Task<IEnumerable<Unit>> GetMilitaryUnits()
         {
-            var units = _context.MilitaryUnits
+            var units = await _context.Units
                 .Where(u=>u.ParentUnit == null)
                 .Include(u => u.SubUnits)
                 .ThenInclude(u => u.SubUnits)
                 .Include(u => u.Positions)
-                .AsQueryable();
+                .ToListAsync();
             return units;
         }
 
-        public void UpdateUnitWithoutSaving(MilitaryUnit unit)
+        public async Task<IEnumerable<Unit>> GetMilitaryUnitsList()
+        {
+            var units = await _context.Units
+                .ToListAsync();
+            return units;
+        }
+
+        public void UpdateUnitWithoutSaving(Unit unit)
         {
             if (unit.Id != 0)
             {
@@ -147,7 +175,7 @@ namespace Dispractice.Services
             }
         }
 
-        public void RemoveUnitWithoutSaving(MilitaryUnit unit)
+        public void RemoveUnitWithoutSaving(Unit unit)
         {
             if (unit.Id != 0)
             {
@@ -164,7 +192,7 @@ namespace Dispractice.Services
             _context.SaveChanges();
         }
 
-        public void UpdatePositionWithoutSaving(MilitaryPosition position)
+        public void UpdatePositionWithoutSaving(Position position)
         {
             if (position.Id != 0)
             {
@@ -176,7 +204,7 @@ namespace Dispractice.Services
             }
         }
 
-        public void RemovePositionWithoutSaving(MilitaryPosition position)
+        public void RemovePositionWithoutSaving(Position position)
         {
             if (position.Id != 0)
             {
@@ -187,5 +215,7 @@ namespace Dispractice.Services
                 _context.Entry(position).State = EntityState.Detached;
             }
         }
+
+        
     }
 }

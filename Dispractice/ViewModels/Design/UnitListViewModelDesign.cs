@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using Dispractice.Extensions;
 using Dispractice.Models;
 using Dispractice.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,29 +11,29 @@ namespace Dispractice.ViewModels.Design
     {
         public UnitListViewModelDesign() : base()
         {
-            AddCommand = new RelayCommand<MilitaryUnit>(AddUnit);
-            var u0 = new MilitaryUnit()
+            AddCommand = new RelayCommand<Unit>(AddUnit);
+            var u0 = new Unit()
             {
                 Name = "ВЧ",
-                Positions = new ObservableCollection<MilitaryPosition>()
+                Positions = new ObservableCollection<Position>()
                 {
-                    new MilitaryPosition()
+                    new Position()
                     {
                         Name="Командир части"
                     }
                 },
-                SubUnits = new ObservableCollection<MilitaryUnit>()
+                SubUnits = new ObservableCollection<Unit>()
             };
-            var u1 = new MilitaryUnit()
+            var u1 = new Unit()
             {
                 ParentUnit = u0,
                 Name = "Командование",
-                SubUnits = new ObservableCollection<MilitaryUnit>()
+                SubUnits = new ObservableCollection<Unit>()
             };
             u0.SubUnits.Add(u1);
-            Units = new ObservableCollection<IMilitaryTreeNode>()
+            Units = new ObservableCollection<ITreeNode>()
             {
-                u0
+                u0.CreateUnitTreeNode(),
             };
         }
     }

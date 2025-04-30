@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
@@ -7,9 +8,9 @@ using Dispractice.Models;
 using Dispractice.Services;
 using Dispractice.ViewModels;
 using Dispractice.Views;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Dispractice;
 
@@ -28,12 +29,24 @@ public partial class App : Application
         // Without this line you will get duplicate validations from both Avalonia and CT
         BindingPlugins.DataValidators.RemoveAt(0);
 
+        IConfigurationBuilder builder = new ConfigurationBuilder();
+        builder.AddJsonFile("appsettings.json");
+        Configuration = builder.Build();
+
         // Register all the services needed for the application to run
         var collection = new ServiceCollection();
+
+        collection.AddDbContext<MilitaryServiceContext>(options =>
+        {
+            options.UseSqlite(Configuration["ConnectionStrings:DefaultConnection"]);
+        });
+
+
         collection.AddCommonServices();
         collection.AddSingleton<NavigationService>();
-        collection.AddScoped<IServicemanService,ServicemanService>();
+        collection.AddTransient<IServicemanService, ServicemanService>();
         collection.AddSingleton<MainViewModel>();
+        collection.AddSingleton<HomeViewModel>();
 
         collection.AddTransient<ServicemanListViewModel>();
         collection.AddTransient<ServicemanViewModel>();
@@ -42,31 +55,23 @@ public partial class App : Application
         collection.AddTransient<StructureViewModel>();
         collection.AddTransient<PositionViewModel>();
 
-
-
-        collection.AddDbContext<MilitaryServiceContext>();
-
-
-        IConfigurationBuilder builder = new ConfigurationBuilder();
-        
-        builder.AddJsonFile("appsettings.json");
-
-        Configuration = builder.Build();
+        collection.AddTransient<CommendationViewModel>();
+        collection.AddTransient<PenaltyViewModel>();
 
         // Creates a ServiceProvider containing services from the provided IServiceCollection
         Services = collection.BuildServiceProvider();
 
+        
+
+        if (!Design.IsDesignMode)
+        {
+            var db = Services.GetRequiredService<MilitaryServiceContext>();
+            db.Database.Migrate();
+        }
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new MainWindow
-            {
-                DataContext = Services.GetService<MainViewModel>()
-            };
-        }
-        else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
-        {
-            singleViewPlatform.MainView = new MainWindow
             {
                 DataContext = Services.GetService<MainViewModel>()
             };

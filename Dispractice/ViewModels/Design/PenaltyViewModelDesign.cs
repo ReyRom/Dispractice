@@ -19,13 +19,13 @@ namespace Dispractice.ViewModels.Design
         public static Serviceman GenerateTestServiceman()
         {
             // Создаем подразделения
-            var rootUnit = new MilitaryUnit
+            var rootUnit = new Unit
             {
                 Name = "1-я Бригада",
-                SubUnits = new ObservableCollection<MilitaryUnit>()
+                SubUnits = new ObservableCollection<Unit>()
             };
 
-            var subUnit = new MilitaryUnit
+            var subUnit = new Unit
             {
                 Name = "1-й Батальон",
                 ParentUnit = rootUnit
@@ -33,10 +33,10 @@ namespace Dispractice.ViewModels.Design
             rootUnit.SubUnits.Add(subUnit);
 
             // Создаем воинские должности
-            var position = new MilitaryPosition
+            var position = new Position
             {
                 Name = "Командир роты",
-                MilitaryUnit = subUnit
+                Unit = subUnit
             };
 
             // Создаем военнослужащего
@@ -45,8 +45,8 @@ namespace Dispractice.ViewModels.Design
                 Name = "Иван",
                 Surname = "Иванов",
                 Patronomic = "Иванович",
-                RankIndex = 3,
-                MilitaryPosition = position,
+                Rank = MilitaryRank.SGT,
+                Position = position,
                 ServiceStartYear = 2015,
                 Commendations = new List<Commendation>(),
                 Penalties = new List<Penalty>()
@@ -58,7 +58,7 @@ namespace Dispractice.ViewModels.Design
                 Description = "За отличное выполнение боевой задачи, боевые заслуги и еще очень-очень-очень-очень-очень-очень-очень-очень-очень-очень-очень-очень-очень-очень-очень-очень-очень-очень-очень много всего",
                 DateAwarded = new DateTime(2020, 5, 9),
                 AwardedBy = "Командующий",
-                Type = "Медаль"
+                Type = CommendationType.Medal
             });
 
             // Добавляем взыскание
@@ -69,7 +69,7 @@ namespace Dispractice.ViewModels.Design
                 DateApplied = new DateTime(2023, 3, 20),
                 DateExecuted = new DateTime(2023, 3, 20),
                 AppliedBy = "Командир батальона",
-                Type = "Выговор"
+                Type = PenaltyType.Reprimand
             };
 
             serviceman.Penalties.Add(penalty);
@@ -80,7 +80,7 @@ namespace Dispractice.ViewModels.Design
                 Description = "За снятие взыскания",
                 DateAwarded = new DateTime(2024, 3, 20),
                 AwardedBy = "Командующий",
-                Type = "Снятие взыскания"
+                Type = CommendationType.Removal
             };
 
             serviceman.Commendations.Add(commendationForPenaltyRemoval);

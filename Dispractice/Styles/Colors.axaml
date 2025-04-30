@@ -1,0 +1,15 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Design.PreviewWith>
+		<Border Padding="20">
+			<StackPanel>
+				<Rectangle Width="100" Height="30" Fill="{StaticResource PrimaryColor}"/>
+			</StackPanel>
+		</Border>
+		
+	</Design.PreviewWith>
+	
+	<SolidColorBrush x:Key="PrimaryColor" Color="#FF6200EE"/>
+	
+	
+</ResourceDictionary>

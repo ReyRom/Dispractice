@@ -12,13 +12,13 @@ namespace Dispractice.ViewModels.Design
 {
     public class ServicemanListViewModelDesign : ServicemanListViewModel
     {
-        public ServicemanListViewModelDesign():base(App.Services.GetService<NavigationService>())
+        public ServicemanListViewModelDesign():base()
         {
-            Servicemans = new ObservableCollection<Serviceman> 
+            Servicemans = new ObservableCollection<Serviceman>
             { 
-                new Serviceman() { Name = "Test1", Surname = "qwe", Patronomic="asd", IsNaval = false, RankIndex=0 },
-                new Serviceman() { Name = "Test2", IsNaval = false, RankIndex=0 },
-                new Serviceman() { Name = "Test3", IsNaval = false, RankIndex=0 },
+                new Serviceman() { Name = "Test1", Surname = "qwe", Patronomic="asd", IsNaval = false, Rank = MilitaryRank.SGT },
+                new Serviceman() { Name = "Test2", IsNaval = false, Rank = MilitaryRank.SGT },
+                new Serviceman() { Name = "Test3", IsNaval = false, Rank = MilitaryRank.SGT },
             };
         }
     }

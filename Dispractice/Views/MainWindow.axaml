@@ -7,21 +7,32 @@
         mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="768"
         x:Class="Dispractice.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="Dispractice">
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition MaxWidth="150"/>
-			<ColumnDefinition/>
-		</Grid.ColumnDefinitions>
-		<ItemsControl ItemsSource="{Binding NavigationList}">
-			<ItemsControl.ItemTemplate>
-				<DataTemplate>
-					<Button Command="{Binding $parent[Window].DataContext.NavigateCommand}" CommandParameter="{Binding}">
-						<TextBlock Text="{Binding PageName}"/>
-					</Button>
-				</DataTemplate>
-			</ItemsControl.ItemTemplate>
-		</ItemsControl>
-		<ContentControl Grid.Column="1" Content="{Binding Content}"/>
+        Title="Dispractice"
+        x:DataType="vm:MainViewModel">
+	<Grid ColumnDefinitions="Auto, *" RowDefinitions="Auto,*">
+		<Border BorderBrush="{DynamicResource MaterialPrimaryDarkBrush}" BorderThickness="3" IsVisible="{Binding IsNavBarVisible}" MaxWidth="300" Grid.RowSpan="2">
+			<StackPanel Margin="10">
+				<Image Source="{Binding Home.Image}" Height="100"/>
+				<TextBlock Text="{Binding Home.Title}" FontSize="20" HorizontalAlignment="Center"/>
+			
+				<ItemsControl ItemsSource="{Binding NavigationList}" Margin="0 10">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Button Margin="0 0 0 10" Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).NavigateCommand}" CommandParameter="{Binding Key}">
+								<TextBlock Text="{Binding Value}" TextWrapping="Wrap"/>
+							</Button>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</StackPanel>
+		</Border>
+		<Border BorderBrush="{DynamicResource MaterialPrimaryDarkBrush}" BorderThickness="3" IsVisible="{Binding IsNavBarVisible}" Grid.Column="1">
+			<StackPanel Orientation="Horizontal">
+				<Button Classes="icon flat undo" Margin="3" Command="{Binding GoBackCommand}"/>
+				<TextBlock Text="{Binding Content.PageName}" FontSize="30" Margin="5" VerticalAlignment="Center"/>
+			</StackPanel>
+			
+		</Border>
+		<ContentControl Grid.Column="1" Grid.Row="1" Content="{Binding Content}"/>
 	</Grid>
 </Window>

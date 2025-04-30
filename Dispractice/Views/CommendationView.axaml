@@ -8,58 +8,85 @@
 			 xmlns:m="using:Dispractice.Models"
 			 xmlns:v="using:Dispractice.Views"
 			 xmlns:e="using:Dispractice.Extensions"
-             x:Class="Dispractice.Views.CommendationView">
+			 xmlns:a="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+             x:Class="Dispractice.Views.CommendationView"
+             x:DataType="vm:CommendationViewModel"
+			 Design.Width="500">
 
-	<UserControl.DataContext>
+	<Design.DataContext>
 		<vmd:CommendationViewModelDesign/>
-	</UserControl.DataContext>
+	</Design.DataContext>
 
-	<Grid RowDefinitions="Auto, *" Margin="20">
+	<UserControl.Resources>
+		<e:DateFormatConverter x:Key="DateFormatConverter"/>
+		<e:CommendationTypeConverter x:Key="CommendationTypeConverter"/>
+		<e:PenaltyTypeConverter x:Key="PenaltyTypeConverter"/>
+	</UserControl.Resources>
+	
+	<Grid RowDefinitions="*, Auto" Margin="20">
 		<StackPanel Orientation="Vertical" Spacing="10">
 			<TextBlock Text="Поощрение" FontSize="18" FontWeight="Bold"/>
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Военнослужащий:" Width="130" VerticalAlignment="Center"/>
-				<TextBlock Text="{Binding Serviceman}" Width="300"/>
-			</StackPanel>
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Вид поощрения:" Width="130" VerticalAlignment="Center"/>
-				<TextBox Text="{Binding Commendation.Type, Mode=TwoWay}" Width="300"/>
-			</StackPanel>
 			
-			<StackPanel Orientation="Horizontal" Spacing="10" IsVisible="{Binding IsRemove}">
-				<TextBlock Text="Взыскание:" Width="130" VerticalAlignment="Center"/>
-				<ComboBox ItemsSource="{Binding NotRemovedPenalties}" Width="300">
-					<ComboBox.ItemTemplate>
-						<DataTemplate>
-							<StackPanel Orientation="Horizontal" Spacing="3">
-								<TextBlock Text="{Binding Type}"/>
-								<TextBlock Text="{Binding DateApplied}"/>
-								<TextBlock Text="{Binding AppliedBy}"/>
-							</StackPanel>
-						</DataTemplate>
-					</ComboBox.ItemTemplate>
-				</ComboBox>
-			</StackPanel>
-			
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="За что:" Width="130" VerticalAlignment="Top"/>
-				<TextBox Text="{Binding Commendation.Description, Mode=TwoWay}" Width="300" TextWrapping="Wrap" Height="100"/>
-			</StackPanel>
-			
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Дата поощрения:" Width="130" VerticalAlignment="Center"/>
-				<CalendarDatePicker SelectedDate="{Binding Commendation.DateAwarded, Mode=TwoWay}" Width="300"/>
-			</StackPanel>
+			<TextBox a:TextFieldAssist.Label="Военнослужащий"
+						 UseFloatingWatermark="True"
+						 Theme="{StaticResource OutlineTextBox}"
+						 Classes="outline densed"
+						 Text="{Binding Serviceman}" IsEnabled="False"/>
 
-			<StackPanel Orientation="Horizontal" Spacing="10">
-				<TextBlock Text="Кем поощрен:" Width="130" VerticalAlignment="Center"/>
-				<TextBox Text="{Binding Commendation.AwardedBy, Mode=TwoWay}" Width="300"/>
-			</StackPanel>	
+			<ComboBox
+				Theme="{StaticResource MaterialOutlineComboBox}"
+				a:ComboBoxAssist.Label="Вид поощрения"
+				ItemsSource="{Binding CommendationTypes}"
+				SelectedItem="{Binding SelectedCommendationType}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal" Spacing="3">
+							<TextBlock Text="{Binding Converter={StaticResource CommendationTypeConverter}}"/>
+						</StackPanel>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+			
+			<ComboBox 
+				IsVisible="{Binding IsRemove}"
+				Theme="{StaticResource MaterialOutlineComboBox}"
+				a:ComboBoxAssist.Label="Взыскание"
+				ItemsSource="{Binding NotRemovedPenalties}"
+				SelectedItem="{Binding PenaltyToRemove}">
+				<ComboBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Orientation="Horizontal" Spacing="3">
+							<TextBlock Text="{Binding Type,Converter={StaticResource PenaltyTypeConverter}}"/>
+							<TextBlock Text="{Binding DateApplied}"/>
+							<TextBlock Text="{Binding AppliedBy}"/>
+						</StackPanel>
+					</DataTemplate>
+				</ComboBox.ItemTemplate>
+			</ComboBox>
+			
+			<TextBox
+				a:TextFieldAssist.Label="За что"
+				UseFloatingWatermark="True"
+				Theme="{StaticResource OutlineTextBox}"
+				Classes="outline densed"
+				Text="{Binding Commendation.Description}" 
+				TextWrapping="Wrap"/>
+			
+			<DatePicker
+				a:TextFieldAssist.Label="Дата поощрения"
+				SelectedDate="{Binding Commendation.DateAwarded, Mode=TwoWay, Converter={StaticResource DateFormatConverter}}"/>
+
+			<TextBox a:TextFieldAssist.Label="Кем поощрен"
+						 UseFloatingWatermark="True"
+						 Theme="{StaticResource OutlineTextBox}"
+						 Classes="outline densed"
+						 Text="{Binding Commendation.AwardedBy}"/>
+			
 		</StackPanel>
 
 		<StackPanel Orientation="Horizontal" Spacing="10" Grid.Row="1" HorizontalAlignment="Right" Margin="0,20,0,0">
-			<Button Content="Сохранить" Command="{Binding SaveCommand}" Width="100"/>
-			<Button Content="Отмена" Command="{Binding CancelCommand}" Width="100"/>
+			<Button Content="Сохранить" Command="{Binding SaveCommand}"/>
+			<Button Content="Отмена" Command="{Binding CancelCommand}"/>
 		</StackPanel>
 	</Grid>
 </UserControl>

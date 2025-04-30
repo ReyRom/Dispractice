@@ -12,11 +12,11 @@ namespace Dispractice.ViewModels
     {
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(Positions))]
-        private MilitaryUnit militaryUnit;
+        private Unit militaryUnit;
 
         [ObservableProperty]
         private bool isEditMode;
 
-        public ICollection<MilitaryPosition> Positions => militaryUnit.Positions;
+        public ICollection<Position> Positions => militaryUnit.Positions;
     }
 }
